@@ -1,0 +1,4 @@
+ Log Entry : 
+04/01/2017 09:36:23
+Error in: http://localhost:37713/Admin/TeacherManagement/GetStudentList?SchooName=&TeacherName=. Error Message:')' 附近有语法错误。,详细错误信息：
+__________________________

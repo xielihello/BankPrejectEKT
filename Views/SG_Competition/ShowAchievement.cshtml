@@ -1,0 +1,93 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>易考通</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/student.css" rel="stylesheet">
+</head>
+<body class="topic_bg">
+    <div class="herd_top2">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                <img style="height: 75px;" src="../img/newlogo2.png" /><span style="margin-left: 50px;">典阅智慧财经</span>综合技能竞赛平台
+
+            </div>
+
+        </div>
+    </div>
+    <div class="stu_map">
+        <div class="topic_map">
+            <!--头部标题-->
+            <div class="topic_top">
+                <div class="topic_time">
+                    <label>
+                    </label>
+                </div>
+                <div class="topic_top_text" id="titleid">
+                </div>
+                <div class="topic_btn ">
+                    <div class="bt_back" onclick="Return()"></div>
+                </div>
+            </div>
+            <!--头部标题结束-->
+            <div class="topic_con" style="width: 1165px;">
+                <!--左侧信息及选题区域开始-->
+                <div class="topic_con_left">
+                    <!--用户头像和学校信息-->
+                    <div class="topic_use">
+                        <img id="Studentimg" src="../img/a3.jpg" />
+                        <div class="topic_use_text" id="studentid">
+                        </div>
+                        <div class="topic_use_text row">
+                            <div class="col-lg-3" style="padding:0;">学校：</div>
+                            <div class="col-lg-9" style="padding:0;text-align: left;color:#c77c02;">
+                                <span id="ShoolNameid"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--考试成绩-->
+                    <div class="grad_bj">
+                        <div class="topic_use_text">
+                            你的成绩
+                        </div>
+                        <div class="grad_num" id="AchieScoreid2">80 分</div>
+                    </div>
+                </div>
+                <!--题目内容及结果显示区域开始-->
+                <div class="topic_con_right">
+                    <div style="position: absolute;width: 950px;">
+                        <div class="dc_title">
+                            成绩报表
+                        </div>
+                        <!--题目详情-->
+                        <div class="dcok_table">
+                            <table border="0" cellspacing="0" cellpadding="0" id="tableid">
+                
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="bottom_bj">
+        <img src="../img/student/statebj.png" />
+    </div>
+    <div style="color: #aab3b7; text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        Copyright 版权所有深圳典阅科技有限公司 2017
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.2.0.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/SG_Competition/ShowAchievement.js"></script>

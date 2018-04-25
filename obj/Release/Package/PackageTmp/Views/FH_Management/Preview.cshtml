@@ -1,0 +1,1077 @@
+﻿@{
+    ViewBag.Title = "Preview";
+    var jm = Model as VocationalProject.Models.FHKSModel;
+}
+@{
+    var tb = ViewData["RelationTopicTable"] as System.Data.DataTable;
+    var cou = tb != null ? tb.Rows.Count : 0;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>典阅智慧财经综合技能竞赛平台</title> 
+    <script src="~/Scripts/jquery-3.2.0.js"></script> 
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    
+    <script src="~/Scripts/verifyform.js"></script>
+    <script src="~/Scripts/FH_Management/Preview.js"></script>
+    <style type="text/css">
+        .wrap {
+            z-index: 1; /*background-color: #000;*/ /*background-color: #808080;*/
+            background-color: #ffffff;
+            opacity: 0.5; /*透明°*/
+            filter: alpha(opacity:10);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .wrapTime {
+            z-index: 1;
+            background-color: #fff;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+        .posi_gundong{
+				position: fixed;
+				top: 0px;
+			}
+                .bill_left {
+            float: none !important;
+            margin-top: 10px;
+            padding: 5px;
+            overflow: auto;
+            height: 180px !important;
+            width: 885px !important;
+            border-radius: 10px;
+            background-color: #ffffff !important;
+    border: 1px solid #35c4f9;
+        }
+    .form_con {
+    width: 100% !important;
+    margin: auto;
+}
+    .form_right {
+    float: right;
+    width: 885px !important;
+    margin-top: 10px;
+    padding-left: 5px;
+    }
+
+    </style>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/student.css" rel="stylesheet">
+</head>
+
+<body class="topic_bg">
+      <div class="herd_top2">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                <img style="height: 75px;" src="../img/newlogo2.png" /><span style="margin-left: 50px;">典阅智慧财经</span>综合技能竞赛平台
+
+            </div>
+
+        </div>
+    </div>
+    <div class="stu_map">
+        <div class="topic_map">
+            <!--头部标题-->
+            <div class="topic_top">
+                <div class="topic_time">
+                    <label>
+                        <img src="../img/student/topictime.png" />
+                        <span id="daojishi">00:00:00</span></label>
+                </div>
+                <div class="topic_top_text">
+                    <span>@jm.E_Name</span>(满分<span>@jm.Score</span>分) 
+                </div>
+                <div class="topic_btn "> 
+                    <div class="bt_back" onclick="fanhui()"></div>
+                </div>
+            </div>
+            <div class="">
+                <!--头部标题结束-->
+                <div class="topic_con">
+                    <!--左侧信息及选题区域开始-->
+                    <div class="topic_con_left">
+                        <!--用户头像和学校信息-->
+                        <div class="topic_use">
+                            <img src="@(!string.IsNullOrEmpty(jm.UserPic)?jm.UserPic:"/img/profile_s.jpg")" />
+                            <div class="topic_use_text">
+                                @jm.UserName
+                            </div>
+                            <div class="topic_use_text row">
+                                <div class="col-lg-3" style="padding: 0;">学校：</div>
+                                <div class="col-lg-9" style="padding: 0; text-align: left; color: #c77c02;">
+                                    <span>@jm.SchoolName</span>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="grad_bj">
+                            <div class="topic_use_text">
+                                你的成绩 
+                            </div>
+                            <div class="grad_num">@ViewData["ER_Score"] 分</div>
+                        </div>
+                         <!--做题状态-->
+                        <div class="topic_state">
+                            <div style="margin-left: 45px;">
+                                <div class="state_sure">
+                                    <span class="look_sure_bt">√</span><span>回答正确</span>
+                                </div>
+                                <div class="state_now">
+                                    <span class="look_now_bt">×</span><span>回答错误</span>
+                                </div>
+                                <div class="state_no">
+                                    <span class="look_no_bt">?</span><span>未回答</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--选题区域-->
+                        <div class="state_num">
+                            <ul id="thdiv">
+                                @if (tb != null && tb.Rows.Count > 0)
+                                {
+                                    for (int i = 0; i < tb.Rows.Count; i++)
+                                    {
+                                        var time = tb.Rows[i];
+                                        var s = "";
+                                        var siz = time["siz"].ToString();//是否有开题记录
+                                        var atotal = time["atotal"].ToString();//是否有做题记录
+                                        var iscw = time["iscw"].ToString();//是否有错误？ 
+                                        var clas = "";//look_now_bt 回答错误  ,look_sure_bt 回答正确、look_no_bt 未回答
+                                        if (siz != "0")
+                                        {
+                                            if (atotal != "0")
+                                            {
+                                                if (iscw != "0")
+                                                {
+                                                    clas = "color_now";
+                                                }
+                                                else
+                                                {
+                                                    clas = "color_look_sure";
+                                                }
+                                            }
+                                            else
+                                            {
+                                                clas = "color_now";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            clas = "color_no";
+                                        }
+                                        
+                                        if (i == 0)
+                                        {
+                                        }
+                                        if ((i + 1) < 10)
+                                        {
+                                            s = "0" + (i + 1);
+                                        }
+                                    <li class="num_sty" data-erial="@(i+1)" data-Title="@time["Title"]" data-id="@time["Id"]" data-TopicId="@time["TopicId"]" data-TestPaperID="@time["TestPaperID"]"  data-TestsFraction="@time["TestsFraction"]" data-Type="0"  onclick="color_sure(this,1,0)" ><span class="num_bj @(clas) @(i == 0?"active":"")">@s</span></li>
+                                    }
+                                } 
+
+                            </ul>
+                        </div>
+                        <!--选题区域结束-->
+                    </div>
+                    <!--题目内容及结果显示区域开始-->
+                    <div class="topic_con_right" style="width: 895px;">
+                        <div>
+                            <!--题目详情-->
+                            <div class="bills_zttitle">
+                                <label id="title">1.银行支票业务。</label>（共@(cou)题，当前题目<label id="score">10</label>分，共@(jm.Score)分）
+                            </div>
+                            <div class="bill_left" id="divtim">
+                                <div class="text_red">题目信息：</div> 
+                            </div>
+                            <div class="form_right">
+                                <div class="form_con">
+                                    <div class="form_con_title">
+                                        <div class="from_name">
+                                            资产负债表
+                                        </div>
+                                        <div class="from_name_dw">
+                                            单位：元
+                                        </div>
+                                    </div>
+                                    <div class="form_table">
+                                        <table border="0" cellspacing="0" cellpadding="0">
+                                            <thead>
+                                                <tr>
+                                                    <th width="110">资产</th>
+                                                    <th width="30">行次</th>
+                                                    <th>期末余额 </th>
+                                                    <th>期初余额</th>
+                                                    <th width="180">负债和所有者权益（或股东权益）</th>
+                                                    <th width="30">行次</th>
+                                                    <th>期末余额 </th>
+                                                    <th>期初余额</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_tbodys">
+                                                <tr>
+                                                    <td>流动资产：</td>
+                                                    <td>
+                                                        <label></label>
+                                                    </td>
+                                                    <td>
+                                                        <label></label>
+                                                    </td>
+                                                    <td>
+                                                        <label></label>
+                                                    </td>
+                                                    <td>流动负债：</td>
+                                                    <td>
+                                                        <label></label>
+                                                    </td>
+                                                    <td>
+                                                        <label></label>
+                                                    </td>
+                                                    <td>
+                                                        <label></label>
+                                                    </td>
+                                                </tr> 
+                                                <tr>
+                                                    <td class="true" data-lind="1">
+                                                        货币资金
+                                                    </td>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <input type="text" id="1qm" maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="1qc" maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td class="true" data-lind="31">
+                                                        短期借款
+                                                    </td>
+                                                    <td>
+                                                        31
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="31qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="31qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="2">
+                                                        短期投资
+                                                    </td>
+                                                    <td>
+                                                        2
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="2qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="2qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="32">
+                                                        应付票据
+                                                    </td>
+                                                    <td>
+                                                        32
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="32qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="32qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="3">
+                                                        应收票据
+                                                    </td>
+                                                    <td>
+                                                        3
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="3qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="3qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="33">
+                                                        应付账款
+                                                    </td>
+                                                    <td>
+                                                        33
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="33qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="33qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="4">
+                                                        应收账款
+                                                    </td>
+                                                    <td>
+                                                        4
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="4qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="4qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="34">
+                                                        预收账款
+                                                    </td>
+                                                    <td>
+                                                        34
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="34qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="34qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="5">
+                                                        预付账款
+                                                    </td>
+                                                    <td>
+                                                        5
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="5qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="5qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="35">
+                                                        应付职工薪酬
+                                                    </td>
+                                                    <td>
+                                                        35
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="35qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="35qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="6">
+                                                        应收股利
+                                                    </td>
+                                                    <td>
+                                                        6
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="6qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="6qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="36">
+                                                        应交税费
+                                                    </td>
+                                                    <td>
+                                                        36
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="36qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="36qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="7">
+                                                        应收利息
+                                                    </td>
+                                                    <td>
+                                                        7
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="7qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="7qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="37">
+                                                        应付利息
+                                                    </td>
+                                                    <td>
+                                                        37
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="37qm">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="37qc">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="8">
+                                                        其他应收款
+                                                    </td>
+                                                    <td>
+                                                        8
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="8qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="8qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="38">
+                                                        应付利润
+                                                    </td>
+                                                    <td>
+                                                        38
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="38qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="38qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="9">
+                                                        存货
+                                                    </td>
+                                                    <td>
+                                                        9
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="9qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="9qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="39">
+                                                        其他应付款
+                                                    </td>
+                                                    <td>
+                                                        39
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="39qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="39qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="10">
+                                                        其中：原材料
+                                                    </td>
+                                                    <td>
+                                                        10
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="10qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="10qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="40">
+                                                        其他流动负债
+                                                    </td>
+                                                    <td>
+                                                        40
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="40qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="40qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="11">
+                                                        在产品
+                                                    </td>
+                                                    <td>
+                                                        11
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="11qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="11qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="41">
+                                                        <label>流动负债合计</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>41</label>
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="41qm" readonly="true" value="0.00" />
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="41qc" readonly="true"  value="0.00" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="12">
+                                                        库存商品
+                                                    </td>
+                                                    <td>
+                                                        12
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="12qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="12qc" />
+                                                    </td>
+                                                    <td>
+                                                        <label>非流动负债：
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="13">
+                                                        周转材料
+                                                    </td>
+                                                    <td>
+                                                        13
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="13qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="13qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="42">
+                                                        长期借款
+                                                    </td>
+                                                    <td>
+                                                        42
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="42qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="42qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="14">
+                                                        其他流动资产
+                                                    </td>
+                                                    <td>
+                                                        14
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="14qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="14qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="43">
+                                                        长期应付款
+                                                    </td>
+                                                    <td>
+                                                        43
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="43qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="43qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="15">
+                                                        <label>流动资产合计</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>15</label>
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="15qm" readonly="true"  value="0.00" />
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="15qc" readonly="true"  value="0.00" />
+                                                    </td>
+                                                    <td class="true" data-lind="44">
+                                                        递延收益
+                                                    </td>
+                                                    <td>
+                                                        44
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="44qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="44qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        非流动资产：
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="true" data-lind="45">
+                                                        其他非流动负债
+                                                    </td>
+                                                    <td>
+                                                        45
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="45qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="45qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="16">
+                                                        长期债券投资
+                                                    </td>
+                                                    <td>
+                                                        16
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="16qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="16qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="46">
+                                                        <label>非流动负债合计</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>46</label>
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="46qm" readonly="true" value="0.00" />
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="46qc" readonly="true" value="0.00" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="17">
+                                                        长期股权投资
+                                                    </td>
+                                                    <td>
+                                                        17
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="17qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="17qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="47">
+                                                        <label>负债合计</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>47</label>
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="47qm" readonly="true" value="0.00" />
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="47qc" readonly="true"  value="0.00" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="18">
+                                                        固定资产原价
+                                                    </td>
+                                                    <td>
+                                                        18
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="18qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="18qc" />
+                                                    </td>
+                                                    <td>
+                                                        <label>所有者权益(或股东权益)：</label>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="19">
+                                                        减：累计折旧
+                                                    </td>
+                                                    <td>
+                                                        19
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="19qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="19qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="48">
+                                                        实收资本（或股本）
+                                                    </td>
+                                                    <td>
+                                                        48
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="48qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="48qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="20">
+                                                        固定资产账面价值
+                                                    </td>
+                                                    <td>
+                                                        20
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="20qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="20qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="49">
+                                                        资本公积
+                                                    </td>
+                                                    <td>
+                                                        49
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="49qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="49qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="21">
+                                                        在建工程
+                                                    </td>
+                                                    <td>
+                                                        21
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="21qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="21qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="50">
+                                                        盈余公积
+                                                    </td>
+                                                    <td>
+                                                        50
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="50qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="50qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="22">
+                                                        工程物资
+                                                    </td>
+                                                    <td>
+                                                        22
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="22qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="22qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="51">
+                                                        未分配利润
+                                                    </td>
+                                                    <td>
+                                                        51
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""    maxlength="9"   readonly="true"  id="51qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="51qc" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="23">
+                                                        固定资产清理
+                                                    </td>
+                                                    <td>
+                                                        23
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="23qm" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" value=""   maxlength="9"   readonly="true"   id="23qc" />
+                                                    </td>
+                                                    <td class="true" data-lind="52">
+                                                        <label>所有者权益(或股东权益)合计</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>52</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="52qm" readonly="true" value="0.00" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="52qc" readonly="true"  value="0.00" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="24">
+                                                        生产性生物资产
+                                                    </td>
+                                                    <td>
+                                                        24
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="24qm"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="24qc"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="25">
+                                                        无形资产
+                                                    </td>
+                                                    <td>
+                                                        25
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="25qm"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="25qc"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="26">
+                                                        开发支出
+                                                    </td>
+                                                    <td>
+                                                        26
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="26qm"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="26qc"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="27">
+                                                        长期待摊费用
+                                                    </td>
+                                                    <td>
+                                                        27
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="27qm"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="27qc"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="28">
+                                                        其他非流动资产
+                                                    </td>
+                                                    <td>
+                                                        28
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="28qm"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"  id="28qc"   maxlength="9"   readonly="true"  value="" />
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="29">
+                                                        <label>非流动资产合计</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>29</label>
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="29qm" readonly="true"  value="0.00" />
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="29qc" readonly="true" value="0.00" />
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="true" data-lind="30">
+                                                        <label>资产总计</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>30</label>
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="30qm" readonly="true" value="0.00" />
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="30qc" readonly="true" value="0.00" />
+                                                    </td>
+                                                    <td class="true" data-lind="53">
+                                                        <label>负债和所有者权益(或股东权益)总计</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>53</label>
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="53qm" readonly="true" value="0.00" />
+                                                    </td>
+                                                    <td class="total">
+                                                        <input type="text" id="53qc" readonly="true" value="0.00" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--切题区域开始-->
+                <div class="qieti_map">
+                    <div class="qieti" onclick="dianjishij(1)">
+                        <div class="qieti_fx">▏◀</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>首题</div>
+                    </div>
+
+                    <div class="qieti"  onclick="dianjishij(2)">
+                        <div class="qieti_fx">◀</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>上一题</div>
+                    </div>
+
+                    <div class="qieti"  onclick="dianjishij(3)">
+                        <div class="qieti_fx">▶</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>下一题</div>
+                    </div>
+
+                    <div class="qieti"  onclick="dianjishij(4)">
+                        <div class="qieti_fx">▶ ▏</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>尾题</div>
+                    </div>
+
+                </div>
+
+                <!--切题区域结束-->
+            </div>
+
+        </div> 
+    </div>
+    <div class="bottom_bj">
+        <img src="../img/student/statebj.png" />
+    </div>
+    <div style="color: #aab3b7; text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        Copyright 版权所有深圳典阅科技有限公司 2017
+    </div>
+    <input type="hidden" id="CurrentTime"  value="@jm.CurrentTime"/>
+    <input type="hidden" id="TestStartDateTime" value="@jm.TestStartDateTime"/>
+    <input type="hidden" id="AddStartDateTime" value="@jm.AddStartDateTime"/>
+    <input type="hidden" id="E_StartTime" value="@jm.E_StartTime"/>
+    <input type="hidden" id="E_EndTime" value="@jm.E_EndTime"/>
+    <input type="hidden" id="E_Type" value="@jm.E_Type"/>
+    <input type="hidden" id="MId" value="@jm.MId"/>
+    <input type="hidden" id="Isallow" value="@jm.Isallow"/>
+    <div id="Edit" style="display: none;" class="form-inline">
+        <form name="Editform" id="Editform">
+
+            <div class="col-sm-12 text-center" style="line-height: 120px; font-weight: 700;">
+                <div class="form-horizontal  m-t-md">
+                    <span>您本次的练习成绩为<span id="bcreuslt"></span>分！</span>
+                </div>
+            </div>
+
+            <div class="col-sm-12 text-center">
+                <div class="form-horizontal m-t-sm ">
+                    <button type="button" class="btn btn-w-m btn-success" onclick="ckjx()">查看考卷</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="closegb()">关闭</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+   
+</html>
+<script>
+    window.onload = function () {
+        $(window).scroll(function (event) {//监控滚动条位置
+            var winPos = $(window).scrollTop();
+            var remove = "";
+            var add = "";
+            if (winPos > 190) {
+                add = "posi_gundong";
+            } else {
+                remove = "posi_gundong";
+            }
+            $("#divtim").removeClass(remove);
+            $("#divtim").addClass(add);
+        });
+    }
+
+</script>

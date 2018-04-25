@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "易考通";
+    ViewData["nvc"] = "分数排行榜";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<script src="~/Scripts/HB_Competition/HighScores.js"></script>
+<div class="stu_map">
+    <!--头部导航结束-->
+    <div class="rank_con">
+        <div class="text-center">
+            <img src="../img/student/ranktopbj.png" />
+        </div>
+        <div class="rank_tab">
+            <div class=" tab_map">
+                @*    <ul class="tabs_zzjs">
+                    <li style="border-top-left-radius: 8px;" class="zzjs" id="one1" onclick="setTab('one',1)">货币知识<span></span></li>
+                    <li id="one2" onclick="setTab('one',2)">手工点钞<span></span></li>
+                    <li id="one3" onclick="setTab('one',3)">复核报表<span></span></li>
+                    <li style="border-top-right-radius: 8px;" id="one4" onclick="setTab('one',4)">单据录入<span></span></li>
+                </ul>*@
+
+                <div class="rank_content">
+                    <div id="con_one_1">
+                    </div>
+
+                    <div id="con_one_2" style="display: none;">
+                    </div>
+                    <div id="con_one_3" style="display: none;">
+                    </div>
+                    <div id="con_one_4" style="display: none;">
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+

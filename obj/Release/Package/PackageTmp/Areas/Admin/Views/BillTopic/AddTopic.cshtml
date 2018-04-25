@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["nvc"] = "单据题目管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model System.Data.DataTable
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>新增题目</h3>
+    <div class="ibox-content">
+        @using (Html.BeginForm("AddTopic", "BillTopic", FormMethod.Post, new { @class = "form-horizontal", name = "myAddTopic" }))
+        {
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">课程名称：</label>
+                <div class="col-sm-6">
+                    <label class="m-t-xs">单据录入</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>题目标题：</label>
+                <div class="col-sm-6">
+                    <input type="text" id="Title" name="Title" maxlength="25" placeholder="请输入题目标题" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试题描述：</label>
+                <div class="col-sm-10">
+                    <!--编辑器开始-->
+                    <div class="ibox-content no-padding">
+                        <div class="summernote">
+                        </div>
+                    </div>
+                    <!--编辑器结束-->
+                </div>
+            </div>
+
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>表单选择：</label>
+                    <div class="col-sm-2">
+                        <select class="  form-control input-s-sm inline" id="BillType" name="BillType">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.BillType))</select>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <select class=" form-control input-s-sm inline " id="BillName" name="BillName">
+                                <option value='0'>请选择单据名称</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button type="button" id="query" class="btn btn-primary">查询</button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <table class="table table-bordered ">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">编号</th>
+                                    <th class="text-center">单据类型</th>
+                                    <th class="text-center">单据名称</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody class="new_table text-center" id="table">
+                            </tbody>
+                        </table>
+                        <!--分页开始-->
+                        <div class="row text-center" id="PaginatorLibrary">
+                        </div>
+                        <!--分页结束-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-footer text-center">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-w-m btn-success m-r-lg" name="action" id="AddSave" value="Save" onclick="return checkform()">保存</button>
+                        <a href="@Url.Action("TopicList", "BillTopic")" class="btn btn-w-m btn-default ">返回</a>
+                    </div>
+                </div>
+            </div>
+            
+            <input type="hidden" id="FormId" name="FormId" />
+            <input type="hidden" id="Summernote" name="Summernote" />
+            <input type="hidden" id="TopicId" name="TopicId" />
+        }
+        @{
+            if (Convert.ToInt32(ViewData["Count"]) > 0)
+            {
+            <script type="text/javascript">
+                layer.msg('操作成功！', { icon: 1 });
+                setTimeout("window.location.href = '/Admin/BillTopic/TopicList'", 900)
+            </script>
+            }
+        }
+    </div>
+</div>
+
+<script src="~/Areas/Admin/Scripts/BillTopic/AddTopic.js"></script>

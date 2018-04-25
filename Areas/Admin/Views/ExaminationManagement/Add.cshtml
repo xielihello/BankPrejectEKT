@@ -1,0 +1,286 @@
+﻿@{
+    ViewData["nvc"] = "手工考试管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="~/CSS/chosen/chosen.css" rel="stylesheet" />
+<script src="~/Scripts/My97DatePicker/WdatePicker.js"></script>
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>新增考试</h3>
+    <div class="ibox-content">
+        <!--内容开始-->
+        <div class="row">
+
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试卷选择：</label>
+                        <div class="col-sm-4 m-b-xs">
+                            <select class="chosen-select" onchange="gradeChange()" name="TeakName" id="selectId" style="width: 350px;" tabindex="2">
+                                <option value="0">请选择试卷</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>考试名称：</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" placeholder="请输入考试名称" maxlength="15" id="EamxName" class="input-sm form-control" name="EamxName">
+                        </div>
+                    </div>
+                    @{
+                        //教师端角色才有班级
+                        if (ViewData["UserType"].ToString() == "2")
+                        {
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>分配班级：</label>
+                            <div class="col-sm-4">
+                                <select id="selectId2" name="ClassName" data-placeholder="选择班级" class="chosen-select" multiple style="width: 350px;" tabindex="4">
+                                    <option value="0">请选择班级</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        }
+                        else
+                        {
+                        <input type="hidden" value="" id="AddTeamId" />
+                        }
+                    }
+
+                    <div class="form-group">
+
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>考试时间设置：</label>
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <input name="StartTime" type="text" id="StartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss',isShowClear:false,readOnly:false})" class="input-sm form-control" value="">
+                                <span class="input-group-addon">到</span>
+                                <input name="EndTime" type="text" id="EndTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss',isShowClear:false,readOnly:false})" class="input-sm form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>竞赛模式：</label>
+                        <div class="col-sm-10">
+                            <div style="text-align: left;" class=" control-label">
+                                <span class="m-r-xs">
+                                    <input type="radio" class="i-checks" name="Pattern" id="E_TypeA" checked="checked" value="2">
+                                </span>考试模式
+                                <span class="m-l-md">
+                                    <span class="m-r-xs">
+                                        <input type="radio" class="i-checks" name="Pattern" id="E_TypeB" value="1">
+                                    </span>练习模式
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>考试时长(min)：</label>
+                        <div class="col-sm-4">
+                            <input type="text" onchange="if(/\D/.test(this.value)){layer.msg('只能输入数字');this.value='';}" class="form-control" onkeyup="TYchekceday('AddE_Whenlong')" id="minId" name="minId" placeholder="请输入考试时长">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>是否时间加分：</label>
+                        <div class="col-sm-10">
+                            <div style="text-align: left;" class=" control-label">
+                                <span class="m-r-xs">
+                                    <input type="radio" class="i-checks" name="Plus" id="E_IsTimeBonusA" checked="checked" value="1">
+                                </span>是
+                                <span class="m-l-md">
+                                    <span class="m-r-xs">
+                                        <input type="radio" class="i-checks" name="Plus" id="E_IsTimeBonusB" value="2">
+                                    </span>否
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--系统统一分隔符-->
+                <div class="hr-line-dashed"></div>
+                <div class="form-group m-t-md">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <button class="btn btn-w-m btn-success m-r-lg" type="button" onclick="Save()"><span class="bold">保存</span></button>
+                        <button onclick="Return()" class="btn btn-w-m btn-white" type="button"><span class="bold">返回</span></button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <!--内容結束-->
+    </div>
+    <input type="hidden" id="usertypehidd" value="@ViewData["UserType"]" />
+</div>
+
+<script src="~/Scripts/chosen/chosen.jquery.js"></script>
+<script>
+    function redload() {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        //全选checkbox
+        var $checkboxAll = $(".checkbox-all"),
+                           $checkbox = $(".new_table").find("[type='checkbox']").not("[disabled]"),
+                           length = $checkbox.length,
+                           i = 0;
+        $checkboxAll.on("ifClicked", function (event) {
+            if (event.target.checked) {
+                $checkbox.iCheck('uncheck');
+                i = 0;
+            } else {
+                $checkbox.iCheck('check');
+                i = length;
+            }
+        });
+    }
+    $(document).ready(function () {
+        redload();
+        var v = "";
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: '/Admin/ExaminationManagement/SelectTask',
+            data: { id: 0 },
+            success: function (data) {
+                v = data
+            }
+        });
+        $("#selectId").html(v);
+        var T = "";
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: '/Admin/ExaminationManagement/GetListTeam',
+            data: { id: 0 },
+            success: function (data) {
+                T = data
+            }
+        });
+        $("#selectId2").html(T);
+        var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': {
+                allow_single_deselect: true
+            },
+            '.chosen-select-no-single': {
+                disable_search_threshold: 10
+            },
+            '.chosen-select-no-results': {
+                no_results_text: 'Oops, nothing found!'
+            },
+            '.chosen-select-width': {
+                width: "95%"
+            }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    });
+
+    function Return() {
+        window.location.href = "/Admin/ExaminationManagement/Examination";
+    }
+
+    function Save() {
+        var Taskid = $("#selectId").val();
+        var EamxName = $("#EamxName").val();
+        var Classid = $("#selectId2").val();
+        var StartTime = $("#StartTime").val();
+        var EndTime = $("#EndTime").val();
+        var Pattern = $('input[name="Pattern"]:checked').val();
+        var minId = $("#minId").val();
+        var Plus = $('input[name="Plus"]:checked').val();
+
+        if (Taskid == 0) {
+            layer.msg('请选择试卷！', function () { });
+            return false;
+        }
+        if (EamxName.length == 0) {
+            layer.msg('请填写考试名称！', function () { });
+            return false;
+        }
+        var usertpe = $("#usertypehidd").val();//当前登录角色
+        if (usertpe == "2") {//只有教师端 才校验班级是否选中
+            if (Classid.length == 0) {
+                layer.msg('请选择分配班级！', function () { });
+                return false;
+            }
+        }
+
+        if (StartTime.length == 0) {
+            layer.msg('请设置考试开始时间！', function () { }); return false;
+
+        }
+        if (EndTime.length == 0) {
+            layer.msg('请设置考试结束时间！', function () { }); return false;
+
+        }
+        var t1 = new Date(StartTime);
+        var t2 = new Date(EndTime);
+        if (t1 > t2) {
+            layer.msg('考试开始时间不能大于结束时间！', function () { });
+            return false;
+        }
+        if (minId.length == 0) {
+            layer.msg('请填写考试时长！', function () { });
+            return false;
+        }
+
+        var date3 = (t2.getTime() - t1.getTime()) / 1000;// //时间差的秒数
+        //计算分钟
+        var leave1 = date3 / (60);
+
+        if (parseInt(minId) > parseInt(leave1)) {
+            layer.msg('考试时长不能大于考试有效时间段！', function () { });
+            return false;
+        }
+
+        var TeamId = "," + Classid + ",";
+
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            url: '/Admin/ExaminationManagement/AddSave',
+            data: {
+                "Taskid": Taskid, "EamxName": EamxName, "Classid": TeamId,
+                "StartTime": StartTime, "EndTime": EndTime, "Pattern": Pattern,
+                "minId": minId, "Plus": Plus
+            },
+            success: function (data) {
+                if (data == "1") {
+                    layer.closeAll();//关闭所有弹出框
+                    layer.msg('操作成功', { icon: 1, time: 800 }, function () {
+                        window.location.href = '/Admin/ExaminationManagement/Examination';
+                    });
+
+
+                }
+                if (data == "88") {
+                    layer.msg('考试名称已经存在！', { icon: 2 });
+                    return;
+                }
+                if (data == "99") {
+                    layer.msg('操作失败', { icon: 2 });
+                    return;
+                }
+
+            }
+        })
+
+    }
+
+    function gradeChange() {
+        var text = $('#selectId option:selected').text();
+        $("#EamxName").val(text);
+    }
+</script>

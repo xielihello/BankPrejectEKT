@@ -1,0 +1,200 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>典阅智慧财经综合技能竞赛平台</title>
+    <link href="~/CSS/bills.css" rel="stylesheet" />
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/student.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/verifyform.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    <style>
+        .czmx button {
+            padding: 10px 20px;
+            background-color: white;
+            border: 1px solid #05d1c5;
+            font-size: 18px;
+            border-radius: 5px;
+            color: #05d1c5;
+        }
+
+            .czmx button:hover {
+                color: white;
+                background-color: #05d1c5;
+            }
+
+            .czmx button:focus {
+                border: none;
+                outline: none;
+            }
+
+            .czmx button.active {
+                color: white;
+                background-color: #05d1c5;
+            }
+    </style>
+</head>
+<body class="topic_bg">
+    <div class="herd_top2">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                <img style="height: 75px;" src="../img/newlogo2.png" />
+                <span>典阅智慧财经</span>综合技能竞赛平台
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("ScoreDetails", "Bill_Competition", FormMethod.Post, new { name = "myScoreDetails" }))
+    {
+        <div class="stu_map">
+            <div class="topic_map">
+                <!--头部标题-->
+                <div class="topic_top">
+                    <div class="topic_time">
+                        <label>
+                            <img src="../img/student/topictime.png" />
+                            <span>00:00:00</span></label>
+                    </div>
+                    <div class="topic_top_text">
+                        @ViewBag.ExamName (满分<span>@ViewBag.Score</span> 分)
+				
+                    </div>
+                    <div class="topic_btn ">
+                        <div class="bt_back" onclick=" window.close();"></div>
+                    </div>
+                </div>
+                <!--头部标题结束-->
+                <div class="topic_con">
+                    <!--左侧信息及选题区域开始-->
+                    <div class="topic_con_left">
+                        <!--用户头像和学校信息-->
+                        <div class="topic_use">
+                            <img src="@(!string.IsNullOrEmpty(ViewBag.UserPic)?ViewBag.UserPic:"/img/profile_s.jpg")" />
+                            <div class="topic_use_text">
+                                @ViewBag.UserName
+                            </div>
+                            <div class="topic_use_text row">
+                                <div class="col-lg-3" style="padding: 0;">学校：</div>
+                                <div class="col-lg-9" style="padding: 0; text-align: left; color: #c77c02;">
+                                    <span>@ViewBag.SchoolName</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--考试成绩-->
+                        <div class="grad_bj">
+                            <div class="topic_use_text">
+                                你的成绩
+						
+                            </div>
+                            <div class="grad_num">@ViewBag.ExamScore 分</div>
+                        </div>
+                        <!--做题状态-->
+                        <div class="topic_state">
+                            <div style="margin-left: 45px;">
+                                <div class="state_sure">
+                                    <span class="look_sure_bt">√</span><span>回答正确</span>
+                                </div>
+                                <div class="state_now">
+                                    <span class="look_now_bt">×</span><span>回答错误</span>
+                                </div>
+                                <div class="state_no">
+                                    <span class="look_no_bt">?</span><span>未回答</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--选题区域-->
+                        <div class="state_num">
+                            <ul id="timli">
+                                @Html.Raw(HttpUtility.HtmlDecode(ViewBag.ExamSb))
+                            </ul>
+                        </div>
+                        <!--选题区域结束-->
+                    </div>
+                    <!--题目内容及结果显示区域开始-->
+                    <div class="topic_con_right">
+                        <div>
+                            <!--题目详情-->
+                            <div class="bills_zttitle">
+                                <span id="TopicTitle">@ViewBag.TopicTitle</span>（共<span>@ViewBag.TopicCount</span>题，当前题目<span id="SingleScore">@ViewBag.SingleScore</span>分，共<span>@ViewBag.Score</span>分）
+						
+                            </div>
+                            <div class="bill_left">
+                                <div class="text_red">题目信息：</div>
+                                <div id="TaskExplan">
+                                    @Html.Raw(HttpUtility.HtmlDecode(ViewBag.TaskExplan))
+                                </div>
+                            </div>
+                            <div class="bill_right">
+                                <!--单据图片区域-->
+                                <div class="bill_from">
+                                    <div class="@ViewBag.BillStyle" id="fombody"></div>
+                                    <br />
+                                </div>
+                                <!--成绩报告-->
+                                <div class="czmx" style="text-align: center; margin-top: 10px;">
+                                    <button type="button" onclick="OperationDetails()">操作明细</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--切题区域开始-->
+                <div class="qieti_map" id="paging">
+                    <div class="qieti" onclick=" Pagediv(1)">
+                        <div class="qieti_fx">▏◀</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>首题</div>
+                    </div>
+
+                    <div class="qieti" onclick=" Pagediv(2)">
+                        <div class="qieti_fx">◀</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>上一题</div>
+                    </div>
+
+                    <div class="qieti" onclick=" Pagediv(3)">
+                        <div class="qieti_fx">▶</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>下一题</div>
+                    </div>
+
+                    <div class="qieti" onclick=" Pagediv(4)">
+                        <div class="qieti_fx">▶ ▏</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>尾题</div>
+                    </div>
+                </div>
+                <!--切题区域结束-->
+            </div>
+        </div>
+        
+        <div class="bottom_bj">
+            <img src="../img/student/statebj.png" />
+        </div>
+        <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+            Copyright 版权所有深圳典阅科技有限公司 2017
+        </div>
+        
+        <input type="hidden" id="FormId" name="FormId" value="@ViewBag.FormId" />
+        <input type="hidden" id="TopicId" name="TopicId" value="@ViewBag.TopicId" />
+        <input type="hidden" id="ExamId" name="ExamId" value="@ViewBag.ExamId" />
+        <input type="hidden" id="PaperId" name="PaperId" value="@ViewBag.PaperId" />
+        <input type="hidden" id="UIds" name="UIds" value="@ViewBag.UIds" />
+    }
+    <div id="Add" style="display: none;" class="form-inline">
+        <div class="bills_table">
+            <table id="table" border="0" cellspacing="0" cellpadding="0">
+            </table>
+        </div>
+    </div>
+    <script src="~/Scripts/Bill_Competition/ScoreDetails.js"></script>
+</body>
+</html>

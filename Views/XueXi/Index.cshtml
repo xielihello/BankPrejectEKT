@@ -1,0 +1,231 @@
+﻿@{
+    ViewBag.Title = "易考通";
+    ViewData["nvc"] = "学习中心";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+<style>
+    .xue_con {
+        margin-top: 30px;
+        background: #fefefe;
+        min-height: 65vmin;
+        padding: 20px;
+    }
+
+    .xue_list {
+        margin: 0px;
+        width: 1200px;
+        margin: 0;
+        margin-top: 20px;
+        width: 1200px;
+    }
+
+        .xue_list label {
+            width: 380px;
+            margin-bottom: 70px;
+        }
+
+            .xue_list label a {
+                cursor: pointer;
+                font-size: 16px;
+                color: #373737;
+                display: -webkit-inline-box;
+                width: 175px;
+            }
+
+                .xue_list label a:hover {
+                    color: #32a1e5;
+                    text-decoration: none;
+                }
+
+
+    /*教材列表样式*/
+    .book_map {
+        cursor: pointer;
+        position: relative;
+        width: 272px;
+        background-color: white;
+        float: left;
+        margin-right: 25px;
+        margin-bottom: 20px;
+        border: 1px solid #e5e5e5;
+    }
+
+        .book_map img {
+            width: 270px;
+            height: 260px;
+        }
+
+
+    .book_name {
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        color: #4d4d4d;
+        font-size: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        /*border-bottom: 1px solid #e5e5e5;*/
+    }
+
+
+    .lookico {
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: center;
+        color: white;
+        letter-spacing: 2px;
+        width: 60px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .no_bj {
+        background-color: #3be58f;
+    }
+
+    .ok_bj {
+        background-color: #ff6766;
+    }
+
+    .leixing {
+        position: absolute;
+        right: 0;
+        text-align: center;
+        color: white;
+        letter-spacing: 2px;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        bottom: 50px;
+        font-size: 20px;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+</style>
+<div class="stu_map">
+    <div class="xue_con">
+        <div class="row stu_screen">
+            <div class="pull-right">
+                <button class="btn btn-danger" type="button" onclick="searchinfo()">搜索</button>
+            </div>
+
+            <div class="pull-right" style="margin-right: 30px;">
+                <input class="form-control " type="text" maxlength="80" name="CourseName" id="CourseName" placeholder="请输入课件关键字" />
+            </div>
+
+            <div class="pull-right" style="margin-right: 30px;">
+                <select class="form-control" id="Read" name="Read">
+                    <option value="0">请选择</option>
+                    <option value="1">已学习</option>
+                    <option value="2">未学习</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="xue_list row" id="tablelist">
+
+
+        </div>
+
+
+        <!--分页开始-->
+        <div class="stu_paging" style="border-top: none;" id="PaginatorLibrary">
+        </div>
+
+
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(function () {
+        bindIngfo();
+    });
+
+
+    //列表数据加载
+    function bindIngfo(page) {
+
+        var CourseName = $("#CourseName").val();
+        var Read = $("#Read").val();
+
+        var PageSize = 12;
+
+        $.ajax({
+            url: '/XueXi/GetList',
+            Type: "post",
+            dataType: "json", cache: false,
+            contentType: "application/json; charset=utf-8",
+            data: { "CourseName": CourseName, "Read": Read, "page": page, "PageSize": PageSize },
+            success: function (tb) {
+
+                var html = '';
+                var data = tb.Tb;//转换table
+                for (var i = 0; i < data.length; i++) {
+                    html += " <div class='book_map' onclick=\"goin(" + data[i]["Id"] + ",'" + data[i]["Format"] + "')\">";
+                    //是否存在课程图片路径
+                    var CourseCoverUrl = data[i]["CourseCoverUrl"];
+                    if (parseInt(data[i]["RowsCount"]) > 0) {
+                        html += '<div class="lookico ok_bj">已学习</div>';
+                    } else {
+                        html += '<div class="lookico no_bj">未学习</div>';
+                    }
+                    //判断是ppt mp4 word
+                    var Format = data[i]["Format"];
+                    if (CourseCoverUrl == null || CourseCoverUrl == "") {
+                        if (Format == "ppt" || Format == "pptx") {
+                            CourseCoverUrl = '/img/student/icoppt.png';
+                        }
+                        if (Format == "mp4" || Format == "mp3" || Format == "avi" || Format == "wmv") {
+                            CourseCoverUrl = '/img/student/icomove.png';
+                        }
+                        if (Format == "doc" || Format == "docx") {
+                            CourseCoverUrl = '/img/student/icoword.png';
+                        }
+                    }
+                    if (Format == "doc" || Format == "docx") {
+                        html += '<div class="leixing">WORD</div>';
+                    } else {
+                        html += '<div class="leixing">' + Format.toUpperCase() + '</div>';
+                    }
+                    html += ' <img src="' + CourseCoverUrl + '" />';
+                    html += ' <div class="book_name" title="' + data[i]["CourseName"] + '">' + data[i]["CourseName"] + '</div>';
+                    html += '  </div>';
+                }
+
+                $("#tablelist").html(html);
+
+                bootstrapPaginator("#PaginatorLibrary", tb, bindIngfo);//分页
+
+            }
+        });
+    }
+
+    //搜索
+    function searchinfo() {
+
+        bindIngfo();
+
+    }
+
+    function goin(kcId, Format) {
+        //进入之前 表示已学习 修改状态 再跳转
+        $.ajax({
+            url: "/XueXi/Read?kcId=" + kcId,
+            type: 'POST',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data == "1") {
+                    if (Format.toLowerCase() == "mp3" || Format.toLowerCase() == "mp4" || Format.toLowerCase() == "wmv") {
+                        window.location.href = '/XueXi/Pay?kcId=' + kcId;
+                    } else {
+                        window.location.href = '/XueXi/Browse?kcId=' + kcId;
+                    }
+                    // window.location.href = '';
+                }
+            }
+        });
+
+    }
+</script>

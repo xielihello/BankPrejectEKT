@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["nvc"] = "单据试卷管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style type="text/css">
+    .input_bottom {
+        display: initial;
+        border: none;
+        border-bottom: 2px solid #1ab394;
+        text-align: center;
+    }
+</style>
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>智能组卷</h3>
+    <div class="ibox-content">
+        <!--内容开始-->
+        <div class="row">
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试卷名称：</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control input_bottom" autocomplete="off" id="PaperName" name="PaperName" placeholder="请输入试卷名称">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>组题顺序：</label>
+                        <div class="col-sm-10">
+                            <div class="radio i-checks">
+                                <span>是否打乱同一题型下的试题顺序:</span>
+                                <label>
+                                    <input type="radio" checked="" value="1" name="rad">
+                                    <i></i>是</label>
+                                <label>
+                                    <input type="radio" checked="" value="0" name="rad">
+                                    <i></i>否</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--组卷规则字段开始-->
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>组卷规则：</label>
+                        <div class="col-sm-10">
+                            <div class="m-t-sm text-danger">当前可用题目<span id="Sum_Number">@ViewData["Sum_Number"]</span>道，其中有<span id="Unused">@ViewData["Unused"]</span>道题目尚未被使用，未被使用题目指在其他试卷中未出现过该题目。</div>
+
+                            <div class="m-t-sm">
+                                共随机抽取
+                                <input class="form-control  input_bottom" id="SumExtract" style="width: 60px;" type="text" autocomplete="off" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                                道，其中未被使用题目
+                                <input class="form-control  input_bottom" id="ExtractUnused" style="width: 60px;" type="text" autocomplete="off" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                                道，每道
+                                <input class="form-control ml10 mr10 input_bottom" id="Score" style="width: 60px;" type="text" autocomplete="off" onkeyup="value=value.replace(/[^\d.]/g,'')" onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " />
+                                分，共计
+                                 <span class="font-bold text-navy" id="Sum_Score">0</span> 分；
+											
+                            </div>
+                        </div>
+                    </div>
+                    <!--组卷规则字段结束-->
+                </div>
+                <!--系统统一分隔符-->
+                <div class="hr-line-dashed"></div>
+                <div class="form-group m-t-md">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-w-m btn-success m-r-lg" onclick="Save()">保存</button>
+                        <a href="@Url.Action("TestPaperList", "BillTestPaper")" class="btn btn-w-m btn-white ">返回</a>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        <!--内容結束-->
+    </div>
+</div>
+
+<script src="~/Areas/Admin/Scripts/BillTestPaper/CapacityTestPaper.js"></script>
+

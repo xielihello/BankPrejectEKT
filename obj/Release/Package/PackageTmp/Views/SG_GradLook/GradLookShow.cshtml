@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "GradLookShow";
+}
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>典阅智慧财经综合技能竞赛平台</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/student.css" rel="stylesheet">
+</head>
+<body class="topic_bg">
+     <div class="herd_top2">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+               <img style="height: 75px;" src="../img/newlogo2.png"/><span style="margin-left: 50px;">典阅智慧财经</span>综合技能竞赛平台
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="stu_map">
+        <div class="grad_map">
+            <div class="grad_con">
+                <!--头部赛项名称-->
+                <div class="grad_title">
+                   @ViewData["ExaminationName"]
+                </div>
+                <!--选手头像-->
+                <div class="grad_use">
+                    <img src="@ViewData["Pic"]" />
+                </div>
+                <!--选手成绩-->
+                <div class="grad_number0">
+                    <div class="grad_digit">操作得分：@ViewData["TaskScore"]分</div>
+                </div>
+                <div class="grad_number2">
+                    已扣得分：@ViewData["RefereePoints"]分
+                </div>
+                <div class="grad_number3">
+                    最终得分：@ViewData["TotalScore"]分
+                </div>
+                <!--选手信息-->
+                <div class="grad_use_message">
+                    @ViewData["Name"]<br />
+                    登录账号：<span class="color_yellow">@ViewData["UserNo"]</span><br />
+                    代表队：<span class="color_yellow">@ViewData["SchoolName"]</span>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom_bj">
+        <img src="../img/student/statebj.png" />
+    </div>
+     <div style="color: #aab3b7; text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        Copyright 版权所有深圳典阅科技有限公司 2017
+    </div>
+</body>
+</html>

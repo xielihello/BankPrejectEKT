@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>易考通</title>
+    <link rel="icon" href="~/img/student/logName.png" type="image/x-icon">
+    <link href="~/CSS/logstyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    @*<script src="~/Scripts/jquery-1.8.3.min.js"></script>*@
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/login.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script>
+        window.onload = function () {
+            function box() {
+                //获取DIV为‘bo’的盒子
+                var oBox = document.getElementById('box');
+                //获取元素自身的宽度
+                var L1 = oBox.offsetWidth;
+                //获取元素自身的高度
+                var H1 = oBox.offsetHeight;
+                //获取实际页面的left值。（页面宽度减去元素自身宽度/2）
+                var Left = (document.documentElement.clientWidth - L1) / 2;
+                //获取实际页面的top值。（页面宽度减去元素自身高度/2）
+                var top = (document.documentElement.clientHeight - H1) / 2;
+                oBox.style.left = Left + 'px';
+                oBox.style.top = top + 'px';
+            }
+            box();
+            //当浏览器页面发生改变时，DIV随着页面的改变居中。
+            window.onresize = function () {
+                box();
+            }
+        } 
+    </script>
+</head>
+
+<body>
+    <div class="body_bg">
+        <img src="../img/student/loginbj.png" />
+    </div>
+    <div id="box" class="logDiv">
+        <div class="logGet">
+            <!-- 头部提示信息 -->
+            <div class="logD logDtip">
+                <p class="p1">用户登录</p>
+            </div>
+            <!-- 输入框 -->
+            <div class="lgD">
+                <img class="img1" src="../img/student/logName.png" /><input id="username" name="username" type="text"
+                    placeholder="用户名" value="" />
+            </div>
+            <div class="lgD">
+                <img class="img1" src="../img/student/logPwd.png" /><input id="password" name="password" type="password"
+                    placeholder="密码" value="" />
+            </div>
+            <div class="lgD jzpwd">
+                <input class="getYZM" type="checkbox" id="cbCookie" name="cbCookie" />
+                <div>
+                    <p>记住密码</p>
+                </div>
+            </div>
+            <div class="logC">
+                <button type="button" onclick="Logon()">登 录</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="logbottom">
+        版权所有：深圳典阅科技有限公司<br />
+        登记序号：粤ICP备14018541号-2
+    </div>
+
+</body>
+</html>

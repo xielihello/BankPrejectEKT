@@ -1,0 +1,847 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{97F1AE9A-0729-4BFF-A01F-6E84A960652E}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VocationalProject</RootNamespace>
+    <AssemblyName>VocationalProject</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=7.2.1.0, Culture=neutral, PublicKeyToken=304f5aa34aff2288, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Pdf">
+      <HintPath>Libs\Aspose.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words, Version=11.3.0.0, Culture=neutral, PublicKeyToken=47d5d0e1ef9d080b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\Aspose.Words.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="TeachingInformatization">
+      <HintPath>Libs\TeachingInformatization.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\JsonHelper.cs" />
+    <Compile Include="App_Start\SystemLoginVerification.cs" />
+    <Compile Include="App_Start\UploaderCalculators.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AuthorizationDetailsPushController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BillExamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BillExamResultController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BillTestPaperController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BillTopicController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ClassManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CollegeManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CourseManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ExaminationManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FH_ExaminationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FH_ExamResultController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FH_ReportFormController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HB_ExaminationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HB_ExamResultController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HB_PaperController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HB_PaperpreviewController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HB_QuestionBankController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MbcTaskManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PersonalsettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PersonalTotalScoreController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RefereeManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SG_achievementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StatisticalAnalysisController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StudentManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TeacherManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\T_StudentManageController.cs" />
+    <Compile Include="Areas\Admin\Models\FH_TestsModel.cs" />
+    <Compile Include="Areas\Admin\Models\PageListModel.cs" />
+    <Compile Include="ashx\Admininfo.ashx.cs">
+      <DependentUpon>Admininfo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\download.ashx.cs">
+      <DependentUpon>download.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\hbExport.ashx.cs">
+      <DependentUpon>hbExport.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Studentinfo.ashx.cs">
+      <DependentUpon>Studentinfo.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\TimeHandler.ashx.cs">
+      <DependentUpon>TimeHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\UpdatImg.ashx.cs">
+      <DependentUpon>UpdatImg.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\Bill_CompetitionController.cs" />
+    <Compile Include="Controllers\DataTable_List.cs" />
+    <Compile Include="Controllers\FH_ManagementController.cs" />
+    <Compile Include="Controllers\HB_CompetitionController.cs" />
+    <Compile Include="Controllers\HB_ExamPreviewController.cs" />
+    <Compile Include="Controllers\HB_kaoshiController.cs" />
+    <Compile Include="Controllers\HighScoresController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JudgeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MallController.cs" />
+    <Compile Include="Controllers\Pager.cs" />
+    <Compile Include="Controllers\SG_CompetitionController.cs" />
+    <Compile Include="Controllers\SG_GradLookController.cs" />
+    <Compile Include="Controllers\ShouyeController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\XueXiController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CourseManagementModel.cs" />
+    <Compile Include="Models\FHKSModel.cs" />
+    <Compile Include="Models\HBKaoShiModel.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Areas\Admin\Scripts\AuthorizationDetailsPush\Index.js" />
+    <Content Include="Areas\Admin\Scripts\BillExamResult\Index.js" />
+    <Content Include="Areas\Admin\Scripts\BillExam\Add.js" />
+    <Content Include="Areas\Admin\Scripts\BillExam\Edit.js" />
+    <Content Include="Areas\Admin\Scripts\BillExam\ExamList.js" />
+    <Content Include="Areas\Admin\Scripts\BillTestPaper\CapacityTestPaper.js" />
+    <Content Include="Areas\Admin\Scripts\BillTestPaper\EditTestPaper.js" />
+    <Content Include="Areas\Admin\Scripts\BillTestPaper\ManualTestPaper.js" />
+    <Content Include="Areas\Admin\Scripts\BillTestPaper\TestPaperList.js" />
+    <Content Include="Areas\Admin\Scripts\BillTopic\AddTopic.js" />
+    <Content Include="Areas\Admin\Scripts\BillTopic\Bills.js" />
+    <Content Include="Areas\Admin\Scripts\BillTopic\EditTopic.js" />
+    <Content Include="Areas\Admin\Scripts\BillTopic\LookTopic.js" />
+    <Content Include="Areas\Admin\Scripts\BillTopic\TopicList.js" />
+    <Content Include="Areas\Admin\Scripts\CollegeManagement\College.js" />
+    <Content Include="Areas\Admin\Scripts\CourseManagement\CourseList.js" />
+    <Content Include="Areas\Admin\Scripts\CourseManagement\CourseManagement.js" />
+    <Content Include="Areas\Admin\Scripts\CourseManagement\EditCourseManagement.js" />
+    <Content Include="Areas\Admin\Scripts\FH_Examination\Add.js" />
+    <Content Include="Areas\Admin\Scripts\FH_Examination\Edit.js" />
+    <Content Include="Areas\Admin\Scripts\FH_Examination\FHExamination.js" />
+    <Content Include="Areas\Admin\Scripts\FH_ExamResult\Index.js" />
+    <Content Include="Areas\Admin\Scripts\FH_ReportForm\EditTestPaper.js" />
+    <Content Include="Areas\Admin\Scripts\FH_ReportForm\EditTopic.js" />
+    <Content Include="Areas\Admin\Scripts\FH_ReportForm\PreviewTestPaper.js" />
+    <Content Include="Areas\Admin\Scripts\FH_ReportForm\TestPaper.js" />
+    <Content Include="Areas\Admin\Scripts\HB_Examination\AddIndex.js" />
+    <Content Include="Areas\Admin\Scripts\HB_Examination\EditIndex.js" />
+    <Content Include="Areas\Admin\Scripts\HB_Examination\Index.js" />
+    <Content Include="Areas\Admin\Scripts\HB_ExamResult\Index.js" />
+    <Content Include="Areas\Admin\Scripts\HB_Paperpreview\AddTIndex.js" />
+    <Content Include="Areas\Admin\Scripts\HB_Paperpreview\Index.js" />
+    <Content Include="Areas\Admin\Scripts\HB_Paper\Index.js" />
+    <Content Include="Areas\Admin\Scripts\HB_Paper\IntelligentTestPaper.js" />
+    <Content Include="Areas\Admin\Scripts\HB_Paper\ManualTestPaper.js" />
+    <Content Include="Areas\Admin\Scripts\HB_QuestionBank\AddIndex.js" />
+    <Content Include="Areas\Admin\Scripts\HB_QuestionBank\EditIndex.js" />
+    <Content Include="Areas\Admin\Scripts\HB_QuestionBank\Index.js" />
+    <Content Include="Areas\Admin\Scripts\Page.js" />
+    <Content Include="Areas\Admin\Scripts\PersonalTotalScore\Index.js" />
+    <Content Include="Areas\Admin\Scripts\RefereeManagement\index.js" />
+    <Content Include="Areas\Admin\Scripts\StudentManagement\index.js" />
+    <Content Include="Areas\Admin\Scripts\FH_ReportForm\index.js" />
+    <Content Include="Areas\Admin\Scripts\TeacherManagement\index.js" />
+    <Content Include="Areas\Admin\Scripts\T_StudentManage\Index.js" />
+    <Content Include="CSS\animate.css" />
+    <Content Include="CSS\bills.css" />
+    <Content Include="CSS\bootstrap.min.css" />
+    <Content Include="CSS\chosen\chosen-sprite%402x.png" />
+    <Content Include="CSS\chosen\chosen-sprite.png" />
+    <Content Include="CSS\chosen\chosen.css" />
+    <Content Include="CSS\demo\webuploader-demo.css" />
+    <Content Include="CSS\font-awesome\css\font-awesome.css" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="CSS\logstyle.css" />
+    <Content Include="CSS\patterns\header-profile-skin-1.png" />
+    <Content Include="CSS\patterns\header-profile-skin-2.png" />
+    <Content Include="CSS\patterns\header-profile-skin-3.png" />
+    <Content Include="CSS\patterns\header-profile.png" />
+    <Content Include="CSS\patterns\shattered.png" />
+    <Content Include="CSS\plugins\chosen\chosen-sprite%402x.png" />
+    <Content Include="CSS\plugins\chosen\chosen-sprite.png" />
+    <Content Include="CSS\plugins\chosen\chosen.css" />
+    <Content Include="CSS\plugins\codemirror\ambiance.css" />
+    <Content Include="CSS\plugins\codemirror\codemirror.css" />
+    <Content Include="CSS\plugins\colorpicker\css\bootstrap-colorpicker.min.css" />
+    <Content Include="CSS\plugins\colorpicker\img\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="CSS\plugins\colorpicker\img\bootstrap-colorpicker\alpha.png" />
+    <Content Include="CSS\plugins\colorpicker\img\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="CSS\plugins\colorpicker\img\bootstrap-colorpicker\hue.png" />
+    <Content Include="CSS\plugins\colorpicker\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="CSS\plugins\datapicker\datepicker3.css" />
+    <Content Include="CSS\plugins\dataTables\dataTables.bootstrap.css" />
+    <Content Include="CSS\plugins\dropzone\basic.css" />
+    <Content Include="CSS\plugins\dropzone\dropzone.css" />
+    <Content Include="CSS\plugins\fullcalendar\fullcalendar.css" />
+    <Content Include="CSS\plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="CSS\plugins\iCheck\custom.css" />
+    <Content Include="CSS\plugins\iCheck\green%402x.png" />
+    <Content Include="CSS\plugins\iCheck\green.png" />
+    <Content Include="CSS\plugins\images\sort_asc.png" />
+    <Content Include="CSS\plugins\images\sort_desc.png" />
+    <Content Include="CSS\plugins\images\sprite-skin-flat.png" />
+    <Content Include="CSS\plugins\images\spritemap%402x.png" />
+    <Content Include="CSS\plugins\images\spritemap.png" />
+    <Content Include="CSS\plugins\ionRangeSlider\ion.rangeSlider.css" />
+    <Content Include="CSS\plugins\ionRangeSlider\ion.rangeSlider.skinFlat.css" />
+    <Content Include="CSS\plugins\jasny\jasny-bootstrap.min.css" />
+    <Content Include="CSS\plugins\jqgrid\ui.jqgrid.css" />
+    <Content Include="CSS\plugins\jQueryUI\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="CSS\plugins\jQueryUI\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="CSS\plugins\jQueryUI\images\ui-icons_222222_256x240.png" />
+    <Content Include="CSS\plugins\jQueryUI\images\ui-icons_454545_256x240.png" />
+    <Content Include="CSS\plugins\jQueryUI\images\ui-icons_888888_256x240.png" />
+    <Content Include="CSS\plugins\jQueryUI\jquery-ui-1.10.4.custom.min.css" />
+    <Content Include="CSS\plugins\jsTree\32px.png" />
+    <Content Include="CSS\plugins\jsTree\style.min.css" />
+    <Content Include="CSS\plugins\markdown\bootstrap-markdown.min.css" />
+    <Content Include="CSS\plugins\morris\morris-0.4.3.min.css" />
+    <Content Include="CSS\plugins\nouslider\jquery.nouislider.css" />
+    <Content Include="CSS\plugins\simditor\simditor.css" />
+    <Content Include="CSS\plugins\steps\jquery.steps.css" />
+    <Content Include="CSS\plugins\summernote\summernote-bs3.css" />
+    <Content Include="CSS\plugins\summernote\summernote.css" />
+    <Content Include="CSS\plugins\switchery\switchery.css" />
+    <Content Include="CSS\plugins\toastr\toastr.min.css" />
+    <Content Include="CSS\plugins\treeview\bootstrap-treeview.css" />
+    <Content Include="CSS\plugins\webuploader\webuploader.css" />
+    <Content Include="CSS\student.css" />
+    <Content Include="CSS\style.css" />
+    <Content Include="CSS\control.css" />
+    <Content Include="Global.asax" />
+    <Content Include="img\404.jpg" />
+    <Content Include="img\a3.jpg" />
+    <Content Include="img\danjuimg\bankbenpiao01.png" />
+    <Content Include="img\danjuimg\bankbenpiao02.png" />
+    <Content Include="img\danjuimg\bankbenpiao03.png" />
+    <Content Include="img\danjuimg\bankhuipiao01.png" />
+    <Content Include="img\danjuimg\bankhuipiao02.png" />
+    <Content Include="img\danjuimg\bankhuipiao03.png" />
+    <Content Include="img\danjuimg\bankzhipiao01.png" />
+    <Content Include="img\danjuimg\bankzhipiao02.png" />
+    <Content Include="img\danjuimg\bankzhipiao03.png" />
+    <Content Include="img\danjuimg\baoxiaodan.png" />
+    <Content Include="img\danjuimg\chukudan01.png" />
+    <Content Include="img\danjuimg\chukudan02.png" />
+    <Content Include="img\danjuimg\chukudan03.png" />
+    <Content Include="img\danjuimg\fukuandan.png" />
+    <Content Include="img\danjuimg\kaipiaodan.png" />
+    <Content Include="img\danjuimg\lingliaodan01.png" />
+    <Content Include="img\danjuimg\lingliaodan02.png" />
+    <Content Include="img\danjuimg\lingliaodan03.png" />
+    <Content Include="img\danjuimg\rukudan01.png" />
+    <Content Include="img\danjuimg\rukudan02.png" />
+    <Content Include="img\danjuimg\rukudan03.png" />
+    <Content Include="img\danjuimg\shouliaodan01.png" />
+    <Content Include="img\danjuimg\shouliaodan02.png" />
+    <Content Include="img\danjuimg\shouliaodan03.png" />
+    <Content Include="img\danjuimg\u0.png" />
+    <Content Include="img\iconclose.png" />
+    <Content Include="img\Map\08-27数据库表说明_001.Png" />
+    <Content Include="img\Map\08-27数据库表说明_002.Png" />
+    <Content Include="img\Map\08-27数据库表说明_003.Png" />
+    <Content Include="img\Map\08-27数据库表说明_004.Png" />
+    <Content Include="img\Map\08-27数据库表说明_005.Png" />
+    <Content Include="img\Map\08-27数据库表说明_006.Png" />
+    <Content Include="img\Map\08-27数据库表说明_007.Png" />
+    <Content Include="img\Map\08-27数据库表说明_008.Png" />
+    <Content Include="img\Map\08-27数据库表说明_009.Png" />
+    <Content Include="img\Map\08-27数据库表说明_010.Png" />
+    <Content Include="img\Map\08-27数据库表说明_011.Png" />
+    <Content Include="img\Map\08-27数据库表说明_012.Png" />
+    <Content Include="img\Map\08-27数据库表说明_013.Png" />
+    <Content Include="img\Map\08-27数据库表说明_014.Png" />
+    <Content Include="img\Map\08-27数据库表说明_015.Png" />
+    <Content Include="img\Map\08-27数据库表说明_016.Png" />
+    <Content Include="img\Map\08-27数据库表说明_017.Png" />
+    <Content Include="img\Map\08-27数据库表说明_018.Png" />
+    <Content Include="img\Map\08-27数据库表说明_019.Png" />
+    <Content Include="img\Map\08-27数据库表说明_020.Png" />
+    <Content Include="img\Map\08-27数据库表说明_021.Png" />
+    <Content Include="img\Map\08-27数据库表说明_022.Png" />
+    <Content Include="img\Map\08-27数据库表说明_023.Png" />
+    <Content Include="img\newlogo2.png" />
+    <Content Include="img\profile_s.jpg" />
+    <Content Include="img\profile_small .jpg" />
+    <Content Include="img\profile_small.jpg" />
+    <Content Include="img\student\close.png" />
+    <Content Include="img\student\gradbj.png" />
+    <Content Include="img\student\gradnumber0.png" />
+    <Content Include="img\student\gradnumber1.png" />
+    <Content Include="img\student\gradnumber2.png" />
+    <Content Include="img\student\gradnumber3.png" />
+    <Content Include="img\student\gradtop.png" />
+    <Content Include="img\student\guijibj.png" />
+    <Content Include="img\student\icobiaoji.png" />
+    <Content Include="img\student\icodown.png" />
+    <Content Include="img\student\icoend.jpg" />
+    <Content Include="img\student\icomove.png" />
+    <Content Include="img\student\iconew.jpg" />
+    <Content Include="img\student\icoout.png" />
+    <Content Include="img\student\icoppt.png" />
+    <Content Include="img\student\icoword.png" />
+    <Content Include="img\student\imgmp3.png" />
+    <Content Include="img\student\indexout.png" />
+    <Content Include="img\student\indexoutcheck.png" />
+    <Content Include="img\student\inputright.png" />
+    <Content Include="img\student\itemtext.png" />
+    <Content Include="img\student\itemtext1.png" />
+    <Content Include="img\student\jbbj.jpg" />
+    <Content Include="img\student\kaologo.png" />
+    <Content Include="img\student\loginbj.png" />
+    <Content Include="img\student\loginbj00.png" />
+    <Content Include="img\student\loginbottom.png" />
+    <Content Include="img\student\logName.png" />
+    <Content Include="img\student\logPwd.png" />
+    <Content Include="img\student\nav1.png" />
+    <Content Include="img\student\nav1chek.png" />
+    <Content Include="img\student\nav2.png" />
+    <Content Include="img\student\nav2chek.png" />
+    <Content Include="img\student\nav3.png" />
+    <Content Include="img\student\nav3chek.png" />
+    <Content Include="img\student\nav4.png" />
+    <Content Include="img\student\nav4chek.png" />
+    <Content Include="img\student\nav5.png" />
+    <Content Include="img\student\nav5chek.png" />
+    <Content Include="img\student\navbj.png" />
+    <Content Include="img\student\navtop.png" />
+    <Content Include="img\student\persondatebj.png" />
+    <Content Include="img\student\ranktopbj.png" />
+    <Content Include="img\student\shouyetu.png" />
+    <Content Include="img\student\statebj.png" />
+    <Content Include="img\student\tabbj.png" />
+    <Content Include="img\student\timebj.png" />
+    <Content Include="img\student\topicbj.jpg" />
+    <Content Include="img\student\topicblack.png" />
+    <Content Include="img\student\topicblackcheck.png" />
+    <Content Include="img\student\topicout.png" />
+    <Content Include="img\student\topicoutchek.png" />
+    <Content Include="img\student\topictime.png" />
+    <Content Include="img\student\topictj.png" />
+    <Content Include="img\student\topictjchek.png" />
+    <Content Include="img\student\wentiao.png" />
+    <Content Include="Libs\Aspose.Cells.dll" />
+    <Content Include="Libs\Aspose.Words.dll" />
+    <Content Include="Libs\log4net.dll" />
+    <Content Include="Libs\Microsoft.AspNet.SignalR.Core.dll" />
+    <Content Include="Libs\Microsoft.Owin.dll" />
+    <Content Include="Libs\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="Libs\Microsoft.Owin.Security.dll" />
+    <Content Include="Libs\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="Libs\Newtonsoft.Json.dll" />
+    <Content Include="Libs\Owin.dll" />
+    <Content Include="Libs\PageOffice.dll" />
+    <Content Include="Libs\RINI.dll" />
+    <Content Include="Log\2017-04-01.txt" />
+    <Content Include="Log\2017-04-06.txt" />
+    <Content Include="Log\2017-04-07.txt" />
+    <Content Include="obj\Debug\VocationalProject.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\VocationalProject.dll" />
+    <Content Include="obj\Debug\VocationalProject.pdb" />
+    <Content Include="Resources\img\20170621152557.jpg" />
+    <Content Include="Resources\img\20178516326.jpg" />
+    <Content Include="Resources\mp4\1.mp4" />
+    <Content Include="Resources\mp4\2.mp4" />
+    <Content Include="Resources\mp4\环保小视频.mp4" />
+    <Content Include="Resources\play\a1.swf" />
+    <Content Include="Resources\play\sample_1.swf" />
+    <Content Include="Resources\txt\2017060711311.txt" />
+    <Content Include="Resources\txt\20170608190128.txt" />
+    <Content Include="Resources\txt\20170608193239.txt" />
+    <Content Include="Resources\txt\20170608200335.txt" />
+    <Content Include="Resources\txt\20170609094412.txt" />
+    <Content Include="Resources\txt\新建文本文档.txt" />
+    <Content Include="Resources\video\ceshi2.swf" />
+    <Content Include="Resources\video\player.swf" />
+    <Content Include="Scripts\Bill_Competition\Examination.js" />
+    <Content Include="Scripts\Bill_Competition\GrowthProcess.js" />
+    <Content Include="Scripts\Bill_Competition\RemainingTime.js" />
+    <Content Include="Scripts\Bill_Competition\ScoreDetails.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\chosen\chosen.jquery.js" />
+    <Content Include="Scripts\cropbox.js" />
+    <Content Include="Scripts\datapicker\bootstrap-datepicker.js" />
+    <Content Include="Scripts\dataTables\dataTables.bootstrap.js" />
+    <Content Include="Scripts\dataTables\jquery.dataTables.js" />
+    <Content Include="Scripts\echarts\echarts.min.js" />
+    <Content Include="Scripts\echarts\echarts.simple.min.js" />
+    <Content Include="Scripts\FH_Management\ExamPreview.js" />
+    <Content Include="Scripts\FH_Management\Index.js" />
+    <Content Include="Scripts\FH_Management\Preview.js" />
+    <Content Include="Scripts\HB_Competition\HB_Competition.js" />
+    <Content Include="Scripts\HB_Competition\HB_ExamPreview.js" />
+    <Content Include="Scripts\HB_Competition\HB_kaoshi.js" />
+    <Content Include="Scripts\HB_Competition\HighScores.js" />
+    <Content Include="Scripts\hplus.js" />
+    <Content Include="Scripts\iCheck\icheck.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\jquery-3.2.0.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\Judge\Judge.js" />
+    <Content Include="Scripts\layer\layer.js" />
+    <Content Include="Scripts\layer\skin\default\icon-ext.png" />
+    <Content Include="Scripts\layer\skin\default\icon.png" />
+    <Content Include="Scripts\layer\skin\default\loading-0.gif" />
+    <Content Include="Scripts\layer\skin\default\loading-1.gif" />
+    <Content Include="Scripts\layer\skin\default\loading-2.gif" />
+    <Content Include="Scripts\layer\skin\layer.css" />
+    <Content Include="Scripts\login.js" />
+    <Content Include="Scripts\metisMenu\jquery.metisMenu.js" />
+    <Content Include="Scripts\My97DatePicker\calendar.js" />
+    <Content Include="Scripts\My97DatePicker\lang\en.js" />
+    <Content Include="Scripts\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="Scripts\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="Scripts\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="Scripts\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\skin\default\img.gif" />
+    <Content Include="Scripts\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="Scripts\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Scripts\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Scripts\My97DatePicker\WdatePicker.js" />
+    <Content Include="Scripts\My97DatePicker\开发包\lang\en.js" />
+    <Content Include="Scripts\My97DatePicker\开发包\lang\zh-cn.js" />
+    <Content Include="Scripts\My97DatePicker\开发包\lang\zh-tw.js" />
+    <Content Include="Scripts\My97DatePicker\开发包\readme.txt" />
+    <Content Include="Scripts\My97DatePicker\开发包\skin\datePicker.gif" />
+    <Content Include="Scripts\My97DatePicker\开发包\skin\default\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\开发包\skin\default\img.gif" />
+    <Content Include="Scripts\My97DatePicker\开发包\skin\WdatePicker.css" />
+    <Content Include="Scripts\My97DatePicker\开发包\skin\whyGreen\bg.jpg" />
+    <Content Include="Scripts\My97DatePicker\开发包\skin\whyGreen\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\开发包\skin\whyGreen\img.gif" />
+    <Content Include="Scripts\pace\pace.min.js" />
+    <Content Include="Scripts\Page.js" />
+    <Content Include="Scripts\SG_Competition\RemainingTime.js" />
+    <Content Include="Scripts\SG_Competition\SG_Competition.js" />
+    <Content Include="Scripts\SG_Competition\SG_CompetitionExamination.js" />
+    <Content Include="Scripts\SG_Competition\ShowAchievement.js" />
+    <Content Include="Scripts\SG_GradLook\SG_GradLook_index.js" />
+    <Content Include="Scripts\slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\summernote\summernote-zh-CN.js" />
+    <Content Include="Scripts\summernote\summernote.min.js" />
+    <Content Include="Scripts\verifyform.js" />
+    <Content Include="Scripts\XueXi\Pay.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Resources\pdf\" />
+    <Folder Include="Resources\swf\" />
+    <Folder Include="Resources\temp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VocationalProject_Bll\VocationalProject_Bll.csproj">
+      <Project>{c48a4786-452c-4317-8c6b-c9aa0024f66c}</Project>
+      <Name>VocationalProject_Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VocationalProject_DBUtility\VocationalProject_DBUtility.csproj">
+      <Project>{448c3df5-21ec-4a0b-88ff-032be14b2df3}</Project>
+      <Name>VocationalProject_DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VocationalProject_Models\VocationalProject_Models.csproj">
+      <Project>{83d7fff6-c0f9-468d-8804-92e698c2ee59}</Project>
+      <Name>VocationalProject_Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.eot_v=4.3.0" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.svg_v=4.3.0" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.ttf_v=4.3.0" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.woff2_v=4.3.0" />
+    <Content Include="CSS\font-awesome\fonts\fontawesome-webfont.woff_v=4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\StudentManagement\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\CollegeManagement\College.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Export\管理员端学生管理模板.xls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\TeacherManagement\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\ClassManagement\ClassManagement.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\RefereeManagement\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\HB_QuestionBank\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\download.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\hbExport.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Export\管理员端教师管理模板.xls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\HB_QuestionBank\AddIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\HB_QuestionBank\EditIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\FH_ReportForm\TestPaper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\FH_ReportForm\Topic.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\FH_ReportForm\EditTopic.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\AuthorizationDetailsPush\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BillExam\ExamList.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTestPaper\ManualTestPaper.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTestPaper\TestPaperList.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\AddTopic.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010001.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010002.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010003.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010004.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010005.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010006.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010007.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010008.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010009.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010010.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010011.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010012.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010013.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010014.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010015.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010016.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010017.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010018.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010019.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010020.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010021.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010022.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010023.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010024.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\Bills010025.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\EditTopic.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\LookTopic.cshtml" />
+    <Content Include="Areas\Admin\Views\BillTopic\TopicList.cshtml" />
+    <Content Include="Areas\Admin\Views\ExaminationManagement\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\HB_Examination\AddIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\HB_Examination\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\HB_Paperpreview\AddTIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\HB_Paperpreview\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\HB_Paper\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\HB_Paper\IntelligentTestPaper.cshtml" />
+    <Content Include="Areas\Admin\Views\HB_Paper\ManualTestPaper.cshtml" />
+    <Content Include="Areas\Admin\Views\MbcTaskManagement\MbcTaskManagement.cshtml" />
+    <Content Include="Areas\Admin\Views\MbcTaskManagement\ShowSelect.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\VocationalProject.csprojResolveAssemblyReference.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\FH_ReportForm\EditsTopic.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\FH_ReportForm\EditTestPaper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\FH_ReportForm\PreviewTestPaper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\HB_Examination\EditIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\T_StudentManage\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\ExaminationManagement\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\ExaminationManagement\Examination.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\BillTestPaper\CapacityTestPaper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\BillExam\Add.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\BillExam\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\FH_Examination\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\FH_Examination\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FH_Examination\FHExamination.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\HB_Competition\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_StudentLayout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Mall\MyPage404.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Login\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\BillTestPaper\EditTestPaper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\BillTestPaper\LookTestPaper.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Personalsetting\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\TimeHandler.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Admininfo.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\HB_kaoshi\GetScoresIndex.cshtml" />
+    <Content Include="Views\HB_kaoshi\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Export\货币知识试卷导出模版.xls" />
+    <Content Include="ashx\Studentinfo.ashx" />
+    <Content Include="Areas\Admin\Views\FH_ExamResult\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\HB_ExamResult\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PersonalTotalScore\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SG_achievement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\StatisticalAnalysis\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BillExamResult\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FH_ReportForm\Examination.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\副本 _AdminLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\CourseManagement\CourseList.cshtml" />
+    <Content Include="Areas\Admin\Views\CourseManagement\CourseManagement.cshtml" />
+    <Content Include="Export\理论知识试卷导入模版.xls" />
+    <Content Include="Export\理论知识试题导入模版.xls" />
+    <Content Include="Areas\Admin\Views\CourseManagement\EditCourseManagement.cshtml" />
+    <Content Include="ashx\UpdatImg.ashx" />
+    <None Include="Properties\PublishProfiles\中职项目20170414.pubxml" />
+    <Content Include="Views\FH_Management\Index.cshtml" />
+    <Content Include="Views\HB_ExamPreview\Index.cshtml" />
+    <Content Include="Views\HB_kaoshi\TimeIndex.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Bill_Competition\Examination.cshtml" />
+    <Content Include="Views\Bill_Competition\GrowthProcess.cshtml" />
+    <Content Include="Views\FH_Management\ExamPreview.cshtml" />
+    <Content Include="Views\FH_Management\Preview.cshtml" />
+    <Content Include="Views\Judge\Index.cshtml" />
+    <Content Include="Views\SG_Competition\Index.cshtml" />
+    <Content Include="Views\SG_Competition\SG_CompetitionExamination.cshtml" />
+    <Content Include="Views\SG_Competition\ShowAchievement.cshtml" />
+    <Content Include="Views\SG_GradLook\GradLookShow.cshtml" />
+    <Content Include="Views\SG_GradLook\Index.cshtml" />
+    <Content Include="Views\Bill_Competition\RemainingTime.cshtml" />
+    <Content Include="Views\Bill_Competition\ScoreDetails.cshtml" />
+    <Content Include="Views\FH_Management\TimeIndex.cshtml" />
+    <Content Include="Views\HighScores\Index.cshtml" />
+    <Content Include="Views\SG_Competition\RemainingTime.cshtml" />
+    <Content Include="Views\XueXi\Index.cshtml" />
+    <Content Include="Resources\excel\201706073344.xls" />
+    <Content Include="Resources\excel\20170609094841.xlsx" />
+    <Content Include="Resources\excel\20170609143947.xlsx" />
+    <Content Include="Resources\excel\20170609143948.xlsx" />
+    <Content Include="Resources\ppt\2017060711321.pptx" />
+    <Content Include="Resources\ppt\20170609095016.pptx" />
+    <Content Include="Resources\word\2017060704331.docx" />
+    <Content Include="Resources\word\20170608192658.docx" />
+    <Content Include="Resources\word\20170608193050.docx" />
+    <Content Include="Resources\word\20170608193653.docx" />
+    <Content Include="Resources\word\20170608193812.docx" />
+    <Content Include="Resources\word\20170608195953.docx" />
+    <Content Include="Resources\word\20170608200213.docx" />
+    <Content Include="Resources\word\20170609093916.docx" />
+    <Content Include="Resources\word\20170609094056.docx" />
+    <Content Include="Resources\word\20170609150058.docx" />
+    <Content Include="Resources\word\20170609150942.docx" />
+    <Content Include="Resources\word\20170609152141.docx" />
+    <Content Include="Resources\word\20170609162514.docx" />
+    <Content Include="Resources\word\20170609162549.doc" />
+    <Content Include="Resources\word\20170609162557.docx" />
+    <Content Include="Resources\word\20170614152339.doc" />
+    <Content Include="Views\XueXi\Browse.cshtml" />
+    <Content Include="Views\XueXi\Pay.cshtml" />
+    <Content Include="Views\Shouye\Index.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>20416</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:37713/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

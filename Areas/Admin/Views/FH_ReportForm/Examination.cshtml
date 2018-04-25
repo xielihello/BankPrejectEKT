@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["nvc"] = "复核考试管理";
+    ViewBag.Title = "复核考试管理";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+} 
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>复核考试管理</h3>
+    <div class="ibox-content">
+        <div class="row form-horizontal">
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    <input type="text" placeholder="考试名称" id="ExaminationName" class="input-sm form-control">
+                </div>
+               
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="input-sm form-control input-s-sm inline" id="ExaminationType">
+                            <option value="0">竞赛模式</option>
+                            <option value="1">练习模式</option>
+                            <option value="2">考试模式</option>
+                        </select>
+                    </div>  
+                    <div class="col-sm-2 m-b-xs">
+                        <select class="input-sm form-control input-s-sm inline" id="Kind">
+                            <option value="0">状态选择</option>
+                            <option value="1">已激活</option>
+                            <option value="2">未激活</option>
+                        </select>
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="searchinfo()">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">新增考试设置</span></button>
+                <button onclick="" type="button" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i><span class="bold">删除</span></button>
+                <button onclick="" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">激活</span></button>
+                <button onclick="" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">关闭激活</span></button>
+                @*                <button onclick="Export()" class="btn btn-info btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">导入</span></button>*@
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">
+                            <input type="Checkbox" class="i-checks checkbox-all"></th>
+                        <th class="text-center">考试名称</th>
+                        <th class="text-center">竞赛模式</th>
+                        <th class="text-center">考试有效时间</th> 
+                        <th class="text-center">激活状态</th> 
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                    <tr>
+                        <td>1
+                        </td>
+                        <td>
+                            <input type="checkbox" class="i-checks" value="1" name="input[]">
+                        </td>
+                        <td><span class="pie">复核报表试卷1</span>
+                        </td>
+                        <td><span class="pie">练习模式</span>
+                        </td>
+                        <td><span class="pie">2017-03-12 8:30  -  2017-12-12 9:30</span>
+                        </td>
+                        <td><span class="pie">已激活</span>
+                        </td> 
+                        <td>
+                            <a href="javascript:;" class=" btn-primary btn-sm"><i class="fa fa-pencil m-r-xxs"></i>修改 </a>
+                            <a style="margin-left: 5px;" href="javascript:;" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>查看 </a>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+    </div>
+</div>
+ 
+<input type="hidden" value="@ViewData["UserType"]" id="UserType" />
+<input type="hidden" value="@ViewData["UserId"]" id="UserId" />
+<script src="~/Areas/Admin/Scripts/FH_ReportForm/index.js"></script>

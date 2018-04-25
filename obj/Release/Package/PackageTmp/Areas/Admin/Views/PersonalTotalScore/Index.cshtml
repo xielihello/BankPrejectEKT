@@ -1,0 +1,189 @@
+﻿@{
+    ViewData["nvc"] = "个人总成绩";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>个人总成绩</h3>
+    <div class="ibox-content">
+        <div class="row form-horizontal">
+
+            @{
+                //管理员查询条件
+                if (ViewData["UserType"].ToString() == "1")
+                {
+                <div class="row">
+
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" onclick="SelctSchool()" id="SchooId">
+                            <option value="0">院校名称</option>
+
+                        </select>
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="TeamId">
+                            <option value="0">班级名称</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 m-b-xs">
+                        <input type="text" placeholder="学生信息" id="StudentInfo" class="form-control">
+                    </div>
+
+                    <div class="col-sm-2 m-b-xs">
+                        <input type="text" placeholder="分数区间 如：60-70" id="ScoreQJ" class="form-control">
+                    </div>
+
+                    <div class="col-sm-2 m-b-xs">
+                        <input type="text" onkeyup="BindAllSelect()" placeholder="试卷来源" id="sjly" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="hbzs_selectId">
+                            <option value="0">货币知识</option>
+
+                        </select>
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="sgdc_selectId">
+                            <option value="0">手工点钞</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="fhbb_selectId">
+                            <option value="0">复核报表</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <select class="form-control input-s-sm inline" id="djlr_selectId">
+                                <option value="0">单据录入</option>
+
+                            </select>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="searchinfo()">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                }
+                else
+                {
+                    //教师端查询条件
+                <div class="row">
+
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="TeamId">
+                            <option value="0">班级名称</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="学生信息" id="StudentInfo" class="form-control">
+                    </div>
+
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="分数区间 如：60-70" id="ScoreQJ" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="hbzs_selectId">
+                            <option value="0">货币知识</option>
+
+                        </select>
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="sgdc_selectId">
+                            <option value="0">手工点钞</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="fhbb_selectId">
+                            <option value="0">复核报表</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <select class="form-control input-s-sm inline" id="djlr_selectId">
+                                <option value="0">单据录入</option>
+
+                            </select>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="searchinfo()">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                }
+            }
+
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="ExportTotalScore()" class="btn btn-info btn-sm" type="button"><i class="fa fa-level-down  m-r-xs"></i><span class="bold">成绩导出</span></button>
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        @{
+                            <th class="text-center">序号</th>
+                            if (ViewData["UserType"].ToString() == "1")
+                            {
+                            <th class="text-center">所属院校</th>
+                            }
+                            <th class="text-center">所属班级</th>
+                            
+                            //管理员
+                            if (ViewData["UserType"].ToString() == "1")
+                            {
+                            <th class="text-center">班级教师</th>
+                            }
+                            
+                            <th class="text-center">学生账号</th>
+                            <th class="text-center">学生姓名</th>
+                           
+                            <th class="text-center">货币知识</th>
+                            <th class="text-center">手工点钞</th>
+                            <th class="text-center">复核报表</th>
+                            <th class="text-center">单据录入</th>
+                          
+                            <th class="text-center" onclick="ResultDesc()" style="cursor: pointer;">总分↑↓</th>
+                        
+                        }
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                </tbody>
+            </table>
+        </div>
+
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+
+    </div>
+</div>
+<a id='downFile' href="" style="display: none"><span id='tf'></span></a>
+<input type="hidden" id="UserTypeID"  value="@ViewData["UserType"]"/>
+<script src="~/Areas/Admin/Scripts/PersonalTotalScore/Index.js"></script>

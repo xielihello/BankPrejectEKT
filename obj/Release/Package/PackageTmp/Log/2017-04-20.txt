@@ -1,0 +1,10 @@
+ Log Entry : 
+04/20/2017 15:15:15
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492672515522. Error Message:列名 'QuestionBId' 无效。
+列名 'QuestionBId' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/20/2017 15:15:19
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492672515522. Error Message:列名 'QuestionBId' 无效。
+列名 'QuestionBId' 无效。,详细错误信息：
+__________________________

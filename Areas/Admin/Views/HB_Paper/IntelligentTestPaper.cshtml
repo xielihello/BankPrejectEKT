@@ -1,0 +1,181 @@
+﻿@{
+    ViewData["nvc"] = "试卷管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style type="text/css">
+    .input_bottom { display: initial; border: none; border-bottom: 2px solid #1ab394; }
+</style>
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>智能组卷</h3>
+    <div class="ibox-content">
+        <!--内容开始-->
+        <div class="row">
+
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试卷名称：</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control input_bottom" id="AddP_Name" name="AddP_Name" placeholder="请输入试卷名称">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>组卷顺序：</label>
+                        <div class="col-sm-10">
+                            <div style="text-align: left;" class=" control-label">
+                                <span>是否打乱同一题型下的试题顺序：</span>
+                                <span class="m-r-xs">
+                                    <input type="radio" class="i-checks" name="IsOrder" id="P_IsOrderA" checked="checked" value="1"></span>是		
+                       <span class="m-l-md"><span class="m-r-xs">
+                           <input type="radio" class="i-checks" name="IsOrder" id="P_IsOrderB" value="0"></span>否</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--组卷规则字段开始-->
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>组卷规则：</label>
+                        <div class="col-sm-10">
+
+                            @{
+                                //管理员
+                                if (ViewData["UserType"].ToString() == "1")
+                                { 
+                                <div class="m-t-sm text-danger">
+                                    未被使用题目指在其他试卷中未出现过该题目，以下题量统计以系统题目为准。
+
+                                </div>
+                                }
+                                else
+                                {
+                                <div class="m-t-sm text-danger">
+                                    未被使用题目指在其他试卷中未出现过该题目。
+
+                                </div>
+                                }
+                            }
+
+                            <div class="m-t-sm">
+                                单选题 <span class="font-bold text-success" id="TNum1">0</span> 道，其中有
+                                
+                                <span class="font-bold text-navy" id="TNoUseNum1">0</span> 道题目未被使用，随机抽取题目共
+                                <input class="form-control  input_bottom" id="ExtractTNum1" onkeyup="DQcheckeNum('1')" style="width: 60px;" type="text" value="" />道，
+								其中未被使用题目
+                                <input class="form-control  input_bottom" id="NoUseExtractTNum1" onkeyup="DQNoUsechekceNum('1')" style="width: 60px;" type="text" value="" />道，
+							    每道<input class="form-control ml10 mr10 input_bottom" id="STScores1" onkeyup="DQcheckeScores('1')" style="width: 60px;" type="text" value="" />
+                                分，共计 <span class="font-bold text-navy" id="ZGSTS1">0</span> 分；
+											
+                            </div>
+                            <div class="m-t-sm">
+                                多选题 <span class="font-bold text-success" id="TNum2">0</span> 道，其中有
+                                
+                                <span class="font-bold text-navy" id="TNoUseNum2">0</span> 道题目未被使用，随机抽取题目共
+                                <input class="form-control  input_bottom" id="ExtractTNum2" onkeyup="DQcheckeNum('2')" style="width: 60px;" type="text" value="" />道，
+								其中未被使用题目
+                                <input class="form-control  input_bottom" id="NoUseExtractTNum2" onkeyup="DQNoUsechekceNum('2')" style="width: 60px;" type="text" value="" />道，
+							    每道<input class="form-control ml10 mr10 input_bottom" id="STScores2" onkeyup="DQcheckeScores('2')" style="width: 60px;" type="text" value="" />
+                                分，共计 <span class="font-bold text-navy" id="ZGSTS2">0</span> 分；
+								
+                            </div>
+                            <div class="m-t-sm">
+                                判断题 <span class="font-bold text-success" id="TNum3">0</span> 道，其中有
+                                
+                                <span class="font-bold text-navy" id="TNoUseNum3">0</span> 道题目未被使用，随机抽取题目共
+                                <input class="form-control  input_bottom" id="ExtractTNum3" onkeyup="DQcheckeNum('3')" style="width: 60px;" type="text" value="" />道，
+								其中未被使用题目
+                                <input class="form-control  input_bottom" id="NoUseExtractTNum3" onkeyup="DQNoUsechekceNum('3')" style="width: 60px;" type="text" value="" />道，
+							    每道<input class="form-control ml10 mr10 input_bottom" id="STScores3" onkeyup="DQcheckeScores('3')" style="width: 60px;" type="text" value="" />
+                                分，共计 <span class="font-bold text-navy" id="ZGSTS3">0</span> 分；
+								
+                            </div>
+                            <div class="m-t-sm">
+                                填空题  <span class="font-bold text-success" id="TNum4">0</span> 道，其中有
+                                
+                                <span class="font-bold text-navy" id="TNoUseNum4">0</span> 道题目未被使用，随机抽取题目共
+                                <input class="form-control  input_bottom" id="ExtractTNum4" onkeyup="DQcheckeNum('4')" style="width: 60px;" type="text" value="" />道，
+								其中未被使用题目
+                                <input class="form-control  input_bottom" id="NoUseExtractTNum4" onkeyup="DQNoUsechekceNum('4')" style="width: 60px;" type="text" value="" />道，
+							    每道<input class="form-control ml10 mr10 input_bottom" id="STScores4" onkeyup="DQcheckeScores('4')" style="width: 60px;" type="text" value="" />
+                                分，共计 <span class="font-bold text-navy" id="ZGSTS4">0</span> 分；
+									
+                            </div>
+                            <div class="m-t-sm">
+                                简答题  <span class="font-bold text-success" id="TNum5">0</span> 道，其中有
+                                
+                                <span class="font-bold text-navy" id="TNoUseNum5">0</span> 道题目未被使用，随机抽取题目共
+                                <input class="form-control  input_bottom" id="ExtractTNum5" onkeyup="DQcheckeNum('5')" style="width: 60px;" type="text" value="" />道，
+								其中未被使用题目
+                                <input class="form-control  input_bottom" id="NoUseExtractTNum5" onkeyup="DQNoUsechekceNum('5')" style="width: 60px;" type="text" value="" />道，
+							    每道<input class="form-control ml10 mr10 input_bottom" id="STScores5" onkeyup="DQcheckeScores('5')" style="width: 60px;" type="text" value="" />
+                                分，共计 <span class="font-bold text-navy" id="ZGSTS5">0</span> 分；
+									
+                            </div>
+
+                            <div class="m-t-sm">
+                                名词解释题 <span class="font-bold text-success" id="TNum6">0</span> 道，其中有
+                                
+                                <span class="font-bold text-navy" id="TNoUseNum6">0</span> 道题目未被使用，随机抽取题目共
+                                <input class="form-control  input_bottom" id="ExtractTNum6" onkeyup="DQcheckeNum('6')" style="width: 60px;" type="text" value="" />道，
+								其中未被使用题目
+                                <input class="form-control  input_bottom" id="NoUseExtractTNum6" onkeyup="DQNoUsechekceNum('6')" style="width: 60px;" type="text" value="" />道，
+							    每道<input class="form-control ml10 mr10 input_bottom" id="STScores6" onkeyup="DQcheckeScores('6')" style="width: 60px;" type="text" value="" />
+                                分，共计 <span class="font-bold text-navy" id="ZGSTS6">0</span> 分；
+									
+                            </div>
+
+                            <div class="m-t-sm">
+                                案例分析题 <span class="font-bold text-success" id="TNum7">0</span> 道，其中有
+                                
+                                <span class="font-bold text-navy" id="TNoUseNum7">0</span> 道题目未被使用，随机抽取题目共
+                                <input class="form-control  input_bottom" id="ExtractTNum7" onkeyup="DQcheckeNum('7')" style="width: 60px;" type="text" value="" />道，
+								其中未被使用题目
+                                <input class="form-control  input_bottom" id="NoUseExtractTNum7" onkeyup="DQNoUsechekceNum('7')" style="width: 60px;" type="text" value="" />道，
+							    每道<input class="form-control ml10 mr10 input_bottom" id="STScores7" onkeyup="DQcheckeScores('7')" style="width: 60px;" type="text" value="" />
+                                分，共计 <span class="font-bold text-navy" id="ZGSTS7">0</span> 分；
+									
+                            </div>
+                            <div class="m-t-sm">
+                                论述题 <span class="font-bold text-success" id="TNum8">0</span> 道，其中有
+                                
+                                <span class="font-bold text-navy" id="TNoUseNum8">0</span> 道题目未被使用，随机抽取题目共
+                                <input class="form-control  input_bottom" id="ExtractTNum8" onkeyup="DQcheckeNum('8')" style="width: 60px;" type="text" value="" />道，
+								其中未被使用题目
+                                <input class="form-control  input_bottom" id="NoUseExtractTNum8" onkeyup="DQNoUsechekceNum('8')" style="width: 60px;" type="text" value="" />道，
+							    每道<input class="form-control ml10 mr10 input_bottom" id="STScores8" onkeyup="DQcheckeScores('8')" style="width: 60px;" type="text" value="" />
+                                分，共计 <span class="font-bold text-navy" id="ZGSTS8">0</span> 分；
+										
+                            </div>
+
+
+
+                            <div class="m-t-sm font-bold ">
+                                共随机抽取: 		
+                                <span class="text-success m-l-sm m-r-sm">未被使用 <span id="ZGTNoUseNum">0</span></span>道，	
+                                <span class="text-success m-l-sm m-r-sm">重复题目 <span id="ZGTRepeatNum">0</span></span>道，	
+                                <span class="text-navy m-l-sm  m-r-sm">总计抽取 <span id="ZGExtractT">0</span></span>道，	
+                                <span class="text-navy m-l-sm  m-r-sm">总分 <span id="ZGScores">0</span></span>分，
+											
+                            </div>
+                        </div>
+                    </div>
+                    <!--组卷规则字段结束-->
+                </div>
+                <!--系统统一分隔符-->
+                <div class="hr-line-dashed"></div>
+                <div class="form-group m-t-md">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-w-m btn-success m-r-lg" onclick="EditBtnSubim()">保存</button>
+                        <button type="button" class="btn btn-w-m btn-default" onclick="EditFormRest()">返回</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <!--内容結束-->
+    </div>
+</div>
+
+<script src="~/Areas/Admin/Scripts/HB_Paper/IntelligentTestPaper.js"></script>

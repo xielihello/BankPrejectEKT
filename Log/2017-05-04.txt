@@ -1,0 +1,29 @@
+ Log Entry : 
+05/04/2017 14:33:19
+Error in: http://localhost:37713/Admin/SG_achievement/GetList?descby=TotalScore desc&E_Name=&E_Type=3&SchooId=0&TeamId=0&P_Kind=3&P_Custom2=&StudentInfo=&ScoreQJ=&PageSize=10&_=1493879597391. Error Message:列名 'Kind' 不明确。
+列名 'Kind' 不明确。,详细错误信息：
+__________________________
+ Log Entry : 
+05/04/2017 14:48:23
+Error in: http://localhost:37713/Admin/SG_achievement/GetList?descby=TotalScore desc&E_Name=&E_Type=3&SchooId=0&TeamId=0&P_Kind=3&P_Custom2=&StudentInfo=&ScoreQJ=&PageSize=10&_=1493880501173. Error Message:列名 'Kind' 不明确。
+列名 'Kind' 不明确。,详细错误信息：
+__________________________
+ Log Entry : 
+05/04/2017 14:48:24
+Error in: http://localhost:37713/Admin/SG_achievement/GetList?descby=TotalScore desc&E_Name=&E_Type=3&SchooId=0&TeamId=0&P_Kind=3&P_Custom2=&StudentInfo=&ScoreQJ=&PageSize=10&_=1493880501174. Error Message:列名 'Kind' 不明确。
+列名 'Kind' 不明确。,详细错误信息：
+__________________________
+ Log Entry : 
+05/04/2017 18:51:47
+Error in: http://localhost:37713/Admin/PersonalTotalScore/GetList?descby=Toscores desc&SchooId=0&TeamId=0&StudentInfo=&ScoreQJ=&sjly=&hbzs_selectId=0&sgdc_selectId=0&fhbb_selectId=0&djlr_selectId=0&PageSize=10&_=1493895107598. Error Message:列名 'TotalScore' 无效。
+列名 'TotalScore' 无效。
+列名 'TotalScore' 无效。
+列名 'TotalScore' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+05/04/2017 18:51:53
+Error in: http://localhost:37713/Admin/PersonalTotalScore/GetList?descby=Toscores desc&SchooId=0&TeamId=0&StudentInfo=&ScoreQJ=&sjly=&hbzs_selectId=0&sgdc_selectId=0&fhbb_selectId=0&djlr_selectId=0&PageSize=10&_=1493895107598. Error Message:列名 'TotalScore' 无效。
+列名 'TotalScore' 无效。
+列名 'TotalScore' 无效。
+列名 'TotalScore' 无效。,详细错误信息：
+__________________________

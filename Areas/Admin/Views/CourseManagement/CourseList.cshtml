@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "易考通";
+    ViewBag.nvc = "课程管理";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>课程管理</h3>
+    <div class="ibox-content">
+        <div class="row form-horizontal">
+            <div class=" col-lg-12 col-md-12 col-sm-12">
+                <div class="input-group col-sm-4">
+                    <input type="text" id="Name" name="Name" maxlength="80" placeholder="请输入课程名称" autocomplete="off" class="form-control">
+                    <span class="input-group-btn">
+                        <button type="button" id="Query" class="btn  btn-primary">搜索</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+        <div class="row">
+            <div class="pull-right">
+                <a href="@Url.Action("CourseManagement", "CourseManagement")" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i><span class="bold">添加课程</span></a>
+                <button onclick="Dele();" type="button" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i><span class="bold">删除</span></button>
+                <button onclick="Enable(0,0);" type="button" class="btn btn-success btn-sm"><span class="bold">启用</span></button>
+                <button onclick="Disable(0,0);" type="button" class="btn btn-danger btn-sm"><span class="bold">禁用</span></button>
+            </div>
+        </div>
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">
+                            <input type="Checkbox" class="i-checks checkbox-all">
+                        </th>
+                        <th class="text-center">课程名称</th>
+                        <th class="text-center">上传人</th>
+                        <th class="text-center">上传时间</th>
+                        <th class="text-center">权限状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="table"></tbody>
+            </table>
+        </div>
+
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+    </div>
+</div>
+<script src="~/Areas/Admin/Scripts/CourseManagement/CourseList.js"></script>

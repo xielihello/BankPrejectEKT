@@ -1,0 +1,15 @@
+ Log Entry : 
+04/07/2017 14:52:40
+Error in: http://localhost:37713/Admin/FH_ReportForm/GetTestPaperList?TestPaperName=&Kind=0&AddOperator=&PageSize=10&_=1491547959814. Error Message:列名 'IsDelete' 无效。
+列名 'IsDelete' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/07/2017 14:52:41
+Error in: http://localhost:37713/Admin/FH_ReportForm/GetTestPaperList?TestPaperName=&Kind=0&AddOperator=&PageSize=10&_=1491547961469. Error Message:列名 'IsDelete' 无效。
+列名 'IsDelete' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/07/2017 14:52:58
+Error in: http://localhost:37713/Admin/FH_ReportForm/GetTestPaperList?TestPaperName=&Kind=0&AddOperator=&PageSize=10&_=1491547961469. Error Message:列名 'IsDelete' 无效。
+列名 'IsDelete' 无效。,详细错误信息：
+__________________________

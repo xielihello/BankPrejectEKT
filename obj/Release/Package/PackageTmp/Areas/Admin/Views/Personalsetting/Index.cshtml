@@ -1,0 +1,628 @@
+﻿@{
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    ViewData["nvc"] = "个人中心";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style type="text/css">
+    .action {
+        width: 400px;
+        height: 30px;
+        margin: 10px 0;
+    }
+
+    .imageBox {
+        position: relative;
+        height: 400px;
+        width: 400px;
+        border: 1px solid #aaa;
+        background: #fff;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        cursor: move;
+        box-shadow: 4px 4px 12px #B0B0B0;
+    }
+
+        .imageBox .thumbBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            margin-top: -100px;
+            margin-left: -100px;
+            box-sizing: border-box;
+            border: 1px solid rgb(102, 102, 102);
+            box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+            background: none repeat scroll 0% 0% transparent;
+        }
+
+        .imageBox .spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            text-align: center;
+            line-height: 400px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+    .Btnsty_peyton {
+        float: right;
+        width: 66px;
+        display: inline-block;
+        margin-bottom: 10px;
+        height: 57px;
+        line-height: 57px;
+        font-size: 20px;
+        color: #FFFFFF;
+        margin: 0px 2px;
+        background-color: #f38e81;
+        border-radius: 3px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: 0px 0px 5px #B0B0B0;
+        border: 0px #fff solid;
+    }
+    /*选择文件上传*/
+
+    .new-contentarea {
+        width: 165px;
+        overflow: hidden;
+        margin: 0 auto;
+        position: relative;
+        float: left;
+    }
+
+        .new-contentarea label {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .new-contentarea input[type=file] {
+            width: 188px;
+            height: 60px;
+            background: #333;
+            margin: 0 auto;
+            position: absolute;
+            right: 50%;
+            margin-right: -94px;
+            top: 0;
+            right /*\**/
+            : 0px\9;
+            margin-right /*\**/
+            : 0px\9;
+            width /*\**/
+            : 10px\9;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            z-index: 2;
+        }
+
+    a.upload-img {
+        width: 165px;
+        display: inline-block;
+        margin-bottom: 10px;
+        height: 57px;
+        line-height: 57px;
+        font-size: 20px;
+        color: #FFFFFF;
+        background-color: #f38e81;
+        border-radius: 3px;
+        text-decoration: none;
+        cursor: pointer;
+        border: 0px #fff solid;
+        box-shadow: 0px 0px 5px #B0B0B0;
+    }
+
+        a.upload-img:hover {
+            background-color: #ec7e70;
+        }
+
+    .tc {
+        text-align: center;
+    }
+</style>
+@{
+    var m = Session["UserInfo"] as VocationalProject_Models.tb_UserInfo;
+        
+}
+<div id="wrapper">
+    <div class="row  border-bottom white-bg dashboard-header">
+        <h3>个人资料</h3>
+        @* <img id="img_id" src="" />*@
+        <div class="ibox-content">
+            @{
+                //管理员查询条件
+                if (ViewData["UserType"].ToString() == "1")
+                {
+                <form class="form-horizontal" name="signupForm" id="signupForm">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label m-t-lg">用户头像：</label>
+                            <div class="col-sm-10">
+                                <div id="addimg" class="cropped">
+                                    <img id="use_img" src="@(!string.IsNullOrEmpty(m.UserPic) ? m.UserPic : "/img/profile_s.jpg")" style="width: 180px; height: 180px; margin-top: 4px; border-radius: 180px; box-shadow: 0px 0px 12px #7E7E7E;" class="img-circle" alt="">
+                                </div>
+                                <input type="hidden" id="ImgUrl" name="ImaUrl" value="" />
+                                <input type="file" name="File_Send" value="" style="display: none" id="File_Send" onchange="javascript:setImagePreview('');" />
+                                <a href="javascript:void(0);" onclick="change_use();" class="btn btn-warning form-group_but m-l-lg m-t-sm">上传头像</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">账号：</label>
+                            <div class="col-sm-10">
+                                <label id="Accounts" class="control-label">13949103663</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">姓名：</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" id="Uname" class="form-control" placeholder="如：程浩">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="box-footer">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <a onclick="update();" class="btn btn-info form-group_but">保存修改</a>
+                                    <a onclick="change_pass();" class="btn btn-warning form-group_but">修改密码</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                }
+                else
+                {
+                <form class="form-horizontal" name="signupForm" id="signupForm">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label m-t-lg">用户头像：</label>
+                            <div class="col-sm-10">
+                                <div id="addimg" class="cropped">
+                                    <img id="use_img" src="@(!string.IsNullOrEmpty(m.UserPic) ? m.UserPic : "/img/profile_s.jpg")" style="width: 180px; height: 180px; margin-top: 4px; border-radius: 180px; box-shadow: 0px 0px 12px #7E7E7E;" class="img-circle" alt="">
+                                </div>
+                                <input type="hidden" id="ImgUrl" name="ImaUrl" value="" />
+                                <input type="file" name="File_Send" value="" style="display: none" id="File_Send" onchange="javascript:setImagePreview('');" />
+                                <a href="javascript:void(0);" onclick="change_use();" class="btn btn-warning form-group_but m-l-lg m-t-sm">上传头像</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">姓名：</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" id="Uname1" class="form-control" placeholder="张三">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">性别：</label>
+                            <div class="col-sm-10">
+                                <input type="radio" name="use" class="" id="nan" value="" /><label class="control-label m-l-sm m-r-lg">男</label>
+                                <input type="radio" name="use" class="" id="nv" value="" /><label class="control-label m-l-sm">女</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">移动电话：</label>
+                            <div class="col-sm-4">
+                                <input type="text" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" id="phone" class="form-control" placeholder="12345678978">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">个人邮箱：</label>
+                            <div class="col-sm-4">
+                                <input type="email" id="email" class="form-control" placeholder="123456789@qq.com">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="box-footer">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <a onclick="update1();" class="btn btn-info form-group_but">保存修改</a>
+                                    <a onclick="change_pass();" class="btn btn-warning form-group_but">修改密码</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                }
+            }
+        </div>
+    </div>
+   
+
+
+</div>
+<div id="change_pass" style="display: none;">
+    <div class="box-body ">
+        <div class="col-sm-12 m-t-lg ">
+            <form class="form-horizontal ">
+                <div class="form-group ">
+                    <label for="inputEmail3 " class="col-sm-4 control-label ">登录账号：</label>
+                    <div class="col-sm-8">
+                        <label id="Accounts1" class="control-label">T00001</label>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label for="inputEmail3 " class="col-sm-4 control-label ">旧密码：</label>
+                    <div class="col-sm-8">
+                        <label id="Upwd1" class="control-label">T00001</label>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label for="inputEmail3 " class="col-sm-4 control-label ">新密码：</label>
+                    <div class="col-sm-8">
+                        <input type="text" maxlength="18" class="form-control mr30 " onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" id="Upwd2" placeholder="密码最大长度为18位 ">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label for="inputEmail3 " class="col-sm-4 control-label ">确认密码：</label>
+                    <div class="col-sm-8">
+                        <input type="text" maxlength="18" class="form-control mr30 " onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" id="Upwd3" placeholder="密码最大长度为18位">
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div id="change_use" style="display: none;">
+    <div class="box-body ">
+        <div class="col-sm-12 m-t-lg ">
+            <div style="margin: auto; width: 400px;">
+
+                <div class="imageBox">
+                    <div class="thumbBox"></div>
+                    <div class="spinner" style="display: none">Loading...</div>
+                </div>
+                <div class="action">
+                    <!-- <input type="file" id="file" style=" width: 200px">-->
+                    <div class="new-contentarea tc">
+                        <a href="javascript:void(0)" class="upload-img">
+                            <label for="upload-file">选择图像</label>
+                        </a>
+                        <input type="file" class="" name="upload-file" id="upload-file" />
+                    </div>
+                    <input type="button" id="btnCrop" class="Btnsty_peyton" value="保存">
+                    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+">
+                    <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/cropbox.js"></script>
+<script type="text/javascript">
+    //radio选中样式
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    });
+    //修改密码
+    function change_pass() {
+        layer.open({
+            title: '修改密码',
+            btn: ['确定', '取消'],
+            area: ['400px', '340px'],
+            type: 1,
+            skin: 'layui-layer-lan', //样式类名
+            closeBtn: 1, //显示关闭按钮
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            content: $("#change_pass"),
+            yes: function () {
+                // alert("aa");
+                debugger;
+                if (Upwd == $("#Upwd1").text()) {
+                    if ($("#Upwd1").text() != $("#Upwd2").val()) {
+                        if ($("#Upwd2").val() == $("#Upwd3").val()) {
+                            var UId = $("#Accounts1").text();
+                            var UPwd = $("#Upwd2").val();
+                            $.ajax({
+                                url: '/Ashx/Admininfo.ashx?action=UpdateP&UID=' + UId + '&UPwd=' + UPwd,
+                                type: 'POST',
+                                dataType: 'text',
+                                async: false,
+                                success: function (data) {
+                                    var data = eval('(' + data + ')');
+                                    if (data.length != 0) {
+                                        layer.alert('密码修改成功,请重新登录！', {
+                                            closeBtn: 0
+                                        }, function () {
+                                            $("form[name='myUserExit']").submit();
+                                        });
+                                    }
+                                    else {
+                                        layer.alert('密码修改失败,请正确填写！')
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            layer.alert("新密码密码与确定密码不一致！")
+                        }
+                    }
+                    else {
+                        layer.alert("新密码密码不可以与旧密码相同！")
+                    }
+                }
+                else {
+                    layer.alert("旧密码不正确！")
+                }
+            },
+            btn2: function () {
+                // alert("bb");
+            }
+        });
+    };
+    //上传头像弹窗区域
+    function change_use() {
+        layer.open({
+            title: '上传头像',
+            area: ['500px', '550px'],
+            offset: ['5vmin'],
+            type: 1,
+            skin: 'layui-layer-lan', //样式类名
+            closeBtn: 1, //显示关闭按钮
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            content: $("#change_use")
+        });
+    }
+    //教师修改信息
+    function update1() {
+        debugger;
+        //    var img=document.getElementById("use_img").src;
+
+        var name = $("#Uname1").val();
+        var sex = "";
+        if (document.getElementById("nan").checked) {
+            sex = "男"
+        }
+        if (document.getElementById("nv").checked) {
+            sex = "女";
+        }
+        if (diyImg == 1) {
+            var img = document.getElementById("use_img").src;
+            $("#ImgUrl").val(img);
+            //sumitImageFile(img);
+            //return;
+        }
+        var UID = Uno;
+        var phone = $("#phone").val();
+        var email = $("#email").val();
+    //    alert($("#ImgUrl").val());
+        $('#signupForm').ajaxSubmit({
+            url: '/Ashx/Admininfo.ashx?action=updateinfo1&UId=' + UID + '&name=' + name + "&diyImg=" + diyImg + "&sex=" + sex + "&phone=" + phone + "&email=" + email,
+            type: 'POST',
+            dataType: 'text',
+            async: false,
+            data: { "ImgUrl": $("#ImgUrl").val() },
+            success: function (data) {
+                var url = data
+                window.parent.imgUrl(url, name);
+                layer.alert("修改成功！");
+                $.ajax({
+                    url: '/Admin/Personalsetting/updateinfo1',
+                    type: 'POST',
+                    dataType: 'text',
+                    async: false,
+                    data: { data: url, name: name },
+                    success: function (data) {
+                        var data = eval('(' + data + ')');
+                        if (data.length != 0) {
+                            debugger;
+                        }
+                    }
+                });
+            }
+        });
+    }
+    //管理员修改信息
+    function update() {
+        //  debugger;
+        //    var img=document.getElementById("use_img").src;
+        debugger;
+        var name = $("#Uname").val();
+        var UID = $("#Accounts").text();
+        if (diyImg == 1) {
+            var img = document.getElementById("use_img").src;
+            $("#ImgUrl").val(img);
+            //sumitImageFile(img);
+            //return;
+        }
+        $('#signupForm').ajaxSubmit({
+            url: '/Ashx/Admininfo.ashx?action=updateinfo&UId=' + UID + '&name=' + name + "&diyImg=" + diyImg,
+            type: 'POST',
+            dataType: 'text',
+            async: false,
+            data: { "ImgUrl": $("#ImgUrl").val() },
+            success: function (data) {
+                debugger;
+                var url = data
+                window.parent.imgUrl(url, name);
+                layer.alert("修改成功！");
+                $.ajax({
+                    url: '/Admin/Personalsetting/updateinfo',
+                    type: 'POST',
+                    dataType: 'text',
+                    async: false,
+                    data: { data: url, name: name },
+                    success: function (data) {
+                        var data = eval('(' + data + ')');
+                        if (data.length != 0) {
+                            debugger;
+                        }
+                    }
+                });
+            }
+        });
+    }
+    function clickaddimg() {
+        $('#File_Send').click();
+    }
+
+    function setImagePreview() {
+        //  alert("a");
+        debugger;
+        $("#addimg").html('<img src="/img/xguse.png" onclick="clickaddimg()" style="width: 180px;height:180px; margin-top: 4px; border-radius: 180px; box-shadow: 0px 0px 12px #7E7E7E;" id="preview" />');
+        //选择图片后直接显示
+        //  alert($("#addimg").html())
+        var docObj = document.getElementById("File_Send");
+        var imgObjPreview = document.getElementById("preview");
+        if (docObj.files && docObj.files[0]) {
+            var f = docObj.files;
+            var imgtype = f[0].name;//获取文件名
+            //判断只能设置图片
+            var exp = /.jpg$|.gif$|.png$|.bmp$/;
+            if (exp.exec(imgtype) == null) {
+                layer.alert('图片格式不正确！', {
+                    skin: 'layui-layer-red', closeBtn: 0
+                });
+                return false;
+            }
+            imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);
+            diyImg = 1;
+        }
+        return true;
+    }
+    var Upwd;  //用户密码
+    var Uno = "";
+    var diyImg = 0;
+    //头像上传插件开始
+    $(function () {
+        debugger;
+        var options = {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: '/img/profile_s.jpg'
+        }
+        var cropper = $('.imageBox').cropbox(options);
+        $('#upload-file').on('change', function () {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                options.imgSrc = e.target.result;
+                cropper = $('.imageBox').cropbox(options);
+            }
+            reader.readAsDataURL(this.files[0]);
+            //this.files = [];
+        })
+        $('#btnCrop').on('click', function () {
+            debugger;
+            var img = cropper.getDataURL();
+            if (img != 0) { //判断是否选择图片
+                $("#use_img").attr("src", img);
+                diyImg = 1;
+                layer.closeAll();
+            } else {
+                alert("没有选择图片");
+            }
+        })
+        $('#btnZoomIn').on('click', function () {
+            cropper.zoomIn();
+        })
+        $('#btnZoomOut').on('click', function () {
+            cropper.zoomOut();
+        })
+        $.ajax({
+            //  url: '/Ashx/Admininfo.ashx?action=loadinfo',
+            url: '/Admin/Personalsetting/loadinfo',
+            type: 'POST',
+            dataType: 'text',
+            async: false,
+            success: function (data) {
+                var data = eval('(' + data + ')');
+                if (data.length != 0) {
+                    debugger;
+                    //  $("#use_img").src(data[0]["UserPic"]);
+                    $("#use_img").attr("src", data[0]["UserPic"]);
+                    $("#Accounts").html(data[0]["UserNo"]);
+                    $("#Uname").val(data[0]["UserName"]);
+                    $("#Upwd1").html(data[0]["UserPwd"]);
+                    $("#Accounts1").html(data[0]["UserNo"]);
+                    Uno = data[0]["UserNo"];
+                    
+                    if (data[0]["UserPic"] == null || data[0]["UserPic"] == "null") {
+                        $("#use_img").attr("src", "/img/profile_s.jpg");
+                    } else {
+                        $("#use_img").attr("src", data[0]["UserPic"]);
+                    }
+                    $("#Uname1").val(data[0]["UserName"]);
+                    if (data[0]["UserSex"] == "男") {
+                        document.getElementById("nan").checked = true;
+                    }
+                    if (data[0]["UserSex"] == "女") {
+                        document.getElementById("nv").checked = true;
+                    }
+                    $("#phone").val(data[0]["UserPhone"]);
+                    $("#email").val(data[0]["UserEmail"]);
+                }
+            }
+        });
+    })
+
+    ///base 64  解码
+    function sumitImageFile(base64Codes) {
+        debugger;
+        var name = $("#Uname").val();
+        var UID = $("#Accounts").text();
+        var form = document.forms[0];
+        var formData = new FormData(form);   //这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数  
+        var url = $("#use_img")[0].src;
+        alert(url);
+        $("#img_id").attr("src", url);
+        return;
+        //convertBase64UrlToBlob函数是将base64编码转换为Blob  
+        formData.append("imageName", convertBase64UrlToBlob(base64Codes));  //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同  
+
+        //ajax 提交form  
+        $.ajax({
+            url: '/Ashx/Admininfo.ashx?action=updateinfo&UId=' + UID + '&name=' + name + "&diyImg=" + diyImg,
+            type: "POST",
+            data: formData,
+            dataType: "text",
+            processData: false,         // 告诉jQuery不要去处理发送的数据  
+            contentType: false,        // 告诉jQuery不要去设置Content-Type请求头  
+
+            success: function (data) {
+                window.location.href = "${ctx}" + data;
+            },
+            xhr: function () {            //在jquery函数中直接使用ajax的XMLHttpRequest对象  
+                var xhr = new XMLHttpRequest();
+
+                xhr.upload.addEventListener("progress", function (evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                        console.log("正在提交." + percentComplete.toString() + '%');        //在控制台打印上传进度  
+                    }
+                }, false);
+
+                return xhr;
+            }
+
+        });
+    }
+    function convertBase64UrlToBlob(urlData) {
+
+        var bytes = window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte  
+
+        //处理异常,将ascii码小于0的转换为大于0  
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i);
+        }
+
+        return new Blob([ab], { type: 'image/png' });
+    }
+</script>

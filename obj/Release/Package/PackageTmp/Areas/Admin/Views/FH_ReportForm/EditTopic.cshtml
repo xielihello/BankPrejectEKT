@@ -1,0 +1,929 @@
+﻿@{
+    ViewData["nvc"] = "复核题目管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+     .tb_tbody input {
+        width: 85%;
+        border-left: 0px;
+        border-top: 0px;
+        border-right: 0px;
+        /*border-bottom:0px*/
+    }
+
+    #tb_tbody input {
+        width: 85%;
+        text-align: center;
+        border-left: 0px;
+        border-top: 0px;
+        border-right: 0px;
+        /*border-bottom:0px*/
+    }
+     #tb_tbody input[readonly="true"] {
+        width: 85%;
+        text-align: right;
+        border-left: 0px;
+        border-top: 0px;
+        border-right: 0px;
+        border-bottom:0px
+        
+
+    } 
+    #tb_tbody input[readonly="true"]:focus {
+        outline: none;
+        border: none;
+        border-bottom: none;
+    }
+    /*#tb_tbody label {
+       font-weight:initial;
+    }*/
+    #tb_tbody .col-sm-22 {
+        font-weight: initial;
+    }
+
+    #tb_tbody tr {
+        text-align: right;
+    }
+
+        #tb_tbody tr td {
+            padding-bottom: 0px;
+        }
+
+    #Add table {
+        margin: 5px;
+        width: 90%;
+    }
+    #Add .table-responsive {
+       text-align:-webkit-center;
+    }  
+    #Add .table-responsive hr{
+        width: 90%;
+        height:2px;
+        border:none;
+        border-top:2px solid #555555;
+    }  
+    #Add .table-responsive .dw{
+        width: 90%;
+       text-align:right;
+    }  
+    #Add .table-responsive .dw label{
+        margin-right:10px;
+    }  
+
+    #tb_tbody input:focus {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #0288d1;
+    }
+    .td_bj {
+        background-color: #c1dcd7;
+    }
+</style>
+<div class="row  border-bottom white-bg dashboard-header">
+    @if (@ViewData["Id"] == null)
+        { 
+        <h3>新增题目</h3>
+        }
+        else
+        {
+        <h3>编辑题目</h3>
+        }
+    
+    
+<div class="form-inline" id="Add">  
+    <form id="Addform">
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-2 control-label"><span style="color: red;">*</span>题目标题：</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="EditTitle" name="EditTitle" placeholder="">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-2 control-label"><span style="color: red;">*</span>内容编辑：</label>
+                <div class="col-sm-20">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-1 control-label"></label>
+                <div class="col-sm-22" style="color: red; padding-top: 5px;">
+                    系统将根据您填写的资产负债表数据自动生成题目信息，同时，您输入的数据将作为关键字对学生进行考核！
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <h2 class="col-sm-12 text-center font-bold ">资  产  负  债  表</h2>
+            </div>
+        </div> 
+        <div class="col-sm-12 text-center"> 
+            <div class="row m-t-sm table-responsive" > 
+                <hr  />
+                <div class="dw"><label>单位：元</label></div>
+                <table class="table text-center table-bordered " >
+                    <thead>
+                        <tr>
+                            <th class="text-center">资产</th>
+                            <th class="text-center">行次</th>
+                            <th class="text-center">期末余额</th>
+                            <th class="text-center">期初余额</th>
+                            <th class="text-center">负债和所有者权益（或股东权益）</th>
+                            <th class="text-center">行次</th>
+                            <th class="text-center">期末余额</th>
+                            <th class="text-center">期初余额</th>
+                        </tr>
+                    </thead>
+                    <tbody class="new_table text-center" id="tb_tbody">
+                        <tr>
+                            <td class="td_bj">
+                                <label>流动资产：</label>
+                            </td>
+                            <td>
+                                <label></label>
+                            </td>
+                            <td>
+                                <label></label>
+                            </td>
+                            <td>
+                                <label></label>
+                            </td>
+                            <td class="td_bj">
+                                <label>流动负债：</label>
+                            </td>
+                            <td>
+                                <label></label>
+                            </td>
+                            <td>
+                                <label></label>
+                            </td>
+                            <td>
+                                <label></label>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td class="true" data-lind="1">
+                                <label class="col-sm-22">货币资金</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">1</label>
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16" oninput="jsVerification(this)" id="1qm"  value="" />
+                            </td>
+                            <td>
+                                <input type="text"  maxlength="16"  oninput="jsVerification(this)" id="1qc" value="" />
+                            </td>
+                            <td class="true" data-lind="31">
+                                <label class="col-sm-22">短期借款</label>
+                            </td>
+                            <td >
+                                <label class="col-sm-22">31</label>
+                            </td>
+                            <td>
+                                <input type="text"  maxlength="16"  value=""  oninput="jsVerification(this)" id="31qm" />
+                            </td>
+                            <td>
+                                <input type="text"  maxlength="16" value=""  oninput="jsVerification(this)" id="31qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="2">
+                                <label class="col-sm-22">短期投资</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">2</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="2qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="2qc" />
+                            </td>
+                            <td class="true" data-lind="32">
+                                <label class="col-sm-22">应付票据</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">32</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="32qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="32qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="true" data-lind="3">
+                                <label class="col-sm-22">应收票据</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">3</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="3qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="3qc" />
+                            </td>
+                            <td class="true" data-lind="33">
+                                <label class="col-sm-22">应付账款</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">33</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="33qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="33qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="true" data-lind="4">
+                                <label class="col-sm-22">应收账款</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">4</label>
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="4qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="4qc" />
+                            </td>
+                            <td class="true" data-lind="34">
+                                <label class="col-sm-22">预收账款</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">34</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="34qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="34qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="true" data-lind="5">
+                                <label class="col-sm-22">预付账款</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">5</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="5qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="5qc" />
+                            </td>
+                            <td class="true" data-lind="35">
+                                <label class="col-sm-22">应付职工薪酬</label>
+                            </td>
+                            <td >
+                                <label class="col-sm-22">35</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="35qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="35qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="6">
+                                <label class="col-sm-22">应收股利</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">6</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="6qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="6qc" />
+                            </td>
+                            <td  class="true" data-lind="36">
+                                <label class="col-sm-22">应交税费</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">36</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="36qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="36qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="7">
+                                <label class="col-sm-22">应收利息</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">7</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="7qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="7qc" />
+                            </td>
+                            <td  class="true" data-lind="37">
+                                <label class="col-sm-22">应付利息</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">37</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="37qm" >
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="37qc" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="8">
+                                <label class="col-sm-22">其他应收款</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">8</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="8qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="8qc" />
+                            </td>
+                            <td  class="true" data-lind="38">
+                                <label class="col-sm-22">应付利润</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">38</label>
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="38qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="38qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="9">
+                                <label class="col-sm-22">存货</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">9</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="9qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="9qc" />
+                            </td>
+                            <td  class="true" data-lind="39">
+                                <label class="col-sm-22">其他应付款</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">39</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="39qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="39qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="10">
+                                <label class="col-sm-22">其中：原材料</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">10</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="10qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="10qc" />
+                            </td>
+                            <td  class="true" data-lind="40">
+                                <label class="col-sm-22">其他流动负债</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">40</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="40qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="40qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="11">
+                                <label class="col-sm-22">在产品</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">11</label>
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16"  oninput="jsVerification(this)" id="11qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"   oninput="jsVerification(this)" id="11qc" />
+                            </td>
+                            <td class="true td_bj" data-lind="41">
+                                <label>流动负债合计</label>
+                            </td>
+                            <td>
+                                <label>41</label>
+                            </td>
+                            <td class="total">
+                                <input type="text" id="41qm" readonly="true" maxlength="16"   value="0.00" />
+                            </td>
+                            <td class="total">
+                                <input type="text" id="41qc" readonly="true" maxlength="16"   value="0.00" /> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="12">
+                                <label class="col-sm-22">库存商品</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">12</label>
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  value="" oninput="jsVerification(this)" id="12qm" />
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  value="" oninput="jsVerification(this)" id="12qc" />
+                            </td>
+                            <td class="td_bj">
+                                <label>非流动负债：</label>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="13">
+                                <label class="col-sm-22">周转材料</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">13</label>
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16" oninput="jsVerification(this)" id="13qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="13qc" />
+                            </td>
+                            <td  class="true" data-lind="42">
+                                <label class="col-sm-22">长期借款</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">42</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="42qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16" oninput="jsVerification(this)" id="42qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="14">
+                                <label class="col-sm-22">其他流动资产</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">14</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="14qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="14qc" />
+                            </td>
+                            <td  class="true" data-lind="43">
+                                <label class="col-sm-22">长期应付款</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">43</label>
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16" oninput="jsVerification(this)" id="43qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="43qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="true td_bj" data-lind="15">
+                                <label>流动资产合计</label>
+                            </td>
+                            <td>
+                                <label>15</label>
+                            </td>
+                            <td class="total">
+                                <input type="text" id="15qm" maxlength="16"  readonly="true"  value="0.00" />  
+                            </td>
+                            <td class="total">
+                                <input type="text" id="15qc" maxlength="16"  readonly="true"  value="0.00" />  
+                            </td>
+                            <td  class="true" data-lind="44">
+                                <label class="col-sm-22">递延收益</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">44</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="44qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="44qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <label class="col-sm-22">非流动资产：</label>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td  class="true" data-lind="45">
+                                <label class="col-sm-22">其他非流动负债</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">45</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="45qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="45qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="16">
+                                <label class="col-sm-22">长期债券投资</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">16</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="16qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="16qc" />
+                            </td>
+                            <td class="true td_bj" data-lind="46">
+                                <label>非流动负债合计</label>
+                            </td>
+                            <td>
+                                <label>46</label>
+                            </td>
+                            <td class="total">
+                                <input type="text" id="46qm" maxlength="16"  readonly="true"  value="0.00" />   
+                            </td>
+                            <td class="total">
+                                <input type="text" id="46qc" maxlength="16"  readonly="true"  value="0.00" />   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="17">
+                                <label class="col-sm-22">长期股权投资</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">17</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="17qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="17qc" />
+                            </td>
+                            <td class="true td_bj" data-lind="47">
+                                <label>负债合计</label>
+                            </td>
+                            <td>
+                                <label>47</label>
+                            </td>
+                            <td class="total">
+                                <input type="text" id="47qm" maxlength="16"  readonly="true"  value="0.00" />   
+                            </td>
+                            <td class="total">
+                                <input type="text" id="47qc"  maxlength="16" readonly="true"  value="0.00" />    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="18">
+                                <label class="col-sm-22">固定资产原价</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">18</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="18qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="18qc" />
+                            </td>
+                            <td class="td_bj">
+                                <label>所有者权益(或股东权益)：</label>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="19">
+                                <label class="col-sm-22">减：累计折旧</label>
+                            </td>
+                            <td >
+                                <label class="col-sm-22">19</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="19qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="19qc" />
+                            </td>
+                            <td  class="true" data-lind="48">
+                                <label class="col-sm-22">实收资本（或股本）</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">48</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="48qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="48qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="20">
+                                <label class="col-sm-22">固定资产账面价值</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">20</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="20qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="20qc" />
+                            </td>
+                            <td class="true" data-lind="49">
+                                <label class="col-sm-22">资本公积</label>
+                            </td>
+                            <td >
+                                <label class="col-sm-22">49</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="49qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="49qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="21">
+                                <label class="col-sm-22">在建工程</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">21</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="21qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="21qc" />
+                            </td>
+                            <td class="true" data-lind="50">
+                                <label class="col-sm-22">盈余公积</label>
+                            </td>
+                            <td >
+                                <label class="col-sm-22">50</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="50qm" />
+                            </td>
+                            <td>
+                                <input type="text" value=""  maxlength="16" oninput="jsVerification(this)" id="50qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="22">
+                                <label class="col-sm-22">工程物资</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">22</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="22qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="22qc" />
+                            </td>
+                            <td class="true" data-lind="51">
+                                <label class="col-sm-22">未分配利润</label>
+                            </td>
+                            <td >
+                                <label class="col-sm-22">51</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="51qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="51qc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="23">
+                                <label class="col-sm-22">固定资产清理</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">23</label>
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="23qm" />
+                            </td>
+                            <td>
+                                <input type="text" value="" maxlength="16"  oninput="jsVerification(this)" id="23qc" />
+                            </td>
+                            <td class="true td_bj" data-lind="52">
+                                <label>所有者权益(或股东权益)合计</label>
+                            </td>
+                            <td>
+                                <label>52</label>
+                            </td>
+                            <td>
+                                <input type="text" id="52qm" maxlength="16"  readonly="true"  value="0.00" />    
+                            </td>
+                            <td>
+                                <input type="text" id="52qc" maxlength="16"  readonly="true"  value="0.00" />    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="24">
+                                <label class="col-sm-22">生产性生物资产</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">24</label>
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="24qm" value="" />
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="24qc" value="" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="25">
+                                <label class="col-sm-22">无形资产</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">25</label>
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="25qm" value="" />
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="25qc" value="" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="26">
+                                <label class="col-sm-22">开发支出</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">26</label>
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="26qm" value="" />
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="26qc" value="" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td  class="true" data-lind="27">
+                                <label class="col-sm-22">长期待摊费用</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">27</label>
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="27qm" value="" />
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="27qc" value="" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td  class="true " data-lind="28">
+                                <label class="col-sm-22">其他非流动资产</label>
+                            </td>
+                            <td>
+                                <label class="col-sm-22">28</label>
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="28qm" value="" />
+                            </td>
+                            <td>
+                                <input type="text" maxlength="16"  oninput="jsVerification(this)" id="28qc" value="" />
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="true td_bj" data-lind="29">
+                                <label>非流动资产合计</label>
+                            </td>
+                            <td>
+                                <label>29</label>
+                            </td>
+                            <td class="total">
+                                <input type="text" maxlength="16"  id="29qm" readonly="true"  value="0.00" />   
+                            </td>
+                            <td class="total">
+                                <input type="text" maxlength="16"  id="29qc" readonly="true"  value="0.00" />   
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="true td_bj" data-lind="30">
+                                <label>资产总计</label>
+                            </td>
+                            <td>
+                                <label>30</label>
+                            </td>
+                            <td class="total">
+                                <input type="text" maxlength="16"  id="30qm" readonly="true"  value="0.00" />  
+                            </td>
+                            <td class="total">
+                                <input type="text" maxlength="16"  id="30qc" readonly="true"  value="0.00" />  
+                            </td>
+                            <td class="true td_bj" data-lind="53">
+                                <label>负债和所有者权益(或股东权益)总计</label>
+                            </td>
+                            <td >
+                                <label>53</label>
+                            </td>
+                            <td class="total">
+                                <input type="text" maxlength="16"  id="53qm" readonly="true"  value="0.00" />  
+                            </td>
+                            <td class="total">
+                                <input type="text" maxlength="16"  id="53qc" readonly="true"  value="0.00" />  
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-12 text-center" style="margin-bottom: 20px;">
+            <div class="form-horizontal m-t-md m-b-sm">
+                <button type="button" class="btn btn-w-m btn-success" id="ebut" onclick="BtnSubim()">保存</button>&nbsp;
+                <button type="button" class="btn btn-w-m btn-white" onclick="jsReturn()">返回</button>
+            </div>
+        </div> 
+        </form>
+</div> 
+</div>
+
+<input type="hidden" value="@ViewData["Id"]" id="Id" />
+<input type="hidden" value="@ViewData["Titles"]" id="Title" />
+<input type="hidden" value="@ViewData["Type"]" id="Type" />
+<input type="hidden" value="@ViewData["IsType"]" id="IsType" />
+<script src="~/Areas/Admin/Scripts/FH_ReportForm/EditTopic.js"></script>
+
+

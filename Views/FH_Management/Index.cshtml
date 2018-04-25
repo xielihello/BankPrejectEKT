@@ -1,0 +1,193 @@
+﻿@{
+    ViewBag.Title = "易考通"; 
+    ViewData["nvc"] = "复核报表";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+ 
+<div class="stu_map">
+    <div class="stu_con">
+        <!--切换标签开始-->
+        <div class="tab1" id="tab1">
+            <div class="menu">
+                <ul>
+                    <li id="one1" class="li_lfet" onclick="setTab('one',1)">
+                        <img src="../img/student/itemtext.png" /></li>
+                    <li id="one2" class="li_right" onclick="setTab('one',2)">
+                        <img src="../img/student/itemtext1.png" /></li>
+
+                </ul>
+            </div>
+            <div class="menudiv">
+                <!-- 未完成赛项-->
+                <div id="con_one_1">
+                    <div class="row stu_screen">
+                        <div class="pull-right">
+                            <button class="btn btn-danger" type="button" onclick="searchinfo()">搜索</button>
+                        </div>
+                        <div class="pull-right" style="margin-right: 30px;">
+                            <select class="form-control" id="E_Type" name="E_Type">
+                                <option value="0">竞赛模式</option>
+                                <option value="2">考试模式</option>
+                                <option value="1">练习模式</option>
+                            </select>
+                        </div>
+
+                        <div class="pull-right" style="margin-right: 30px;">
+                            <input class="form-control " type="text" name="E_Name" id="E_Name" placeholder="请输入竞赛名称" />
+                        </div>
+                    </div>
+
+                    <!--赛项列表开始-->
+                    <div class="item_list_map" id="tablelist">
+                    </div>
+
+                    <!--分页开始-->
+                    <div class="stu_paging" id="PaginatorLibrary">
+                        <a>◀</a>
+                        <a>1</a>
+                        <a>2</a>
+                        <a>3</a>
+                        <a>5</a>
+                        <span>......</span>
+                        <a>28</a>
+                        <a>▶</a>
+                        <span>跳转到</span>
+                        <span>
+                            <input type="text" name="" id="" value="" /></span>
+                        <a>GO</a>
+
+                    </div>
+
+                </div>
+                <!-- 未完成赛项结束-->
+
+                <!-- 已完成赛项-->
+                <div id="con_one_2" style="display: none;">
+
+                    <div class="row stu_screen">
+                        <div class="pull-right">
+                            <button class="btn btn-danger" type="button" onclick="searchinfoTo()">搜索</button>
+                        </div>
+                        <div class="pull-right" style="margin-right: 30px;">
+                            <select class="form-control" id="E_TypeTo" name="E_TypeTo">
+                                <option value="0">竞赛模式</option>
+                                <option value="2">考试模式</option>
+                                <option value="1">练习模式</option>
+                            </select>
+                        </div>
+
+                        <div class="pull-right" style="margin-right: 30px;">
+                            <input class="form-control " type="text" name="E_NameTo" id="E_NameTo" placeholder="请输入竞赛名称" />
+                        </div>
+                    </div>
+
+                    <!--赛项列表开始-->
+                    <div class="item_list_map" id="tablelistTo">
+                        <div class="item_list_line">
+                            <img src="../img/student/iconew.jpg" />
+                            <div class="list_title">
+                                <a href="">2017货币识假任务1</a>
+                                <button class="btn_ph">排行榜</button>
+                                <button class="btn_look">查看明细</button>
+                                <button class="btn_go2">进入></button>
+                            </div>
+                            <div class="list_title_smal">
+                                <label>试卷类型：练习模式</label>
+                                <label>试卷总分：100分</label>
+                                <label>操作得分：50分 </label>
+                                <label>提交时间：2017-10-13 8:30 </label>
+                                <label>试卷有效时间：2017-10-13 8:30 —— 2017-10-13 8:30 </label>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <!--分页开始-->
+                    <div class="stu_paging" id="PaginatorLibrarys">
+                        <a>◀</a>
+                        <a>1</a>
+                        <a>2</a>
+                        <a>3</a>
+                        <a>5</a>
+                        <span>......</span>
+                        <a>28</a>
+                        <a>▶</a>
+                        <span>跳转到</span>
+                        <span>
+                            <input type="text" name="" id="" value="" /></span>
+                        <a>GO</a> 
+                    </div>
+                </div>
+                <!--	已完成赛项结束-->
+
+            </div>
+        </div>
+        <!--切换标签结束-->
+    </div>
+</div>
+<div id="ChartDiv">
+    <div style="margin: auto; width: 1200px; padding-top: 350px; padding-left: 50px; padding-right: 40px;" >
+        <div id="chart-personPK" style="width: 100%; height: 480px;"></div>
+        
+    </div>
+</div> 
+<div id="PHId" style="display: none;">
+    <div class="rank_tab" style="padding: 5px;">
+        <div class=" tab_map" style="border: none;" id="PHContent">
+            <div class="tc_rank_title">2017货币知识1</div>
+            <div class="rank_content" style="min-height: 300px;">
+                <table border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="50"><span class="rank_num">1</span>  </td>
+                        <td width="100">
+                            <div class="td_right">西门吹雪1</div>
+                        </td>
+                        <td>
+                            <div class="td_right">练习时长：00:20:11</div>
+                        </td>
+                        <td>
+                            <div class="td_right">得分：50</div>
+                        </td>
+                        <td>历史最高分：100</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank_num">2</span>  </td>
+                        <td>
+                            <div class="td_right">西门吹雪2</div>
+                        </td>
+                        <td>
+                            <div class="td_right">练习时长：00:20:11</div>
+                        </td>
+                        <td>
+                            <div class="td_right">得分：30</div>
+                        </td>
+                        <td>历史最高分：100</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank_num">3</span>  </td>
+                        <td>
+                            <div class="td_right">西门吹雪3</div>
+                        </td>
+                        <td>
+                            <div class="td_right">练习时长：00:20:11</div>
+                        </td>
+                        <td>
+                            <div class="td_right">得分：50</div>
+                        </td>
+                        <td>历史最高分：100</td>
+                    </tr>
+                </table>
+                <div class="rank_text">
+                    您的<span class="text_red">货币知识</span>排名为第<span class="text_red">14</span>名，
+							任务得分<span class="text_red">88</span>分，
+							距离上一名还差<span class="text_red">15</span>分！  继续加油！
+					
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/Scripts/FH_Management/Index.js"></script>

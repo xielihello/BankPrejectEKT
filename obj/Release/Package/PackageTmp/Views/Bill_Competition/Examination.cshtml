@@ -1,0 +1,170 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>典阅智慧财经综合技能竞赛平台</title>
+    <link href="~/CSS/bills.css" rel="stylesheet" />
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/student.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script src="~/Scripts/verifyform.js"></script>
+</head>
+<body class="topic_bg">
+    <div class="herd_top2">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                <img style="height: 75px;" src="../img/newlogo2.png" /><span>典阅智慧财经</span>综合技能竞赛平台
+            </div>
+        </div>
+    </div>
+    <div class="stu_map">
+        <form id="Examination">
+            <div class="topic_map">
+                <!--头部标题-->
+                <div class="topic_top">
+                    <div class="topic_time">
+                        <label>
+                            <img src="../img/student/topictime.png" />
+                            <span id="Time">00:00:00</span></label>
+                    </div>
+                    <div class="topic_top_text">
+                        @ViewBag.ExamName (满分<span>@ViewBag.Score</span> 分)
+               
+                    </div>
+                    <div class="topic_btn ">
+                        <div class="bt_tj" onclick="Assignment()"></div>
+                        <div class="bt_out" onclick="SignOut()"></div>
+                    </div>
+                </div>
+                <!--头部标题结束-->
+                <div class="topic_con">
+                    <!--左侧信息及选题区域开始-->
+                    <div class="topic_con_left">
+                        <!--用户头像和学校信息-->
+                        <div class="topic_use">
+                            <img src="@(!string.IsNullOrEmpty(ViewBag.UserPic)?ViewBag.UserPic:"/img/profile_s.jpg")" />
+                            <div class="topic_use_text">
+                                @ViewBag.UserName
+                            </div>
+                            <div class="topic_use_text row">
+                                <div class="col-lg-3" style="padding: 0;">学校：</div>
+                                <div class="col-lg-9" style="padding: 0; text-align: left; color: #c77c02;">
+                                    <span>@ViewBag.SchoolName</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--做题状态-->
+                        <div class="topic_state">
+                            <div style="margin-left: 45px;">
+                                <div class="state_sure">
+                                    <span class="sure_bt"></span><span>已回答</span>
+                                </div>
+                                <div class="state_now">
+                                    <span class="now_bt"></span><span>当前回答</span>
+                                </div>
+                                <div class="state_no">
+                                    <span class="no_bt"></span><span>未回答</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--选题区域-->
+                        <div class="state_num" id="timli">
+                            <ul id="topic_number">
+                            </ul>
+                        </div>
+                        <!--选题区域结束-->
+                    </div>
+                    <!--题目内容及结果显示区域开始-->
+                    <div class="topic_con_right">
+                        <div style="position: absolute; width: 880px;">
+                            <!--题目详情-->
+                            <div class="bills_zttitle">
+                                <span id="TopicTitle"></span>。（共<span>@ViewBag.TopicCount</span> 题，当前题目<span id="SingleScore"></span>分，共<span>@ViewBag.Score</span>分）
+						
+                            </div>
+                            <div class="bill_left">
+                                <div class="text_red">题目信息：</div>
+                                <div id="Topic_info">
+                                </div>
+                            </div>
+                            <div class="bill_right">
+                                <div class="bill_from">
+                                    <div id="fombody"></div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="FormId" name="FormId" />
+                <input type="hidden" id="TopicId" name="TopicId" />
+                <input type="hidden" id="ExamId" name="ExamId" />
+                <input type="hidden" id="PaperId" name="PaperId" />
+
+                <!--切题区域开始-->
+                <div class="qieti_map">
+                    <div class="qieti" onclick="Pagediv(1)">
+                        <div class="qieti_fx">▏◀</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>首题</div>
+                    </div>
+
+                    <div class="qieti" onclick="Pagediv(2)">
+                        <div class="qieti_fx">◀</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>上一题</div>
+                    </div>
+
+                    <div class="qieti" onclick="Pagediv(3)">
+                        <div class="qieti_fx">▶</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>下一题</div>
+                    </div>
+
+                    <div class="qieti" onclick="Pagediv(4)">
+                        <div class="qieti_fx">▶ ▏</div>
+                        <div class="qieti_hr">-------------</div>
+                        <div>尾题</div>
+                    </div>
+                </div>
+                <!--切题区域结束-->
+            </div>
+            <input type="hidden" id="SumTime" name="SumTime" />
+        </form>
+    </div>
+
+    <div id="Edit" style="display: none;" class="form-inline">
+        <form name="Editform" id="Editform">
+
+            <div class="col-sm-12 text-center" style="line-height: 120px; font-weight: 700;">
+                <div class="form-horizontal  m-t-md">
+                    <span>您本次的练习成绩为<span id="bcreuslt"></span>分！</span>
+                </div>
+            </div>
+
+            <div class="col-sm-12 text-center">
+                <div class="form-horizontal m-t-sm ">
+                    <button type="button" class="btn btn-w-m btn-success" onclick="ckjx()">查看考卷</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="closegb()">关闭</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="bottom_bj">
+        <img src="../img/student/statebj.png" />
+    </div>
+    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        Copyright 版权所有深圳典阅科技有限公司 2017
+    </div>
+    <script src="~/Scripts/Bill_Competition/Examination.js"></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+﻿@{
+    Layout = null;
+    //获取实体
+    var jm = Model as VocationalProject.Models.HBKaoShiModel;
+    
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>易考通</title>
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/student.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script src="~/Scripts/verifyform.js"></script>
+    <style type="text/css">
+        .wrap { z-index: 1; /*background-color: #000;*/ /*background-color: #808080;*/ background-color: #ffffff; opacity: 0.5; /*透明°*/ filter: alpha(opacity:10); position: absolute; left: 0; top: 0; }
+        .wrapTime { z-index: 1; background-color: #fff; position: fixed; left: 0; top: 0; }
+    </style>
+
+    <script src="~/Scripts/HB_Competition/HB_kaoshi.js"></script>
+</head>
+<body class="topic_bg">
+    <div class="herd_top2">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                <img src="/img/student/kaologo.png" />
+            </div>
+
+        </div>
+    </div>
+    <div class="stu_map" id="MinDiv" style="display: none;">
+        <div class="topic_map">
+            <!--头部标题-->
+            <div class="topic_top">
+                <div class="topic_time">
+                    <label>
+                        <img src="../img/student/topictime.png" />
+                        <span id="daojishi">00:00:00</span></label>
+                </div>
+                <div class="topic_top_text">
+                    <span>@jm.E_Name</span>(满分<span>@jm.Score</span>分)
+				
+                </div>
+                <div class="topic_btn ">
+                    <div class="bt_tj" onclick="btnOk()"></div>
+                    <div class="bt_out" onclick="tuichukaoshi()"></div>
+                </div>
+            </div>
+            <!--头部标题结束-->
+            <div class="topic_con">
+                <!--左侧信息及选题区域开始-->
+                <div class="topic_con_left">
+                    <!--用户头像和学校信息-->
+                    <div class="topic_use">
+                        <img src="@jm.UserPic" />
+                        <div class="topic_use_text">
+                            @jm.UserName
+                        </div>
+                        <div class="topic_use_text row">
+                            <div class="col-lg-3" style="padding: 0;">分行：</div>
+                            <div class="col-lg-9" style="padding: 0; text-align: left; color: #c77c02;">
+                                <span>@jm.SchoolName</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--做题状态-->
+                    <div class="topic_state">
+                        <div style="margin-left: 45px;">
+                            <div class="state_sure">
+                                <span class="sure_bt"></span><span>已回答</span>
+                            </div>
+                            <div class="state_now">
+                                <span class="now_bt"></span><span>当前回答</span>
+                            </div>
+                            <div class="state_no">
+                                <span class="no_bt"></span><span>未回答</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--选题区域-->
+                    <div class="state_num">
+                        <ul id="thdiv">
+                        </ul>
+                    </div>
+                    <!--选题区域结束-->
+                </div>
+                <!--题目内容及结果显示区域开始-->
+                <div class="topic_con_right" style="width: 895px;">
+                    <div>
+                        <!--切换题目类型-->
+                        <div class="state_type">
+                            <ul>
+                                <li class="type_sty active" style="display: none;" id="Typeli1" onclick="selectType(1)">单选题</li>
+                                <li class="type_sty" style="display: none;" id="Typeli2" onclick="selectType(2)">多选题</li>
+                                <li class="type_sty" style="display: none;" id="Typeli3" onclick="selectType(3)">判断题</li>
+                                <li class="type_sty" style="display: none;" id="Typeli4" onclick="selectType(4)">填空题</li>
+                                <li class="type_sty" style="display: none;" id="Typeli5" onclick="selectType(5)">简答题</li>
+                                <li class="type_sty" style="display: none;" id="Typeli6" onclick="selectType(6)">名词解释题</li>
+                                <li class="type_sty" style="display: none;" id="Typeli7" onclick="selectType(7)">案例分析题</li>
+                                <li class="type_sty" style="display: none;" id="Typeli8" onclick="selectType(8)">论述题</li>
+                            </ul>
+                        </div>
+                        <!--题目详情-->
+                        <div class="state_title" id="titleScore">
+                        </div>
+                        <div class="state_xq" id="titleDescription">
+                        </div>
+                        <div id="daanContent">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--切题区域开始-->
+            <div class="qieti_map">
+                <div class="qieti" onclick="clickshouti()">
+                    <div class="qieti_fx">▏◀</div>
+                    <div class="qieti_hr">-------------</div>
+                    <div>首题</div>
+                </div>
+
+                <div class="qieti" onclick="clickshangyiti()">
+                    <div class="qieti_fx">◀</div>
+                    <div class="qieti_hr">-------------</div>
+                    <div>上一题</div>
+                </div>
+
+                <div class="qieti" onclick="clickxiayiti()">
+                    <div class="qieti_fx">▶</div>
+                    <div class="qieti_hr">-------------</div>
+                    <div>下一题</div>
+                </div>
+
+                <div class="qieti" onclick="clickweiti()">
+                    <div class="qieti_fx">▶ ▏</div>
+                    <div class="qieti_hr">-------------</div>
+                    <div>尾题</div>
+                </div>
+
+            </div>
+
+            <!--切题区域结束-->
+        </div>
+    </div>
+    <div class="bottom_bj">
+        <img src="../img/student/statebj.png" />
+    </div>
+    <div style="color: #aab3b7; text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        Copyright 版权所有深圳典阅科技有限公司 2017
+    </div>
+
+    <input type="hidden" id="CurrentTime"  value="@jm.CurrentTime"/>
+    <input type="hidden" id="TestStartDateTime" value="@jm.TestStartDateTime"/>
+    <input type="hidden" id="AddStartDateTime" value="@jm.AddStartDateTime"/>
+    <input type="hidden" id="E_StartTime" value="@jm.E_StartTime"/>
+    <input type="hidden" id="E_EndTime" value="@jm.E_EndTime"/>
+    <input type="hidden" id="E_Type" value="@jm.E_Type"/>
+    <input type="hidden" id="Isallow" value="@jm.Isallow"/>
+    <input type="hidden" id="E_IsTimeBonus" value="@jm.E_IsTimeBonus"/>
+    <input type="hidden" id="P_Score" value="@jm.Score"/>
+    <input type="hidden" id="E_Whenlong" value="@jm.E_Whenlong"/>
+
+    <div id="Edit" style="display: none;" class="form-inline">
+        <form name="Editform" id="Editform">
+
+            <div class="col-sm-12 text-center" style="line-height: 120px; font-weight: 700;">
+                <div class="form-horizontal  m-t-md">
+                    <span>您本次的练习成绩为<span id="bcreuslt"></span>分！</span>
+                </div>
+            </div>
+
+            <div class="col-sm-12 text-center">
+                <div class="form-horizontal m-t-sm ">
+                    <button type="button" class="btn btn-w-m btn-success" onclick="ckjx()">查看考卷</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="closegb()">关闭</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

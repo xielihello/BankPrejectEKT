@@ -1,0 +1,66 @@
+﻿@model System.Data.DataTable
+@{
+    ViewData["nvc"] = "手工任务管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>查看任务</h2>
+
+<div class="row  border-bottom white-bg dashboard-header">
+
+    <h3>任务详情</h3>
+    <div class="ibox-content">
+
+        <div class="row form-horizontal">
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    任务名称： @ViewData["TaskName"]
+                </div>
+                <div class="col-sm-3 m-b-xs">
+                    任务分值：@ViewData["Score"]
+                </div>
+            </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="Return()" class="btn btn-white btn-sm" type="button"><i class="fa fa-mail-reply"></i><span class="bold">返回</span></button>
+            </div>
+        </div>
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">票面</th>
+                        <th class="text-center">张数</th>
+                        <th class="text-center">点钞值</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                    @foreach (System.Data.DataRow item in Model.Rows)
+                    {
+                        <tr>
+                            <td>
+                                <span class="pie">@item["TaskValue"]</span>
+                            </td>
+                            <td>
+                                <span class="pie">@item["Number"]</span>
+                            </td>
+                            <td>
+                                <span class="pie">@item["Value"]</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function Return()
+    {
+        window.location.href = "/Admin/MbcTaskManagement/MbcTaskManagement/";
+    }
+</script>

@@ -1,0 +1,687 @@
+﻿@model System.Data.DataTable
+@{
+    ViewData["nvc"] = "手工任务管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row  border-bottom white-bg dashboard-header">
+
+    <h3>手工任务管理</h3>
+    <div class="ibox-content">
+        <div class="row form-horizontal">
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    <input type="text" placeholder="请输入任务名称" id="TeacherName" class=" form-control" name="TeakName">
+                </div>
+                @{
+                    //管理员查询条件
+                    if (ViewData["UserType"].ToString() == "1")
+                    {
+                    <div class="col-sm-3 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="TeamId" name="TeamIdName">
+                            <option value="0">请选择任务属性</option>
+                            <option value="1">系统任务</option>
+                            <option value="2">教师任务</option>
+                            <option value="3">所有任务</option>
+                        </select>
+                    </div>
+                    }
+                    else
+                    {
+                    <div class="col-sm-3 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="TeamId" name="TeamIdName">
+                            <option value="3">请选择任务属性</option>
+                            <option value="1">系统任务</option>
+                            <option value="2">教师任务</option>
+                        </select>
+                    </div>
+                    }
+                }
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <input type="text" placeholder="请输入任务来源" id="TeacherSource" class=" form-control" name="TeacherName">
+                        <span class="input-group-btn">
+
+                            <button type="button" onclick="bindIngfo()" class="btn btn-primary">搜索</button>*
+
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="Added()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">新增</span></button>
+                <button onclick="Dele()" class="btn btn-warning btn-sm" type="button"><i class="fa fa-trash"></i><span class="bold">删除</span></button>
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">
+                            <input type="Checkbox" class="i-checks checkbox-all">
+                        </th>
+                        <th class="text-center">任务名称</th>
+                        <th class="text-center">任务分值</th>
+                        <th class="text-center">任务属性</th>
+                        <th class="text-center">任务来源</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                </tbody>
+            </table>
+        </div>
+
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+    </div>
+</div>
+@*@using (Html.BeginForm("Add", "MbcTaskManagement", FormMethod.Post, new { @class = "form-horizontal", id = "AddSave" }))
+    {*@
+<form id="AddSave">
+    <div id="classAdd" style="display: none;" class="form-inline">
+        <input type="hidden" id="Authority" name="Authority" />
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>任务名称：</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="TaskNameid" name="TaskName" autocomplete="off"
+                        placeholder="请输入任务名称">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>任务分值：</label>
+                <div class="col-sm-9">
+                    <input type="text" maxlength="10" onchange="if(/\D/.test(this.value)){layer.msg('只能输入数字');this.value='';}" class="form-control" id="TaskScoreid" name="TaskScore" autocomplete="off"
+                        placeholder="请输入任务分值">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12 m-t-sm">
+            <select class=" form-control input-s-sm inline" id="Moneyid">
+                <option value="0">请选择面额</option>
+                <option value="100">壹佰元</option>
+                <option value="50">伍拾元</option>
+                <option value="20">贰拾元</option>
+                <option value="10">拾元</option>
+                <option value="5">伍元</option>
+                <option value="2">贰元</option>
+                <option value="11">壹元</option>
+                <option value="1">伍角</option>
+            </select>
+            <input type="text" onchange="if(/\D/.test(this.value)){layer.msg('只能输入数字');this.value='';}" maxlength="10" class="form-control" id="MoneyNumber" name="CollegeCode" autocomplete="off"
+                placeholder="数量">
+            <button type="button" id="newAdd2" onclick="newAdd()" class="btn btn-sm btn-primary m-l-sm m-r-sm"><i class="fa fa-plus m-r-xs"></i>新增</button>
+            <button type="button" onclick="DeleteTr()" class="btn btn-sm btn-warning"><i class="fa fa-trash m-r-xs"></i>删除</button>
+            <div class="ibox-content m-t-sm">
+                <table id="test" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>币种面值</th>
+                            <th>数量</th>
+                            <th>值</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-12 text-center">
+            <div class="form-horizontal m-t-md ">
+                <button type="button" onclick="AddSave()" class="btn btn-w-m btn-success">保存</button>&nbsp;
+                <button type="button" class="btn btn-w-m btn-white" onclick="layer.closeAll();">关闭</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+@*}*@
+<form id="EditSave">
+    <div id="Edit" style="display: none;" class="form-inline">
+        <input type="hidden" id="Authority" name="Authority" />
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>任务名称：</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="EditTaskName" name="EditTaskName" autocomplete="off"
+                        placeholder="请输入任务名称">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>任务分值：</label>
+                <div class="col-sm-9">
+                    <input type="text" maxlength="10" onchange="if(/\D/.test(this.value)){layer.msg('只能输入数字');this.value='';}" class="form-control" id="EditTaskScore" name="EditTaskScore" autocomplete="off"
+                        placeholder="请输入任务分值">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 m-t-sm">
+            <select class=" form-control input-s-sm inline" id="EditMoneyid">
+                <option value="0">请选择面额</option>
+                <option value="100">壹佰元</option>
+                <option value="50">伍拾元</option>
+                <option value="20">贰拾元</option>
+                <option value="10">拾元</option>
+                <option value="5">伍元</option>
+                <option value="2">贰元</option>
+                <option value="11">壹元</option>
+                <option value="1">伍角</option>
+            </select>
+            <input type="text" onchange="if(/\D/.test(this.value)){layer.msg('只能输入数字');this.value='';}" maxlength="10" class="form-control" id="EditMoneyNumber" name="CollegeCode" autocomplete="off"
+                placeholder="数量">
+            <button type="button" id="EditnewAdd" onclick="EditAdd()" class="btn btn-w-m btn-primary m-r-lg">新增</button>
+            <button type="button" onclick="DeleteTr()" class=" btn btn-w-m btn-warning">删除</button>
+            <div class="ibox-content m-t-sm">
+                <table id="test" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>币种面值</th>
+                            <th>数量</th>
+                            <th>值</th>
+                        </tr>
+                    </thead>
+                    <tbody id="Edittableiid"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-12 text-center">
+            <div class="form-horizontal m-t-md ">
+                <button type="button" onclick="EditSave()" class="btn btn-w-m btn-success">保存</button>&nbsp;
+                <button type="button" class="btn btn-w-m btn-white" onclick="layer.closeAll();">关闭</button>
+            </div>
+        </div>
+        <input type="hidden" value="@ViewData["UserType"]" id="usertypeid">
+    </div>
+</form>
+
+<script>
+
+    var UserType = "0";
+    $(function () {
+
+        UserType = "@ViewData["UserType"]";//当前登录角色
+        if (UserType != "0") {
+            bindIngfo();
+        }
+    });
+
+    function redload() {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        //全选checkbox
+        var $checkboxAll = $(".checkbox-all"),
+                           $checkbox = $(".new_table").find("[type='checkbox']").not("[disabled]"),
+                           length = $checkbox.length,
+                           i = 0;
+        $checkboxAll.on("ifClicked", function (event) {
+            if (event.target.checked) {
+                $checkbox.iCheck('uncheck');
+                i = 0;
+            } else {
+                $checkbox.iCheck('check');
+                i = length;
+            }
+        });
+    }
+    //用户权限明细
+    function AuthorizationDetailsPush(Id) {
+        window.location.href = '/Admin/AuthorizationDetailsPush/Index?CompetitionId=' + Id + '&CompetitionType=2';
+    }
+    $(document).ready(function () {
+        redload();
+        //$('#EditSave').bind('submit', Editcheckform);
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        bindIngfo();
+    });
+
+    //列表数据加载
+    function bindIngfo(page) {
+
+        var P_Name = $("#TeacherName").val();//试卷名称
+        var P_Kind = $("#TeamId").val();//属性
+        var P_Custom2 = $("#TeacherSource").val();//来源 账号
+        var PageSize = 10;
+
+        $.ajax({
+            url: '/Admin/MbcTaskManagement/GetList',
+            Type: "post",
+            dataType: "json", cache: false,
+            contentType: "application/json; charset=utf-8",
+            data: { "P_Name": P_Name, "P_Kind": P_Kind, "P_Custom2": P_Custom2, "page": page, "PageSize": PageSize },
+            success: function (tb) {
+
+                var html = '';
+                var data = tb.Tb;//转换table
+                for (var i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    //当前页面
+                    var idx = 0;
+                    if (page != "undefined" && page != null) {
+                        idx = page;
+                        idx = idx - 1;
+
+                    }
+                    var iid="IsP_Kind"+data[i]["ID"];
+                    html += '<td><span class="pie">' + ((idx * PageSize) + i + 1) + '</span></td>';
+                    html += '<input type=\"hidden\"id=' + iid + ' value=' + data[i]["Kind"] + '>';
+                    html += '<td><input type="checkbox" class="i-checks" name="input[]" value="' + data[i]["ID"] + '"></td>';
+                    var txtTaskName = data[i]["TaskName"] + "";//先转义
+
+                    if (txtTaskName.length > 40) {
+                        txtTaskName = txtTaskName.substr(0, 38) + '...';
+                    }
+                    html += '<td title="' + data[i]["TaskName"] + '"><span class="pie" >' + txtTaskName + '</span></td>';
+                    html += '<td><span class="pie">' + data[i]["Score"] + '</span></td>';
+                    var txtP_Kind = '';
+                    if (parseInt(data[i]["UserType"]) == 2) {
+                        txtP_Kind = '教师试卷';
+                    }
+                    else if (parseInt(data[i]["UserType"]) == 1) {
+                        txtP_Kind = '系统试卷';
+                    }
+                    html += '<td><span class="pie">' + txtP_Kind + '</span></td>';
+                    //html += '<td><span class="pie">' + data[i]["UserNo"] + '</span></td>';
+                    //只有管理员端有题目来源字段
+                    if (parseInt(data[i]["UserType"]) == 1 || parseInt(data[i]["UserType"]) == 2) {
+                        if (data[i]["UserName"] == "null" || data[i]["UserName"] == null || data[i]["UserName"].length == 0) {
+                            //html += '<td><span class="pie">' + data[i]["P_Custom2"] + '</span></td>';
+                        } else {
+                            html += '<td><span class="pie">' + data[i]["UserName"] + '</span></td>';
+                        }
+                    }
+
+                    html += '<td>';
+
+                    debugger;
+                    var MP_Kind = data[i]["Kind"];//1.系统试卷（所有管理员的） 2.教师试卷
+                    var usertypeid = $("#usertypeid").val();
+                    //if (parseInt(data[i]["UType"]) == 1) {  //如果是管理员
+                    if (usertypeid == 1) {
+
+                        if (parseInt(data[i]["Kind"]) == 1) {
+                            //我是管理员面对管理员新增的试卷时候：  此题是管理员增加的 允许修改
+                            //我是管理员面对教师增加的试卷时候：不让改只能查看
+                            html += '<a href="javascript:void(0);" onclick="Edit(' + data[i]["ID"] + ')" class=" btn-primary btn-sm"><i class="fa fa-pencil m-r-xxs"></i>编辑 </a> ';
+                            html += '<a style="margin-left: 5px;"  onclick="ShowSelect(' + data[i]["ID"] + ',1)"  href="javascript:void(0);" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>预览 </a>';
+                            html += '<a style="margin-left: 5px;" onclick="AuthorizationDetailsPush(' + data[i]["ID"] + ')" href="javascript:void(0);" class=" btn-danger btn-sm"><i class="fa fa-pencil m-r-xxs"></i>权限用户明细 </a>';
+                        } else {
+                            //其余的是教师的只能预览
+                            html += '<a style="margin-left: 5px;"  onclick="ShowSelect(' + data[i]["ID"] + ',2)" href="javascript:void(0);" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>预览 </a>';
+                        }
+                    }
+                    else {
+                        //如果我是教师 展示的是自己 还有可能展示的是管理员的
+                        //展示的是自己的 ，来源自己新增的 可以修改 其余的只能查看
+                        if (parseInt(data[i]["Kind"]) == 2) {
+                            html += '<a href="javascript:void(0);" onclick="Edit(' + data[i]["ID"] + ')" class=" btn-primary btn-sm"><i class="fa fa-pencil m-r-xxs"></i>编辑 </a> ';
+                            html += '<a style="margin-left: 5px;" onclick="ShowSelect(' + data[i]["ID"] + ',1)" href="javascript:void(0);" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>预览 </a>';
+
+                        } else {
+                            //其余的是系统的 推送过来的
+                            html += '<a style="margin-left: 5px;" onclick="ShowSelect(' + data[i]["ID"] + ',2)" href="javascript:void(0);" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>预览 </a>';
+                        }
+                    }
+
+                    html += '</td>';
+                    html += '</tr>';
+                    
+
+                }
+                $("#tablelist").html(html);
+
+                bootstrapPaginator("#PaginatorLibrary", tb, bindIngfo);//分页
+                //样式重新加载
+                redload();
+
+            }
+        });
+    }
+    //全选checkbox
+    var $checkboxAll = $(".checkbox-all"),
+        $checkbox = $(".new_table").find("[type='checkbox']").not("[disabled]"),
+        length = $checkbox.length,
+        i = 0;
+
+    $checkboxAll.on("ifClicked", function (event) {
+        if (event.target.checked) {
+            $checkbox.iCheck('uncheck');
+            i = 0;
+        } else {
+            $checkbox.iCheck('check');
+            i = length;
+        }
+    });
+    function Added() {
+        $("#TaskNameid").val("");
+
+        $("#MoneyNumber").val("");
+
+        $("#test tbody").html("");
+
+        $("#Moneyid").val(0);
+
+        $("#TaskScoreid").val("");
+        layer.open({
+            title: '新增任务',
+            type: 1,
+            skin: 'layui-layer-lan', //样式类名
+            anim: 2,
+            //shadeClose: true, //开启遮罩关闭
+            area: ['750px', '600px'], //宽高
+            content: $("#classAdd")
+        });
+    }
+    function Edit(id) {
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            //async: false,
+            url: '/Admin/MbcTaskManagement/Edit',
+            data: { id: id },
+            success: function (data) {
+                $("#Edittableiid").html(data);
+                $("#EditTaskName").val("");
+                $("#EditTaskScore").val("");
+                $("#EditTaskName").val($("#TankName").val());
+                $("#EditTaskScore").val($("#TankScore").val());
+                redload();
+            }
+        });
+        layer.open({
+            title: '修改任务',
+            type: 1,
+            skin: 'layui-layer-lan', //样式类名
+            anim: 2,
+            area: ['750px', '670px'], //宽高
+            content: $("#Edit")
+        });
+
+    }
+    function newAdd() {
+        var Money = parseInt($("#Moneyid").val());
+        var scid = String(Money);
+        $("#" + scid + "").remove();
+        if (scid == "1") {
+            $("#15").remove();
+        }
+        if (Money == 0) {
+            layer.msg('请先选择面额！', function () { });
+            return false;
+        }
+        var MoneyText = $("#Moneyid").find("option:selected").text();
+        if ($("#MoneyNumber").val() == "") {
+            layer.msg('数量不能为空！', function () { });
+            return false;
+        }
+        if ($("#MoneyNumber").val() == 0) {
+            layer.msg('数量不能为0！', function () { });
+            return false;
+        }
+        var Number = parseInt($("#MoneyNumber").val());
+        if (Money == 1) {
+            Money = 0.5;
+        }
+        if (Money == 11) {
+            Money = 1;
+        }
+        var Tol = Money * Number;
+        if (Money == 0.5) {
+            Money = 15;
+        }
+        if (Money == 1) {
+            $("#test tbody").append('<tr id=11> <td><input id="subcheck" type="checkbox" value="' + Money + '" class="i-checks" name="authority"><td><input type="text" style="border:none" name="MoneyName' + Money + '" value="' + MoneyText + '" readonly="readonly" /></td><td><input type="text" style="border:none" name="MoneyNumber' + Money + '" value="' + Number + '" readonly="readonly"/></td><td><input type="text" style="border:none" name="MoneyTol' + Money + '" value="' + Tol + '" readonly="readonly"/></td></tr>');
+        } else {
+            $("#test tbody").append('<tr id="' + Money + '"> <td><input id="subcheck" type="checkbox" value="' + Money + '" class="i-checks" name="authority"><td><input type="text" style="border:none" name="MoneyName' + Money + '" value="' + MoneyText + '" readonly="readonly" /></td><td><input type="text" style="border:none" name="MoneyNumber' + Money + '" value="' + Number + '" readonly="readonly"/></td><td><input type="text" style="border:none" name="MoneyTol' + Money + '" value="' + Tol + '" readonly="readonly"/></td></tr>');
+        }
+        $("#MoneyNumber").val("");
+        redload();
+    }
+    function EditAdd() {
+        var Money = parseInt($("#EditMoneyid").val());
+        var scid = String(Money);
+        $("#" + scid + "").remove();
+        if (scid == "1") {
+            $("#15").remove();
+        }
+        if (Money == 0) {
+            layer.msg('请先选择面额！', function () { });
+            return false;
+        }
+        var MoneyText = $("#EditMoneyid").find("option:selected").text();
+        if ($("#EditMoneyNumber").val() == "") {
+            layer.msg('数量不能为空！', function () { });
+            return false;
+        }
+        if ($("#EditMoneyNumber").val() == 0) {
+            layer.msg('数量不能为0！', function () { });
+            return false;
+        }
+        var Number = parseInt($("#EditMoneyNumber").val());
+        if (Money == 1) {
+            Money = 0.5;
+        }
+        if (Money == 11) {
+            Money = 1;
+        }
+        var Tol = Money * Number;
+        if (Money == 0.5) {
+            Money = 15;
+        }
+        if (Money == 1) {
+            $("#Edittableiid").append('<tr id=11> <td><input id="subcheck" type="checkbox" value="' + Money + '" class="i-checks" name="authority"><td><input type="text" style="border:none" name="MoneyName' + Money + '" value="' + MoneyText + '" readonly="readonly" /></td><td><input type="text" style="border:none" name="MoneyNumber' + Money + '" value="' + Number + '" readonly="readonly"/></td><td><input type="text" style="border:none" name="MoneyTol' + Money + '" value="' + Tol + '" readonly="readonly"/></td></tr>');
+        } else {
+            $("#Edittableiid").append('<tr id="' + Money + '"> <td><input id="subcheck" type="checkbox" value="' + Money + '" class="i-checks" name="authority"><td><input type="text" style="border:none" name="MoneyName' + Money + '" value="' + MoneyText + '" readonly="readonly" /></td><td><input type="text" style="border:none" name="MoneyNumber' + Money + '" value="' + Number + '" readonly="readonly"/></td><td><input type="text" style="border:none" name="MoneyTol' + Money + '" value="' + Tol + '" readonly="readonly"/></td></tr>');
+        }
+        $("#EditMoneyNumber").val("");
+        redload();
+    }
+    function DeleteTr() {
+        var chks = document.getElementsByName('authority');//name
+
+        var chkstr = "";
+        var n = 0;
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked == true) {
+                n++;
+            }
+        }
+
+        if (n == 0) {
+            layer.msg('请选择要删除的数据！', function () { });
+            return;
+        }
+
+        layer.confirm('您确定要删除吗？', {
+            title: '删除',
+            btn: ['确定', '取消'],
+            shadeClose: true, //开启遮罩关闭
+            skin: 'layui-layer-lan'
+            //按钮
+        },
+         function () {
+             for (var i = 0; i < chks.length; i++) {
+                 if (chks[i].checked == true) {
+                     chkstr = chks[i].value;
+                     if (chkstr == 0.5) { chkstr == -5 }
+                     $("#" + chkstr + "").remove();
+                 }
+             }
+             layer.msg('操作成功', { icon: 1 });
+         });
+
+    }
+
+
+
+    function ShowSelect(id) {
+        window.location.href = "/Admin/MbcTaskManagement/ShowSelect/" + id + "";
+    }
+
+    function Dele() {
+        var chks = document.getElementsByName('input[]');//name
+        var chkstr = "";
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked == true) {
+                chkstr += chks[i].value + ",";
+            }
+        }
+       
+        if (chkstr.length == 0) {
+            layer.msg('请选择要删除的数据！', function () { });
+            return;
+        }
+        chkstr = chkstr.substr(0, chkstr.length - 1);
+        var titlecont = '您确定要删除所选试卷吗？';
+        if (parseInt(UserType) == 2) {  //如果是教师
+
+            //去查询下校验下
+            //只勾选了一行
+            if (chkstr.split(',').length > 1) {//单选还是多选
+                titlecont = "您确定要删除所选试卷吗(不含删除系统试卷)？";
+            }
+            else {
+       
+                //单选
+                var IsP_KindId = $("#IsP_Kind" + chkstr).val();
+
+                if (IsP_KindId == "1") {//是系统的
+                    layer.msg('无权限删除系统试卷！', function () { });
+                    return;
+                } else {
+                    titlecont = "您确定要删除所选试卷吗？";
+                }
+            }
+
+        }
+        layer.confirm(titlecont, {
+            title: '删除',
+            btn: ['确定', '取消'],
+            shadeClose: true, //开启遮罩关闭
+            skin: 'layui-layer-lan'
+            //按钮
+        },
+            function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    url: '/Admin/MbcTaskManagement/Dele',
+                    data: { Id: chkstr },
+                    success: function (data) {
+                        if (data > 0) {
+                            layer.msg('操作成功', { icon: 1, time: 800 }, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg('操作失败', { icon: 1, time: 800 }, function () {
+                                location.reload();
+                            });
+                        }
+                       
+                    }
+                });
+            });
+    }
+
+    function Select() {
+        var TeacherName = $("#TeacherName").val();
+        var TeamId = $("#TeamId option:selected").val();
+        var TeacherSource = $("#TeacherSource").val();
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            async: false,
+            url: '/Admin/MbcTaskManagement/Select',
+            data: { TeacherName: TeacherName, TeamId: TeamId, TeacherSource: TeacherSource },
+            success: function (data) {
+            }
+        });
+    }
+
+    function AddSave() {
+        if ($("#TaskNameid").val() == "") {
+            layer.msg('任务名称不能为空', function () { });
+            return false;
+        }
+        if ($("#TaskScoreid").val() == "") {
+            layer.msg('任务分值不能为空', function () { });
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            async: false,
+            url: '/Admin/MbcTaskManagement/Add',
+            data: $('#AddSave').serialize(),
+            success: function (data) {
+                if (data == "-1") {
+                    layer.msg('任务名称已经存在！', { icon: 2 });
+                }
+                else {
+                    layer.msg('操作成功', { icon: 1, time: 800 }, function () {
+                        location.reload();
+                    });
+                }
+            }
+        });
+
+    }
+    function sx() {
+        location.reload();
+    }
+    function EditSave() {
+        if ($("#EditTaskName").val() == "") {
+            layer.msg('任务名称不能为空', function () { });
+            return false;
+        }
+        if ($("#EditTaskScore").val() == "") {
+            layer.msg('任务分值不能为空', function () { });
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            async: false,
+            url: '/Admin/MbcTaskManagement/SaveEdit',
+            data: $('#EditSave').serialize(),
+            success: function (data) {
+
+                if (data == "-1") {
+                    layer.msg('操作失败', { icon: 2 });
+                }
+                else {
+                    layer.msg('操作成功', { icon: 1, time: 800 }, function () {
+                        location.reload();
+                    });
+                }
+            }
+        });
+    }
+</script>

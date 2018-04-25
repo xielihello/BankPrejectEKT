@@ -1,0 +1,697 @@
+﻿@model System.Data.DataTable
+@{
+    ViewData["nvc"] = "班级管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm("Query", "ClassManagement", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="row  border-bottom white-bg dashboard-header">
+
+        <h3>班级管理</h3>
+
+        <div class="ibox-content">
+
+            <div class="row form-horizontal">
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <select onchange="gradeChange1()" class="  form-control input-s-sm inline" id="SchooId" name="SchooIdName">
+                            <option value="0">请选择院校名称</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="TeamId" name="TeamIdName">
+                            <option value="0">请选择班级名称</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="text" placeholder="请输入教师名称" id="TeacherName" class="form-control" name="TeacherName">
+                            <span class="input-group-btn">
+                                <button type="button" onclick=" bindIngfo()" class="btn btn-primary">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+            <div class="row">
+                <div class="pull-right">
+                    @*<button onclick="Dele()" class="btn btn-warning btn-sm" type="button"><i class="fa fa-trash"></i><span class="bold">删除</span></button>*@
+                    <button onclick="Added()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">新增</span></button>
+                    <button onclick="Dele()" class="btn btn-warning btn-sm" type="button"><i class="fa fa-trash"></i><span class="bold">删除</span></button>
+                </div>
+            </div>
+
+            <div class="row m-t-sm table-responsive">
+                <table class="table text-center table-bordered ">
+                    <thead>
+                        <tr>
+
+                            <th class="text-center">序号</th>
+                            <th class="text-center">
+                                <input type="Checkbox" class="i-checks checkbox-all">
+                            </th>
+                            <th class="text-center">院校名称</th>
+                            <th class="text-center">班级编号</th>
+                            <th class="text-center">班级名称</th>
+                            <th class="text-center">班级教师</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="new_table text-center" id="tablelist">
+                    </tbody>
+                </table>
+            </div>
+
+            <!--分页开始-->
+            <div class="row text-center" id="PaginatorLibrary">
+            </div>
+            <!--分页结束-->
+
+        </div>
+    </div>
+}
+<div id="classAdd" style="display: none;" class="form-inline">
+    @*@using (Html.BeginForm("Save", "CollegeManagement", FormMethod.Post, new { @class = "form-horizontal" }))*@
+    <form id="addform" name="addform">
+        <input type="hidden" id="Authority" name="Authority" />
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+
+                <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>所属院校：</label>
+                <div class="col-sm-9">
+                    <select onchange="AddgradeChange()" class=" form-control input-s-sm inline" id="SchooId2">
+                        <option value="0">请选择院校名称</option>
+                        <option value="1">选项一</option>
+
+                        <option value="2">选项二</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>班级编号：</label>
+                <div class="col-sm-9">
+                    <input type="text" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" class="form-control" id="CollegeCode" name="CollegeCode" autocomplete="off"
+                        placeholder="请输入班级编号">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>班级名称：</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="CollegeName" name="CollegeName" autocomplete="off"
+                        placeholder="请输入班级名称">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-3 control-label">班级教师：</label>
+                <div class="col-sm-9">
+                    <div class="col-sm-5  no-padding ">
+                        <div class="select-bar">
+                            <select style="width: 100%; height: 175px;" multiple="multiple" id="select1"></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 ">
+                        <div class="btn-bar">
+                            <p>
+                                <span id="add">
+                                    <input type="button" class="btn" value="&gt;" title="移动选择项到右侧"></span>
+                            </p>
+                            <p>
+                                <span id="add_all">
+                                    <input type="button" class="btn" value="&gt;&gt;" title="全部移到右侧"></span>
+                            </p>
+                            <p>
+                                <span id="remove">
+                                    <input type="button" class="btn" value="&lt;" title="移动选择项到左侧"></span>
+                            </p>
+                            <p>
+                                <span id="remove_all">
+                                    <input type="button" class="btn" value="&lt;&lt;" title="全部移到左侧"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 no-padding">
+                        <div class="select-bar">
+                            <select style="width: 100%; height: 175px;" multiple="multiple" id="select2"></select>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-center">
+            <div class="form-horizontal m-t-md ">
+                <button type="button" onclick="Save()" class="btn btn-w-m btn-success">保存</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="layer.closeAll();">关闭</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="classEdit" style="display: none;" class="form-inline">
+    <input type="hidden" id="Authority" name="Authority" />
+    <div class="col-sm-12">
+        <div class="form-horizontal  m-t-sm">
+
+            <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>所属院校：</label>
+            <div class="col-sm-9">
+                <select onchange="EditgradeChange()" class=" form-control input-s-sm inline" id="SchooId3">
+                    <option value="0">请选择院校名称</option>
+                    <option value="1">选项一</option>
+
+                    <option value="2">选项二</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-horizontal  m-t-sm">
+            <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>班级编号：</label>
+            <div class="col-sm-9">
+                <input type="text" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" class="form-control" id="EditCollegeCode" name="CollegeCode" autocomplete="off"
+                    placeholder="请输入班级编号">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-horizontal  m-t-sm">
+            <label for="firstname" class="col-sm-3 control-label"><span style="color: red;">*</span>班级名称：</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="EditCollegeName" name="CollegeName" autocomplete="off"
+                    placeholder="请输入班级名称">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-horizontal  m-t-sm">
+            <label for="firstname" class="col-sm-3 control-label">班级教师：</label>
+            <div class="col-sm-9">
+                <div class="col-sm-5  no-padding ">
+                    <div class="select-bar">
+                        <select style="width: 100%; height: 175px;" multiple="multiple" id="select4"></select>
+                    </div>
+                </div>
+                <div class="col-sm-2 ">
+                    <div class="btn-bar">
+                        <p>
+                            <span id="Editadd">
+                                <input type="button" class="btn" value="&gt;" title="移动选择项到右侧"></span>
+                        </p>
+                        <p>
+                            <span id="Editadd_all">
+                                <input type="button" class="btn" value="&gt;&gt;" title="全部移到右侧"></span>
+                        </p>
+                        <p>
+                            <span id="Editremove">
+                                <input type="button" class="btn" value="&lt;" title="移动选择项到左侧"></span>
+                        </p>
+                        <p>
+                            <span id="Editremove_all">
+                                <input type="button" class="btn" value="&lt;&lt;" title="全部移到左侧"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-5 no-padding">
+                    <div class="select-bar">
+                        <select style="width: 100%; height: 175px;" multiple="multiple" id="select5"></select>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 text-center">
+        <div class="form-horizontal m-t-md ">
+            <button type="button" onclick="EditSave()" class="btn btn-w-m btn-success">保存</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="layer.closeAll();">关闭</button>
+        </div>
+    </div>
+    <input type="hidden" id="EId" />
+</div>
+<script>
+    $(function () {
+        //获取列表
+        bindIngfo();
+        //移到右边
+        $('#add').click(function () {
+            //先判断是否有选中
+            if (!$("#select1 option").is(":selected")) {
+                layer.msg('请选择需要移动的选项！', function () { });
+                return false;
+            }
+                //获取选中的选项，删除并追加给对方
+            else {
+                $('#select1 option:selected').appendTo('#select2');
+            }
+        });
+
+        //移到左边
+        $('#remove').click(function () {
+            //先判断是否有选中
+            if (!$("#select2 option").is(":selected")) {
+                layer.msg('请选择需要移动的选项！', function () { });
+                return false;
+            }
+            else {
+                $('#select2 option:selected').appendTo('#select1');
+            }
+        });
+
+        //全部移到右边
+        $('#add_all').click(function () {
+            //获取全部的选项,删除并追加给对方
+            $('#select1 option').appendTo('#select2');
+        });
+
+        //全部移到左边
+        $('#remove_all').click(function () {
+            $('#select2 option').appendTo('#select1');
+        });
+
+        //双击选项
+        $('#select1').dblclick(function () { //绑定双击事件
+            //获取全部的选项,删除并追加给对方
+            $("option:selected", this).appendTo('#select2'); //追加给对方
+        });
+
+        //双击选项
+        $('#select2').dblclick(function () {
+            $("option:selected", this).appendTo('#select1');
+        });
+        //---------------------------------------------------
+        //移到右边
+        $('#Editadd').click(function () {
+            //先判断是否有选中
+            if (!$("#select4 option").is(":selected")) {
+                layer.msg('请选择需要移动的选项！', function () { });
+                return false;
+            }
+                //获取选中的选项，删除并追加给对方
+            else {
+                $('#select4 option:selected').appendTo('#select5');
+            }
+        });
+
+        //移到左边
+        $('#Editremove').click(function () {
+            //先判断是否有选中
+            if (!$("#select5 option").is(":selected")) {
+                layer.msg('请选择需要移动的选项！', function () { });
+                return false;
+            }
+            else {
+                $('#select5 option:selected').appendTo('#select4');
+            }
+        });
+
+        //全部移到右边
+        $('#Editadd_all').click(function () {
+            //获取全部的选项,删除并追加给对方
+            $('#select4 option').appendTo('#select5');
+        });
+
+        //全部移到左边
+        $('#Editremove_all').click(function () {
+            $('#select5 option').appendTo('#select4');
+        });
+
+        //双击选项
+        $('#select4').dblclick(function () { //绑定双击事件
+            //获取全部的选项,删除并追加给对方
+            $("option:selected", this).appendTo('#select5'); //追加给对方
+        });
+
+        //双击选项
+        $('#select5').dblclick(function () {
+            $("option:selected", this).appendTo('#select4');
+        });
+    });
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            async: false,
+            url: '/Admin/ClassManagement/selectSchool',
+            data: 0,
+            success: function (data) {
+                $("#SchooId").html(data);
+                $("#SchooId2").html(data);
+                $("#SchooId3").html(data);
+            }
+        });
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            async: false,
+            url: '/Admin/ClassManagement/SelectClass',
+            data: { Schoolid: 0 },
+            success: function (data) {
+                $("#TeamId").html(data);
+
+            }
+        });
+    });
+    //全选checkbox
+    var $checkboxAll = $(".checkbox-all"),
+        $checkbox = $(".new_table").find("[type='checkbox']").not("[disabled]"),
+        length = $checkbox.length,
+        i = 0;
+
+    $checkboxAll.on("ifClicked", function (event) {
+        if (event.target.checked) {
+            $checkbox.iCheck('uncheck');
+            i = 0;
+        } else {
+            $checkbox.iCheck('check');
+            i = length;
+        }
+    });
+    function Added() {
+        layer.open({
+            title: '新增班级',
+            type: 1,
+            skin: 'layui-layer-lan', //样式类名
+            anim: 2,
+            //shadeClose: true, //开启遮罩关闭
+            area: ['720px', '470px'], //宽高
+            content: $("#classAdd")
+        });
+        $("#select1").html('');
+        $("#select2").html('');
+        $('#addform')[0].reset();//数据清理
+    }
+    //加载院校
+    function EditgradeChange() {
+        var SchoolID = $('#SchooId3 option:selected').val();
+        //加载该院校下的教师
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            async: false,
+            url: '/Admin/ClassManagement/selectTeacher',
+            data: { SchoolId: SchoolID },
+            success: function (data) {
+
+                $("#select4").html(data);
+            }
+        });
+    }
+    function AddgradeChange() {
+        SchoolID = $('#SchooId2 option:selected').val();
+        //加载该院校下的教师
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            async: false,
+            url: '/Admin/ClassManagement/AddselectTeacher',
+            data: { SchoolId: SchoolID },
+            success: function (data) {
+                $("#select1").html(data);
+            }
+        });
+    }
+    function gradeChange1() {
+        var v = $("#SchooId").val();
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            async: false,
+            url: '/Admin/ClassManagement/SelectClass',
+            data: { Schoolid: v },
+            success: function (data) {
+                $("#TeamId").html(data);
+
+            }
+        });
+    }
+
+    function Save() {
+        var SchooId = $("#SchooId2").val();
+        if (SchooId == 0) {
+            layer.msg('院校不能为空！', function () { });
+            return false;
+        }
+        var CollegeCode = $("#CollegeCode").val();
+        if (CollegeCode == null || CollegeCode == "") {
+            layer.msg('班级编号不能为空！', function () { });
+            return false;
+        }
+        var CollegeName = $("#CollegeName").val();
+        if (CollegeName == null || CollegeName == "") {
+            layer.msg('班级名称不能为空！', function () { });
+            return false;
+        }
+        debugger;
+        var Teacheid = "Null,";
+        $("#select2 option:selected").each(function () {
+            Teacheid += $(this).val() + ",";
+        });
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            async: false,
+            url: '/Admin/ClassManagement/Submit',
+            data: { CollegeCode: CollegeCode, CollegeName: CollegeName, Teacheid: Teacheid, SchooId: SchooId },
+            success: function (data) {
+                //$("#TeamId").html(data);
+                if (data == -1) {
+                    layer.msg('班级编号不能重复！', function () { });
+                    return false;
+                }
+                else if (data == -2) {
+                    layer.msg('班级名称不能重复！', function () { });
+                    return false;
+                }
+                else if (data > 0) {
+                    layer.closeAll();//关闭所有弹出框
+                    bindIngfo();
+                    layer.msg('操作成功！', { icon: 1 });
+
+                } else {
+                    layer.msg('操作失败！', { icon: 2 });
+                    return false;
+                }
+
+            }
+        });
+    }
+
+    function Dele() {
+        var chks = document.getElementsByName('input[]');//name
+        var chkstr = "";
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked == true) {
+                chkstr += chks[i].value + ",";
+            }
+        }
+        chkstr += "0";
+        if (chkstr == "" || chkstr == "0") {
+            layer.msg('请先选中一项', function () { });
+            return false;
+        }
+        layer.confirm('您确定要删除所选班级吗？', {
+            title: '删除',
+            btn: ['确定', '取消'],
+            shadeClose: true, //开启遮罩关闭
+            skin: 'layui-layer-lan'
+            //按钮
+        },
+            function () {
+                $.ajax({
+                    type: "POST",
+                    // dataType: "text",
+                    async: false,
+                    url: '/Admin/ClassManagement/CollegeDele',
+                    data: { Id: chkstr },
+                    success: function (data) {
+                        if (data == 1) {
+                            layer.closeAll();//关闭所有弹出框
+                            bindIngfo();
+                            layer.msg('操作成功！', { icon: 1 });
+                        }
+                        if (data == 88) {
+                            layer.msg('班级名下存在学生，请先删除学生！', { icon: 2 });
+                        }
+                        if (data == 99) {
+                            layer.msg('操作失败！', { icon: 2 });
+                        }
+
+                    }
+                });
+            });
+    }
+
+    function Edit(Id) {
+        $("#EId").val(Id);
+        $("#select5").html("");
+        $("#select4").html("");
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            async: false,
+            url: '/Admin/ClassManagement/CollegeEdit',
+            data: { Id: Id },
+            success: function (data) {
+                $("#EditCollegeCode").val(data[0]["TeamCode"]);
+                $("#EditCollegeName").val(data[0]["TeamName"]);
+                $("#SchooId3").val(data[0]["SchoolId"]);
+                $.ajax({
+                    type: "POST",
+                    // dataType: "text",
+                    async: false,
+                    url: '/Admin/ClassManagement/SelectEditTeacher',
+                    data: { Teactid: data[0]["TeacherId"] },
+                    success: function (data) {
+                        $("#select5").html(data);
+                    }
+                });
+                var SchoolID = $("#SchooId3").val();
+                $.ajax({
+                    type: "POST",
+                    // dataType: "text",
+                    async: false,
+                    url: '/Admin/ClassManagement/selectTeacher',
+                    data: { SchoolID: SchoolID, Teactid: data[0]["TeacherId"] },
+                    success: function (data) {
+                        $("#select4").html(data);
+                    }
+                });
+                layer.open({
+                    title: '编辑班级',
+                    type: 1,
+                    skin: 'layui-layer-lan', //样式类名
+                    anim: 2,
+                    //shadeClose: true, //开启遮罩关闭
+                    area: ['720px', '470px'], //宽高
+                    content: $("#classEdit")
+                });
+            }
+        });
+    }
+
+    function EditSave(id) {
+        var EId = $("#EId").val();
+        var SchooId = $("#SchooId3").val();
+        if (SchooId == 0) {
+            layer.msg('院校不能为空！', function () { });
+            return false;
+        }
+        var CollegeCode = $("#EditCollegeCode").val();
+        if (CollegeCode == null || CollegeCode == "") {
+            layer.msg('班级编号不能为空！', function () { });
+            return false;
+        }
+        var CollegeName = $("#EditCollegeName").val();
+        if (CollegeName == null || CollegeName == "") {
+            layer.msg('班级名称不能为空！', function () { });
+            return false;
+        }
+        debugger;
+        var Teacheid = "Null,";
+        $("#select5 option").each(function () {
+            Teacheid += $(this).val() + ",";
+        });
+        $.ajax({
+            type: "POST",
+            // dataType: "text",
+            async: false,
+            url: '/Admin/ClassManagement/EditSubmit',
+            data: { CollegeCode: CollegeCode, CollegeName: CollegeName, Teacheid: Teacheid, SchooId: SchooId, EId: EId },
+            success: function (data) {
+                if (data == -1) {
+                    layer.msg('班级编号不能重复！', function () { });
+                    return false;
+                }
+                else if (data == -2) {
+                    layer.msg('班级名称不能重复！', function () { });
+                    return false;
+                }
+                else if (data > 0) {
+                    layer.closeAll();//关闭所有弹出框
+                    bindIngfo();
+                    layer.msg('操作成功！', { icon: 1 });
+                } else {
+                    layer.msg('操作失败！', { icon: 2 });
+                    return false;
+                }
+
+            }
+        });
+    }
+
+    //列表数据加载
+    function bindIngfo(page) {
+        var SchooId = $("#SchooId").val();//学院
+        var TeamId = $("#TeamId").val();//班级
+        var TeacherName = $("#TeacherName").val();//教师名称
+        //var StudentInfo = $("#StudentInfo").val();//学生信息
+        var PageSize = 10;
+
+        $.ajax({
+            Type: "post",
+            dataType: "json",
+            cache: false,
+            contentType: "application/json; charset=utf-8",
+            url: '/Admin/ClassManagement/GetList',
+            data: { "SchooId": SchooId, "TeamId": TeamId, "TeacherName": TeacherName, "page": page, "PageSize": PageSize },
+            success: function (data) {
+                var tb = data;
+                if (tb != null && tb.TableHTML.length > 0) {
+                    $("#tablelist").html(tb.TableHTML);
+
+                } else {
+                    $("#tablelist").html("");
+                }
+                bootstrapPaginator("#PaginatorLibrary", tb, bindIngfo);//分页
+
+                //样式加载
+                redload();
+            }
+        });
+
+
+    }
+
+    //复选框 全选样式 控制
+    function redload() {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        //全选checkbox
+        var $checkboxAll = $(".checkbox-all"),
+                           $checkbox = $(".new_table").find("[type='checkbox']").not("[disabled]"),
+                           length = $checkbox.length,
+                           i = 0;
+        $checkboxAll.on("ifClicked", function (event) {
+            if (event.target.checked) {
+                $checkbox.iCheck('uncheck');
+                i = 0;
+            } else {
+                $checkbox.iCheck('check');
+                i = length;
+            }
+        });
+    }
+</script>

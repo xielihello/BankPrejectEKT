@@ -1,0 +1,24 @@
+ Log Entry : 
+04/07/2017 14:53:12
+Error in: http://localhost:37713/Admin/AuthorizationDetailsPush/GetList?SchoolName=&PageSize=10&CompetitionType=&CompetitionId=&_=1491547992378. Error Message:关键字 'and' 附近有语法错误。
+关键字 'and' 附近有语法错误。,详细错误信息：
+__________________________
+ Log Entry : 
+04/07/2017 14:53:23
+Error in: http://localhost:37713/Admin/AuthorizationDetailsPush/GetList?SchoolName=&PageSize=10&CompetitionType=&CompetitionId=&_=1491547992378. Error Message:关键字 'and' 附近有语法错误。
+关键字 'and' 附近有语法错误。,详细错误信息：
+__________________________
+ Log Entry : 
+04/07/2017 14:53:54
+Error in: http://localhost:37713/Admin/AuthorizationDetailsPush/GetList?SchoolName=&PageSize=10&CompetitionType=&CompetitionId=&_=1491548033866. Error Message:关键字 'and' 附近有语法错误。
+关键字 'and' 附近有语法错误。,详细错误信息：
+__________________________
+ Log Entry : 
+04/07/2017 15:00:00
+Error in: http://localhost:37713/Admin/AuthorizationDetailsPush/Del. Error Message:列名 'URId' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/07/2017 16:22:47
+Error in: http://localhost:37713/Admin/AuthorizationDetailsPush/GetList_To?SchoolNameTo=&PageSize=5&CompetitionType=&CompetitionId=&_=1491553367763. Error Message:关键字 'and' 附近有语法错误。
+关键字 'and' 附近有语法错误。,详细错误信息：
+__________________________

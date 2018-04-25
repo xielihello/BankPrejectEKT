@@ -1,0 +1,199 @@
+﻿@{
+    ViewData["nvc"] = "货币试卷管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style type="text/css">
+    .input_bottom { display: initial; border: none; border-bottom: 2px solid #1ab394; }
+</style>
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>加点题  <a onclick="PaperPreview()" class=" btn btn-w-m btn-white m-t-n-md pull-right"><i class="fa fa-mail-reply"></i>返回</a></h3>
+    <div class="ibox-content">
+        <div class="row form-horizontal">
+            <div class="row">
+                <div class="col-sm-12 m-b-xs">
+                    <div class="m-xs">
+                        <span style="font-weight: 800;">试卷名称：</span>
+                        <span id="SJName">@ViewData["PName"]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-horizontal">
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    <select class="form-control input-s-sm inline" id="PaperQB_Type">
+                        <option value="0">题型选择</option>
+                        <option value="1">单选题</option>
+                        <option value="2">多选题</option>
+                        <option value="3">判断题</option>
+                        <option value="4">填空题</option>
+                        <option value="5">简答题</option>
+
+                        <option value="6">名词解释题</option>
+                        <option value="7">案例分析题</option>
+                        <option value="8">论述题</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-3 m-b-xs">
+                    <input type="text" placeholder="题目描述" id="PaperQB_Description" class="form-control">
+                </div>
+
+                <div class="col-sm-3 m-b-xs">
+                    <select class="form-control input-s-sm inline" id="PaperStateK">
+                        <option value="0">加卷状态</option>
+                        <option value="1">已加入当期试卷</option>
+                        <option value="2">未加入当期试卷</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <select class="form-control input-s-sm inline" id="PaperIsUse">
+                            <option value="0">是否被使用</option>
+                            <option value="1">已使用</option>
+                            <option value="2">未使用</option>
+                        </select>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" onclick="searchinfo()">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div style="height: 5px;">&nbsp;</div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="Add()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">加入试卷</span></button>
+                <button onclick="ClearAdd()" class="btn btn-success btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">移出试卷</span></button>
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">
+                            <input type="Checkbox" class="i-checks checkbox-all"></th>
+                        <th class="text-center">题目描述</th>
+                        <th class="text-center">题型</th>
+                        <th class="text-center">加卷状态</th>
+                        <th class="text-center">是否被使用</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="i-checks" value="1" name="input[]">
+                        </td>
+                        <td>题目1</td>
+                        <td>单选题</td>
+                        <td>加入当前试卷</td>
+                        <td><span class="text-danger">已使用</span></td>
+                        <td>
+                            <a style="margin-left: 5px;" href="#" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>查看 </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <span class="text-danger" id="txtlbl"></span>
+        </div>
+
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+    </div>
+</div>
+
+<!--试题查看-->
+<div class="modal fade" id="searchDIV">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">单题查看</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="field-1" class="control-label">题目属性： <span id="Span4">无</span></label>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <label for="field-1" class="control-label">题目来源： <span id="Span5">无</span></label>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label">题目类型： <span id="Span6">无</span></label>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="table-layout: fixed; word-break: break-all;">题目描述：<span id="Span7">无</span></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="field-1" class="control-label" id="yxdivA" style="display: none; table-layout: fixed; word-break: break-all;">答案A：<span id="Span8">无</span></label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="field-1" class="control-label" id="yxdivB" style="display: none; table-layout: fixed; word-break: break-all;">答案B：<span id="Span9">无</span></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="field-1" class="control-label" style="display: none; table-layout: fixed; word-break: break-all;" id="yxdivC">答案C：<span id="Span10">无</span></label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="field-1" class="control-label" style="display: none; table-layout: fixed; word-break: break-all;" id="yxdivD">答案D：<span id="Span11">无</span></label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="field-1" class="control-label" style="display: none; table-layout: fixed; word-break: break-all;" id="yxdivE">答案E：<span id="Span12">无</span></label>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="table-layout: fixed; word-break: break-all;">标准答案：<span id="Span13">无</span></label>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="display: none;" id="yxdivG">得分关键字：<span id="Span14">无</span></label>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12  text-center">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Areas/Admin/Scripts/HB_Paperpreview/AddTIndex.js"></script>

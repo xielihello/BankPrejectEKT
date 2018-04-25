@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.nvc = "院校用户";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@model System.Data.DataTable
+
+<div class="row  border-bottom white-bg dashboard-header">
+    @using (Html.BeginForm("College", "CollegeManagement", FormMethod.Post, new { @class = "form-horizontal", name = "myCollege" }))
+    {
+        <h3>院校管理</h3>
+        <div class="ibox-content">
+            <div class="row form-horizontal">
+                <div class=" col-lg-12 col-md-12 col-sm-12">
+                    <label class=" col-sm-5 control-label">院校名称：</label>
+                    <div class="input-group col-sm-4">
+                        <input type="text" id="Name" name="Name" placeholder="请输入院校名称" autocomplete="off" class="form-control">
+                        <span class="input-group-btn">
+                            <button type="button" id="Query" class="btn  btn-primary">搜索</button></span>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="row">
+                <div class="pull-right">
+                    <button onclick="Added()" type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i><span class="bold">新增院校</span></button>
+                    <button onclick="Dele();" type="button" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i><span class="bold">删除</span></button>
+                </div>
+            </div>
+            <div class="row m-t-sm table-responsive">
+                <table class="table text-center table-bordered ">
+                    <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">
+                                <input type="Checkbox" class="i-checks checkbox-all"></th>
+                            <th class="text-center">院校名称</th>
+                            <th class="text-center">用户权限</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="new_table text-center" id="table">
+                    </tbody>
+                </table>
+            </div>
+
+            <!--分页开始-->
+            <div class="row text-center" id="PaginatorLibrary">
+            </div>
+            <!--分页结束-->
+        </div>
+        <input type="hidden" id="page" name="page" value="@ViewBag.PageIndex" />
+        <input type="hidden" id="PageTotal" name="PageTotal" value="@ViewBag.PageTotal" />
+    }
+</div>
+
+<div id="Add" style="display: none;" class="form-inline">
+    @using (Html.BeginForm("Save", "CollegeManagement", FormMethod.Post, new { @class = "form-horizontal", Id = "Save" }))
+    {
+       
+        <input type="hidden" id="Authority" name="Authority" />
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>院校名称：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" maxlength="15" id="CollegeName" name="CollegeName" style="width: 210px" autocomplete="off" placeholder="请输入院校名称:最大长度15">
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>用户权限设置：</label>
+                <div class="col-sm-8">
+                    <div class="col-sm-6 m-t-sm">
+                        <input type="checkbox" id="Hb" class="i-checks m-r-xs " value="1" name="authority"><span class="m-l-xs">货币知识</span>
+                    </div>
+                    <div class="col-sm-6 m-t-sm">
+                        <input type="checkbox" id="Dc" class="i-checks m-r-xs " value="2" name="authority"><span class="m-l-xs">手工点钞</span>
+                    </div>
+                    <div class="col-sm-6 m-t-sm">
+                        <input type="checkbox" id="Fh" class="i-checks m-r-xs " value="3" name="authority"><span class="m-l-xs">复核报表</span>
+                    </div>
+                    <div class="col-sm-6 m-t-sm">
+                        <input type="checkbox" id="Dj" class="i-checks m-r-xs" value="4" name="authority"><span class="m-l-xs">单据录入</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-center">
+            <div class="form-horizontal m-t-md ">
+                <button type="submit" class="btn btn-w-m btn-success">保存</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="layer.closeAll();">关闭</button>
+            </div>
+        </div>
+       
+    }
+</div>
+
+<div id="edit" style="display: none;" class="form-inline">
+    <div class="col-sm-12">
+        <div class="form-horizontal  m-t-sm">
+
+            <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>院校名称：</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="CollegeName1" name="CollegeName1" autocomplete="off" placeholder="请输入院校名称">
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-horizontal  m-t-sm">
+            <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>用户权限设置：</label>
+            <div class="col-sm-8">
+                <div class="col-sm-6 m-t-sm">
+                    <input type="checkbox" id="Hb1" class="i-checks m-r-xs " value="1" name="authority1"><span class="m-l-xs">货币知识</span>
+                </div>
+                <div class="col-sm-6 m-t-sm">
+                    <input type="checkbox" id="Dc1" class="i-checks m-r-xs " value="2" name="authority1"><span class="m-l-xs">手工点钞</span>
+                </div>
+                <div class="col-sm-6 m-t-sm">
+                    <input type="checkbox" id="Fh1" class="i-checks m-r-xs " value="3" name="authority1"><span class="m-l-xs">复核报表</span>
+                </div>
+                <div class="col-sm-6 m-t-sm">
+                    <input type="checkbox" id="Dj1" class="i-checks m-r-xs" value="4" name="authority1"><span class="m-l-xs">单据录入</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 text-center">
+        <div class="form-horizontal m-t-md ">
+            <button type="button" onclick="EditSave()" class="btn btn-w-m btn-success">保存</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="layer.closeAll();">关闭</button>
+        </div>
+    </div>
+    <input type="hidden" id="EId" />
+</div>
+
+<script src="~/Areas/Admin/Scripts/CollegeManagement/College.js"></script>

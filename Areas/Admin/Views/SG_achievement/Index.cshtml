@@ -1,0 +1,575 @@
+﻿@{
+    ViewBag.Title = "易考通";
+    ViewData["nvc"] = "手工点钞成绩";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row  border-bottom white-bg dashboard-header">
+
+    <h3>手工点钞成绩</h3>
+
+    <div class="ibox-content">
+        @{
+            //管理员查询条件
+            if (ViewData["UserType"].ToString() == "1")
+            {
+            <div class="row form-horizontal">
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="考试名称" id="E_Name" class="input-sm-3 form-control" name="E_Name">
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="E_Type" name="E_Type">
+                            <option value="3">竞赛模式</option>
+                            <option value="1">考试模式</option>
+                            <option value="2">练习模式</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select onchange="gradeChange1()" class="  form-control inline" id="SchooId" name="SchooId">
+                            <option value="0">院校名称</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="TeamId" name="TeamId">
+                            <option value="0">班级名称</option>
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="P_Kind" name="P_Kind">
+                            <option value="0">任务属性</option>
+                            <option value="1">系统任务</option>
+                            <option value="2">教师任务</option>
+                            <option value="3">所有任务</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="任务来源" id="P_Custom2" class="input-sm-3 form-control" name="P_Custom2">
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="学生信息" id="StudentInfo" class="input-sm-3 form-control" name="StudentInfo">
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <div class="input-group">
+                            <input type="text" placeholder="分数区间,如 60-70" id="ScoreQJ" class=" form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="searchinfo()">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            }
+            else
+            {
+            <div class="row form-horizontal">
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="考试名称" id="E_Name" class="input-sm-3 form-control" name="E_Name">
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select class="form-control input-s-sm inline" id="E_Type" name="E_Type">
+                            <option value="3">竞赛模式</option>
+                            <option value="1">考试模式</option>
+                            <option value="2">练习模式</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="TeamId" name="TeamId">
+                            <option value="0">班级名称</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="学生信息" id="StudentInfo" class="input-sm-3 form-control" name="StudentInfo">
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <div class="input-group">
+                            <input type="text" placeholder="分数区间,如 60-70" id="ScoreQJ" class=" form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" onclick="searchinfo()">搜索</button>
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            }
+        }
+        <div class="hr-line-dashed"></div>
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="ExportExamResult()" class="btn btn-sm btn-primary" type="button"><i class="fa fa-level-down  m-r-xs"></i><span class="bold">成绩导出</span></button>
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        @{
+                            <th class="text-center">序号</th>
+                            <th class="text-center">考试名称</th>
+                            //管理员
+                            if (ViewData["UserType"].ToString() == "1")
+                            {
+                            <th class="text-center">任务属性</th>
+                            <th class="text-center">任务来源</th>
+                            }
+                            <th class="text-center">考试类型</th>
+                            <th class="text-center">学生帐号</th>
+                            <th class="text-center">学生姓名</th>
+                            //管理员
+                            if (ViewData["UserType"].ToString() == "1")
+                            {
+                            <th class="text-center">所属院校</th>
+                            }
+                            <th class="text-center">所属班级</th>
+                            //管理员
+                            if (ViewData["UserType"].ToString() == "1")
+                            {
+                            <th class="text-center">班级教师</th>
+                            } 
+                            <th class="text-center">任务总分</th>
+                            <th class="text-center">考试得分</th>
+                            <th class="text-center">裁判扣分</th>
+                            <th class="text-center" onclick="ResultDesc()" style="cursor: pointer;">总得分↑↓</th>
+                            <th class="text-center">提交时间</th>
+                            <th width="95" class="text-center">操作</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                </tbody>
+            </table>
+        </div>
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+        <a id='downFile' href="" style="display: none"><span id='tf'></span></a>
+        <input type="hidden" id="UserTypeID"  value="@ViewData["UserType"]"/>
+        @* <div class="row text-center">
+            <div>
+                <div class="dataTables_paginate paging_simple_numbers" id="editable_paginate">
+                    <ul class="pagination">
+                        <li class="paginate_button previous disabled" aria-controls="editable" tabindex="0" id="editable_previous">
+                            <a href="#">上一页</a>
+                        </li>
+                        <li class="paginate_button active" aria-controls="editable" tabindex="0">
+                            <a href="#">1</a>
+                        </li>
+                        <li class="paginate_button " aria-controls="editable" tabindex="0">
+                            <a href="#">2</a>
+                        </li>
+                        <li class="paginate_button " aria-controls="editable" tabindex="0">
+                            <a href="#">3</a>
+                        </li>
+                        <li class="paginate_button " aria-controls="editable" tabindex="0">
+                            <a href="#">4</a>
+                        </li>
+                        <li class="paginate_button " aria-controls="editable" tabindex="0">
+                            <a href="#">5</a>
+                        </li>
+                        <li class="paginate_button " aria-controls="editable" tabindex="0">
+                            <a href="#">6</a>
+                        </li>
+                        <li class="paginate_button next" aria-controls="editable" tabindex="0" id="editable_next">
+                            <a href="#">下一页</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>*@
+
+    </div>
+</div>
+<script>
+    $(function () {
+        var nvc = "手工点钞成绩";
+        //alert(nvc)
+        $("#side-menu").find("a").each(function () {
+            $(this).parent().removeClass("active");
+            $(this).parent().parent().removeClass("in");
+            $(this).parent().parent().attr("aria-expanded", "false");
+        });
+
+        if (nvc != null && nvc != "") {
+            //$("#side-menu").children("ul.nav-second-level").removeClass("in");
+            //$("#side-menu").children("ul.nav-second-level").attr("aria-expanded", "false");
+            $("#side-menu").find("a").each(function () {
+                var txt = $(this).html();
+                if (txt == nvc) {
+                    $(this).parent().addClass("active");
+                    $(this).parent().parent().parent().addClass("active");
+                    $(this).parent().parent().addClass("in");
+                    $(this).parent().parent().attr("aria-expanded", "false");
+                    return false;
+                }
+            })
+        } else {
+            $(".initial").addClass("active");
+            $(".initial").parent().parent().addClass("active");
+            $(".initial").parent().addClass("in");
+            $(".initial").parent().attr("aria-expanded", "true");
+        }
+
+        $.ajax({
+            Type: "post",
+            dataType: "json",
+            url: '/Admin/SG_achievement/SelectClass',
+            async: false,
+            data: { Schoolid: 0 },
+            success: function (data) {
+                var html = '<option value="0">班级名称</option>';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<option value="' + data[i]["id"] + '">' + data[i]["TeamName"] + '</option>';
+                }
+                $("#TeamId").html(html);
+            }
+        });
+        bindSchool();
+        //  bindTeam();
+        bindIngfo();
+    });
+    function ResultDesc() {
+        if (descby == "TotalScore desc") {
+            descby = "TotalScore asc";
+        } else {
+            descby = "TotalScore desc";
+        }
+        bindIngfo();
+    };
+
+    //搜索
+    function searchinfo() {
+        bindIngfo();
+    };
+    function bindSchool() {
+        $.ajax({
+            Type: "post",
+            dataType: "json",
+            url: '/Admin/SG_achievement/SelectSchool',
+            async: false,
+            success: function (data) {
+                var html = '<option value="0">院校名称</option>';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<option value="' + data[i]["id"] + '">' + data[i]["Name"] + '</option>';
+                }
+                $("#SchooId").html(html);
+            }
+        });
+    };
+    function gradeChange1() {
+        // var obj = document.getElementByIdx_x("SchooId"); //定位id
+        var v = $('#SchooId option:selected').val();
+        $.ajax({
+            Type: "post",
+            dataType: "json",
+            url: '/Admin/SG_achievement/SelectClass',
+            async: false,
+            data: { Schoolid: v },
+            success: function (data) {
+                var html = '<option value="0">班级名称</option>';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<option value="' + data[i]["id"] + '">' + data[i]["TeamName"] + '</option>';
+                }
+                $("#TeamId").html(html);
+            }
+        });
+    };
+    //成绩导出
+    function ExportExamResult() {
+        var E_Name = $("#E_Name").val();//考试名称
+        var E_Type = $("#E_Type").val();//考试模式
+
+        var SchooId = $("#SchooId").val();//学院
+        var TeamId = $("#TeamId").val();//班级
+
+        var P_Kind = $("#P_Kind").val();//试卷属性
+        var P_Custom2 = $("#P_Custom2").val();//试卷来源
+
+        var StudentInfo = $("#StudentInfo").val();//学生信息
+        var ScoreQJ = $("#ScoreQJ").val();//分数区间
+        //校验分数区间
+        if (ScoreQJ.length > 0) {
+            var ScoreQJtxt = ScoreQJ + "";
+
+            var sqjtxtlist = ScoreQJtxt.split('-');
+            if (sqjtxtlist.length == 1 || sqjtxtlist.length > 2) {//格式错误
+                layer.msg('搜索条件分数区间格式错误，正确格式如：60-70', function () { });
+                return;
+            }
+
+            //再校验前后
+            var to1 = sqjtxtlist[0];
+            var to2 = sqjtxtlist[1];
+            if (isNaN(to1)) {
+                layer.msg('分数区间格式错误，不能包含英文字符！', function () { });
+                return;
+            }
+
+            if (isNaN(to2)) {
+                layer.msg('分数区间格式错误，不能包含英文字符！', function () { });
+                return;
+            }
+
+            //必须-前的小于-后的值
+            if (parseFloat(to1) > parseFloat(to2)) {
+                layer.msg('分数区间格式错误，区间开始值不能大于结束值！', function () { });
+                return;
+            }
+        }
+
+        $.ajax({
+            Type: "post",
+            dataType: "json",
+            url: '/Admin/SG_achievement/ExportExamResult',
+            data: { "descby": descby, "E_Name": E_Name, "E_Type": E_Type, "SchooId": SchooId, "TeamId": TeamId, "P_Kind": P_Kind, "P_Custom2": P_Custom2, "StudentInfo": StudentInfo, "ScoreQJ": ScoreQJ },
+            async: false,
+            success: function (data) {
+
+                $("#downFile").attr("href", "/ashx/download.ashx?downurl=" + data[0]["filename"]);
+                $("#tf").click();
+            }
+        });
+    };
+    var descby = "TotalScore desc";
+    //列表数据加载
+    function bindIngfo(page) {
+        var E_Name = $("#E_Name").val();//考试名称
+        var E_Type = $("#E_Type").val();//考试模式
+
+        var SchooId = $("#SchooId").val();//学院
+        var TeamId = $("#TeamId").val();//班级
+
+        var P_Kind = $("#P_Kind").val();//试卷属性
+        var P_Custom2 = $("#P_Custom2").val();//试卷来源
+
+        var StudentInfo = $("#StudentInfo").val();//学生信息
+        var ScoreQJ = $("#ScoreQJ").val();//分数区间
+        //校验分数区间
+        if (ScoreQJ.length > 0) {
+            var ScoreQJtxt = ScoreQJ + "";
+
+            var sqjtxtlist = ScoreQJtxt.split('-');
+            if (sqjtxtlist.length == 1 || sqjtxtlist.length > 2) {//格式错误
+                layer.msg('搜索条件分数区间格式错误，正确格式如：60-70', function () { });
+                return;
+            }
+
+            //再校验前后
+            var to1 = sqjtxtlist[0];
+            var to2 = sqjtxtlist[1];
+            if (isNaN(to1)) {
+                layer.msg('分数区间格式错误，不能包含英文字符！', function () { });
+                return;
+            }
+
+            if (isNaN(to2)) {
+                layer.msg('分数区间格式错误，不能包含英文字符！', function () { });
+                return;
+            }
+
+            //必须-前的小于-后的值
+            if (parseFloat(to1) > parseFloat(to2)) {
+                layer.msg('分数区间格式错误，区间开始值不能大于结束值！', function () { });
+                return;
+            }
+        }
+
+        var PageSize = 10;
+
+        $.ajax({
+            Type: "post",
+            dataType: "json",
+            cache: false,
+            contentType: "application/json; charset=utf-8",
+            url: '/Admin/SG_achievement/GetList',
+            data: { "descby": descby, "E_Name": E_Name, "E_Type": E_Type, "SchooId": SchooId, "TeamId": TeamId, "P_Kind": P_Kind, "P_Custom2": P_Custom2, "StudentInfo": StudentInfo, "ScoreQJ": ScoreQJ, "page": page, "PageSize": PageSize },
+            success: function (tb) {
+                var html = '';
+                var data = tb.Tb;//转换table
+                var UserType = $("#UserTypeID").val();
+                for (var i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    var idx = 0;
+                    if (page != "undefined" && page != null) {
+                        idx = page;
+                        idx = idx - 1;
+                    }
+                    html += '<td><span class="pie">' + ((idx * PageSize) + i + 1) + '</span></td>';
+                    // var texName=data[i][""]
+                    html += '<td><span class="pie" >' + data[i]["ExaminationName"] + '</span></td>';
+                    //管理员
+                    if (parseInt(UserType) == 1) {
+                        //试卷属性
+                        html += '<td><span class="pie">' + data[i]["Kind"] + '</span></td>';
+                        //试卷来源
+                        if (data[i]["AddOperator1"] == null) {
+                            html += '<td><span class="pie" >' + data[i]["AddOperator"] + '</span></td>';
+                        }
+                        else {
+                            html += '<td><span class="pie" >' + data[i]["AddOperator1"] + '</span></td>';
+                        }
+                    }
+                    //考试类型
+                    html += '<td><span class="pie">' + data[i]["Pattern"] + '</span></td>';
+
+                    //学生账号
+                    html += '<td><span class="pie" >' + data[i]["UserNo"] + '</span></td>';
+                    //学生姓名
+            
+                    if (data[i]["UserName"] == null) {
+                        html += '<td><span class="pie" >---</span></td>';
+                    } else {
+                        //学生姓名
+                        html += '<td><span class="pie" >' + data[i]["UserName"] + '</span></td>';
+                    }
+
+                    //管理员
+                    if (parseInt(UserType) == 1) {
+                        //院校
+                        html += '<td><span class="pie" >' + data[i]["Name"] + '</span></td>';
+
+                    }
+                    //班级
+                    html += '<td><span class="pie" >' + data[i]["TeamName"] + '</span></td>';
+
+                    //管理员
+                    if (parseInt(UserType) == 1) {
+                        //班级教师
+                        var txtCustom2 = data[i]["Custom2"] + "";
+                        if (txtCustom2.length > 10) {
+                            txtCustom2 = txtCustom2.substr(0, 7) + "...";
+                        }
+                        html += '<td><span class="pie">' + txtCustom2 + '</span></td>';
+                    }
+                    //试卷总分
+                    html += '<td><span class="pie" >' + data[i]["Score"] + '</span></td>';
+                    //任务得分
+                    html += '<td><span class="pie" >' + data[i]["TaskScore"] + '</span></td>';
+                    //裁判扣分
+                    html += '<td   id=' + data[i]["ID"] + '><span class="pie" >' + data[i]["RefereePoints"] + '</span></td>';
+                    //总得分
+                    html += '<td><span class="pie" >' + data[i]["TotalScore"] + '</span></td>';
+                    //提交时间
+                    var tjtime = data[i]["CommitTime"] + "";
+                    html += '<td><span class="pie" >' + tjtime.replace("T", " ").substr(0, 19) + '</span></td>';
+                    //操作查看明细，修改分值
+                    html += '<td><div> <a href="javascript:void(0);" onclick="See(' + data[i]["ID"] + ',' + data[i]["IDS"] + ',' + 2 + ')" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>查看明细 </a></div><div style="margin-top:10px;"> <a href="javascript:void(0);"  onclick="update(' + data[i]["ID"] + ',' + data[i]["RefereePoints"] + ',' + data[i]["TaskScore"] + ')" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>修改分值</a></div></td>';
+                    html += '</tr>';
+
+                }
+                $("#tablelist").html(html);
+
+                bootstrapPaginator("#PaginatorLibrary", tb, bindIngfo);//分页
+                //样式重新加载
+                redload();
+
+
+            }
+        });
+    };
+    //修改分值
+    var xiugai = 0;
+    function See(ResponseState, ExaId) {
+        window.open("/SG_Competition/ShowAchievement?ResponseState=" + ResponseState + "&ExaId=" + ExaId);
+    }
+
+    function update(id, s, b) {
+        if (xiugai == 0) {
+            // alert($(this).text());
+            //alert(id+s)
+            var html = document.getElementById(id);
+            // alert(html);
+            html.innerHTML = "<input  size=\"4\" onkeyup=\"if(isNaN(value))execCommand('undo')\" onafterpaste=\"if(isNaN(value))execCommand('undo')\" type=\"text\" id='txtd" + id + "' value='" + s + "'" + '  ONBLUR="' + "submint(" + id + "," + s + "," + b + ")" + '"' + "/>";
+            xiugai = 1;
+            //$("txtd" + id).mouseout(function () {
+            //      update(id, s, b);
+
+            //});
+            return;
+        }
+        else {
+            var val = document.getElementById("txtd" + id);
+            var score = parseFloat($('#txtd' + id).val());
+
+            var c = b - score;
+            if (c < 0) {
+                // c = 0;
+                layer.msg('请输入正确的分值！', function () { });
+                return false;
+            }
+            //  alert(score);
+            $.ajax({
+                Type: "post",
+                dataType: "json",
+                cache: false,
+                data: { "fenzhi": score, "id": id, "yuan": c },
+                //   contentType: "application/json; charset=utf-8",
+                url: '/Admin/SG_achievement/update',
+                success: function () {
+                    layer.msg("修改成功", { icon: 1 });
+                    xiugai = 0;
+                    bindIngfo();
+                }
+            })
+        }
+    }
+    function submint(id, s, b) {
+        debugger;
+        var val = document.getElementById("txtd" + id);
+        var score = parseFloat($('#txtd' + id).val());
+        var c = b - score;
+        if (c < 0) {
+            // c = 0;
+            layer.msg('请输入正确的分值！', function () { });
+            return false;
+        }
+        //  alert(score);
+        $.ajax({
+            Type: "post",
+            dataType: "json",
+            cache: false,
+            data: { "fenzhi": score, "id": id, "yuan": c },
+            //   contentType: "application/json; charset=utf-8",
+            url: '/Admin/SG_achievement/update',
+            success: function (data) {
+                if (data == 1) {
+                    layer.msg("修改成功", { icon: 1 });
+                    xiugai = 0;
+                    bindIngfo();
+                }
+
+            }
+        })
+    }
+    //复选框 全选样式 控制
+    function redload() {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        //全选checkbox
+        var $checkboxAll = $(".checkbox-all"),
+                           $checkbox = $(".new_table").find("[type='checkbox']").not("[disabled]"),
+                           length = $checkbox.length,
+                           i = 0;
+        $checkboxAll.on("ifClicked", function (event) {
+            if (event.target.checked) {
+                $checkbox.iCheck('uncheck');
+                i = 0;
+            } else {
+                $checkbox.iCheck('check');
+                i = length;
+            }
+        });
+    }
+</script>

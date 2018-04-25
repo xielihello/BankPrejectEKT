@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>大裁判评分</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/student.css" rel="stylesheet">
+</head>
+<body class="topic_bg">
+    <div class="herd_top2">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                @*<span>典阅智慧财经</span>综合技能竞赛平台*@
+            </div>
+            <!--退出按钮-->
+            <div class="herd_top_out" onclick="CloseIndex()"></div>
+        </div>
+    </div>
+
+
+    <div class="stu_map">
+        <div class="grad_map">
+            @{if (ViewData["error"] != "error") { 
+            <div class="grad_con">
+                <!--头部赛项名称-->
+                <div class="grad_title">
+                    手工点钞竞赛成绩
+                </div>
+                <!--选手信息-->
+                <div class="grad_use_message" style="margin-top: 5vmin;">
+                    @ViewData["Name"]<br />
+                    登录账号：<span class="color_yellow">@ViewData["UserNo"]</span><br />
+                    代表队：<span class="color_yellow">@ViewData["SchoolName"]</span>
+                </div>
+                <!--裁判评分登陆   不需要时删除-->
+                @{
+                    if (Convert.ToInt32(ViewData["RefereePoints"]) == 0)
+                    {
+                        <div class="grad_btn" style="margin-bottom: 5vmin;">
+
+                            <div class="judge_text">
+                                扣分(分):
+                            </div>
+                            <div class="judge_input">
+                                <input type="text" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" name="" id="Pointsid" value="" />
+                            </div>
+                            <button class="bt_pingfen" onclick="Save()">保存</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="grad_btn" style="margin-bottom: 5vmin;">
+
+                            @*<div class="judge_text">
+                                    扣分(分):
+                                </div>
+                                <div class="judge_input">
+                                    <input type="text" disabled="disabled" name="" id="" value="" />
+                                </div>*@
+                            <button class="bt_pingfen" style="text-align:center">裁判已评分</button>
+                        </div>
+                    }
+                }
+            </div>}
+              else 
+              {
+                  <div class="grad_con"><h4>暂时无做记录</h4></div> 
+              }
+            }
+        </div>
+    </div>
+    <div class="bottom_bj">
+        <img src="../img/student/statebj.png" />
+    </div>
+   
+</body>
+
+</html>
+<script src="~/Scripts/jquery-3.2.0.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/Judge/Judge.js"></script>

@@ -1,0 +1,261 @@
+﻿@{
+    ViewData["nvc"] = "复核试卷管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    /*.input_text {
+        background-color: #ffffff;
+        border-color: #000000;
+        border-style: solid;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 1px;
+        border-left-width: 0px;
+        text-align: center;
+        width: 100px;
+    }*/
+</style>
+<style type="text/css">
+    .input_bottom {
+        display: initial;
+        border: none;
+        border-bottom: 2px solid #1ab394;
+    }
+
+    .divm {
+        margin-bottom: 10px;
+    }
+   #tablelist .input_text {
+        background-color: #ffffff;
+        border-color: #000000;
+        border-style: solid;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 1px;
+        border-left-width: 0px;
+        text-align: center;
+        width: 100px;
+    }
+</style>
+@{
+    string title = "手工组卷";
+    if (Convert.ToInt32(ViewData["Type"]) == 2)
+    {
+        title = "智能组卷";
+    }
+}
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>@title</h3>
+    @if (Convert.ToInt32(ViewData["Type"]) == 1)
+    {
+         var table = ViewData["Table"] as System.Data.DataTable;
+         string TestName = "";
+         string IsOrder = "1";
+         string Fraction = "0.00";
+         string count = "0";
+         if (table != null && table.Rows.Count > 0)
+         {
+             TestName = table.Rows[0]["TestPaperName"].ToString();
+             IsOrder = table.Rows[0]["IsType"].ToString();
+             count = table.Rows[0]["count"].ToString();
+             Fraction = Convert.ToDecimal(table.Rows[0]["Fraction"]).ToString("f2");
+         }
+        
+        <div class="ibox-content" id="shougong">
+            <div class="row form-horizontal">
+                <div class="row">
+                    <div class="col-sm-12 divm">
+                        <label for="inputEmail3" class="col-sm-3 control-label"><span class="text-danger">*</span> 试卷名称：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control input_bottom" value="@TestName" id="TestName" name="TestName" placeholder="请输入试卷名称">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 divm">
+                        <label for="inputEmail3" class="col-sm-3 control-label"><span class="text-danger"></span>试卷总分(分)：</label>
+                        <div class="col-sm-1">
+                            <label class="m-t-sm" id="Sum_Score">@Fraction</label>
+                        </div>
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger"></span>试卷题量(道)：</label>
+                        <div class="col-sm-1">
+                            <label class="m-t-sm" id="Quantity">@count</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 divm" id="radio">
+                        <label for="inputEmail3" class="col-sm-3 control-label"><span class="text-danger">*</span> 打乱同一题型下的试题顺序：</label>
+                        <div class="col-sm-3">
+                            <div style="text-align: left;" class=" control-label">
+                                <span class="m-r-xs">
+                                    <input type="radio" class="i-checks" @(IsOrder=="1"?"checked":"") name="IsOrder" id="P_IsOrderA" value="1"></span>是		
+                       <span class="m-l-md"><span class="m-r-xs">
+                           <input type="radio" class="i-checks" @(IsOrder!="1"?"checked":"") name="IsOrder" id="P_IsOrderB" value="0"></span>否</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="row form-horizontal">
+                <div class="row">
+
+                    <div class="col-sm-4 m-b-xs">
+                        <input type="text" placeholder="题目标题" id="Title" class=" form-control">
+                    </div>
+                    <div class="col-sm-4 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="State">
+                            <option value="0">加卷状态</option>
+                            <option value="1">已加入当前试卷</option>
+                            <option value="2">未加入当前试卷</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <select class=" form-control input-s-sm inline" id="PaperIsUse">
+                                <option value="0">是否被使用</option>
+                                <option value="1">已使用</option>
+                                <option value="2">未使用</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="bindIngfo()">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div style="height: 5px;">&nbsp;</div>
+
+            <div class="row">
+                <div class="pull-left">
+                    @{
+                         //管理员
+                         if (ViewData["UserType"].ToString() == "1")
+                         { 
+                           <span class="text-danger">说明：当前仅系统题目可被使用。</span>
+                         }
+                    }
+
+                </div>
+                <div class="pull-right">
+                   @* <button onclick="GetUpdateTestPager(1,'A')" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">加入试卷</span></button>
+                    <button onclick="GetUpdateTestPager(2,'A')" class="btn btn-success btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">移出试卷</span></button> *@
+                    <button onclick="AjaxCacheTest(0)" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">加入试卷</span></button>
+                    <button onclick="AjaxCacheTest(1)" class="btn btn-success btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">移出试卷</span></button>
+                </div>
+            </div>
+
+            <div class="row m-t-sm table-responsive">
+                <table class="table text-center table-bordered ">
+                    <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">
+                                <input type="Checkbox" class="i-checks checkbox-all"></th>
+                            <th class="text-center">题目描述</th>
+                            <th class="text-center">加卷状态</th>
+                            <th class="text-center">是否被使用</th>
+                            <th class="text-center">操作</th>
+                            <th class="text-center">分值设置（分）</th>
+                        </tr>
+                    </thead>
+                    <tbody class="new_table text-center" id="tablelist">
+                     
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!--分页开始-->
+            <div class="row text-center" id="PaginatorLibrary">
+            </div>
+            <!--分页结束-->
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <div class="form-group m-t-md">
+                @*        <button type="button" class="btn btn-w-m btn-success m-r-lg" onclick="GetUpdateTestPager(1,'B')">保存</button>*@
+                        <button type="button" class="btn btn-w-m btn-success m-r-lg" onclick="AjaxAddTestPager()">保存</button>
+                        <button type="button" class="btn btn-w-m btn-white" onclick="jsReturn()">返回</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+    else
+    {
+
+        <div class="ibox-content" id="zhineng">
+            <!--内容开始-->
+            <div class="row">
+
+                <form class="form-horizontal">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试卷名称：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control input_bottom" autocomplete="off" id="PaperName" name="PaperName" placeholder="请输入试卷名称">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>是否打乱同一题型下的试题顺序：</label>
+                            <div class="col-sm-10">
+                                <div class="radio i-checks">
+                                    <label>
+                                        <input type="radio" checked="" value="1" name="rad">
+                                        <i></i>是</label>
+                                    <label>
+                                        <input type="radio" checked="" value="0" name="rad">
+                                        <i></i>否</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--组卷规则字段开始--> 
+                          
+                        <div class="form-group">
+                         
+                            <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>组卷规则：</label>
+                            <div class="col-sm-10">
+                                <div class="m-t-sm text-danger">当前可用题目<span id="Sum_Number">@ViewData["Sum_Number"]</span>道，其中有<span id="Unused">@ViewData["Unused"]</span>道题目尚未被使用，未被使用题目指在其他试卷中未出现过该题目。</div>
+                                 @{
+                                     //管理员
+                                     if (ViewData["UserType"].ToString() == "1")
+                                     { 
+                                      <span class="text-danger">说明：当前仅系统题目可被使用。</span>
+                                     }
+                                }
+                                <div class="m-t-sm">
+                                    共随机抽取
+                                <input class="form-control  input_bottom" id="SumExtract" style="width: 60px;" type="text" autocomplete="off" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                                    道，其中未被使用题目
+                                <input class="form-control  input_bottom" id="ExtractUnused" style="width: 60px;" type="text" autocomplete="off" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                                    道，每道
+                                <input class="form-control ml10 mr10 input_bottom" id="Score" style="width: 60px;" type="text" autocomplete="off" onkeyup="value=value.replace(/[^\d.]/g,'')" onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " />
+                                    分，共计
+                                 <span class="font-bold text-navy" id="Sum_Score">0</span> 分；
+											
+                                </div>
+                            </div>
+                        </div>
+                        <!--组卷规则字段结束-->
+                    </div>
+                    <!--系统统一分隔符-->
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group m-t-md">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-w-m btn-success m-r-lg" onclick="Save()">保存</button>
+                            <a href="javascript:;" onclick="jsReturn()" class="btn btn-w-m btn-white ">返回</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!--内容結束-->
+        </div>  
+    }
+</div>
+<input type="hidden" id="Id" value="@ViewData["Id"]" />
+<input type="hidden" id="Type" value="@ViewData["Type"]" />
+<script src="~/Areas/Admin/Scripts/FH_ReportForm/EditTestPaper.js"></script>

@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+    //获取实体
+    var jm = Model as VocationalProject.Models.HBKaoShiModel;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>易考通</title>
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/student.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body class="topic_bg">
+    <div class="herd_top2">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                <img src="/img/student/kaologo.png" />
+
+            </div>
+
+        </div>
+    </div>
+    <div class="stu_map">
+        <div class="grad_map">
+            <div class="grad_con">
+                <!--头部赛项名称-->
+                <div class="grad_title">
+                    @jm.E_Name
+                </div>
+                <!--选手头像-->
+                <div class="grad_use">
+                    <img src="@jm.UserPic" />
+                </div>
+                <!--选手成绩-->
+                <div class="grad_number">
+                    <div class="grad_digit">@jm.ER_Score<span>分</span></div>
+                </div>
+                <!--选手信息-->
+                <div class="grad_use_message">
+                    @jm.UserName<br />
+                    登录账号：<span class="color_yellow">@jm.UserNo</span><br />
+                    代表队：<span class="color_yellow">@jm.TeamName</span>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom_bj">
+        <img src="../img/student/statebj.png" />
+    </div>
+    <div style="color: #aab3b7; text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        Copyright 版权所有深圳典阅科技有限公司 2017
+    </div>
+</body>
+</html>
+<script>
+    //控制浏览器是否后退
+    $(document).ready(function (e) {
+        var counter = 0;
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                alert("您已经提交答案,不能进行后退操作！");
+            });
+        }
+
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    });
+</script>

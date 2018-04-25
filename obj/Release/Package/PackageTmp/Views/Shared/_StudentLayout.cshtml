@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/student.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/verifyform.js"></script>
+    <script src="~/Scripts/Page.js"></script>
+    <style>
+        .stu_paging a.xz { color: white; background-color: #703b07; text-decoration: none; }
+    </style>
+</head>
+@{
+    var type = Session["UserType"].ToString();
+    var m = Session["UserInfo"] as VocationalProject_Models.tb_UserInfo;
+        
+}
+<body>
+    <!--网站头部-->
+    <div class="herd_top">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                <img style="height: 75px;" src="../img/newlogo2.png"/><span style="margin-left: 50px;">典阅智慧财经综合技能竞赛平台</span>	
+            </div>
+            <!--退出按钮-->
+            <div class="herd_top_out" onclick="CloseIndex()"></div>
+        </div>
+    </div>
+    <div class="stu_map">
+        <div class="stu_top">
+            <img src="../img/student/navtop.png" />
+        </div>
+        <!--头部导航开始-->
+        <div class="stu_nav">
+            <ul id="ullist">
+                <li class="nav_item  hbzs " data-title="货币知识" onclick="jsAction('/HB_Competition',1)"></li>
+                <li class="nav_item  sgdc" onclick="jsAction('/SG_Competition',2)" data-title="手工点钞"></li>
+                <li class="nav_item  fhbb" onclick="jsAction('/FH_Management',3)" data-title="复核报表"></li>
+                <li class="nav_item  djlr" onclick="jsAction('/Bill_Competition/GrowthProcess',4)" data-title="单据录入"></li>
+                <li class="nav_item  fsph" onclick="jsAction('/HighScores',0)" data-title="分数排行榜"></li>
+                <li class="stu_use">
+                    <a href="@Url.Action("Index", "Student")">
+                        <img id="image"  title="个人资料" src="@(!string.IsNullOrEmpty(m.UserPic) ? m.UserPic : "/img/profile_s.jpg")" /></a><span id="name"></span>
+                    <input type="hidden" id="Uid" value="@(m.UserNo)" />
+                </li>
+            </ul>
+        </div>
+        <!--头部导航结束-->
+
+    </div>
+    <div id="body">
+        <!--内容区域模版开始-->
+        @RenderSection("featured", required: false)
+        <section class="gray-bg">
+            @RenderBody()
+        </section>
+        <!--内容区域模版结束-->
+    </div>
+    <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        Copyright 版权所有深圳典阅科技有限公司 2017
+    </div>
+    
+    @RenderSection("scripts", required: false)
+    @{
+        var ul = ViewData["nvc"]; 
+        
+        var Jur = Session["Jurisdiction"].ToString();
+
+        //var a1 = true;//货币
+        //var a2 = true;//手工
+        //var a3 = true;//复核
+        //var a4 = true;//单据
+        //if (type != "1")
+        //{
+        //    if (!Jur.Contains("1"))
+        //    {
+        //        a1 = false;
+        //    }
+        //    if (!Jur.Contains("2"))
+        //    {
+        //        a2 = false;
+        //    }
+        //    if (!Jur.Contains("3"))
+        //    {
+        //        a3 = false;
+        //    }
+        //    if (!Jur.Contains("4"))
+        //    {
+        //        a4 = false;
+        //    }
+
+        //}
+    }
+    <script>
+        var nvc = "@(ul)";
+
+        var a1 = "0";//货币
+        var a2 = "0";//手工
+        var a3 = "0";//复核
+        var a4 = "0";//单据
+        $(function () {
+            $("li:first").removeClass("active");//遍历所有li标签
+            //$(".sgdc").addClass("active");
+            jsnvc();
+            aa();
+        });
+        function imgUrlStu(url, name) {
+            if (url != "1") {
+                $("#image").attr("src", url);
+            }
+            if (name != "") {
+                $("#name").text(name);
+            }
+
+            //   $("#Uno").val(name);
+        };
+        function jsnvc() {
+            if (nvc != null && nvc != "") {
+                $("#ullist").find("li").each(function () {
+                    var txt = $(this).attr("data-Title");
+                    if (txt == nvc) {
+                        $(this).addClass("active");
+                        return false;
+                    }
+                });
+            } else {
+                $(".hbzs").addClass("active");
+            }
+        };
+        function aa() {
+          //  alert("aa");
+            var id = $("#Uid").val()
+            $.ajax({
+                Type: "post",
+                url: '/ashx/Studentinfo.ashx?action=loadinfo&UID='+id,
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                  //  alert(data[0]["UserName"]);
+                    if (data[0]["UserName"] == null || data[0]["UserName"] == "") {
+                        $("#name").text(data[0]["UserNo"]);
+                    }
+                    else {
+                        $("#name").text(data[0]["UserName"]);
+                    }
+                    if (data != null && data.length > 0) {
+                        var Jurisdiction = data[0]["Jurisdiction"];
+                        if ("@type" != "1") {
+                            if (Jurisdiction.indexOf("1") >= 0) {
+                                a1 = "1";
+                            }
+                            if (Jurisdiction.indexOf("2") >= 0) {
+                                a2 = "1";
+                            }
+                            if (Jurisdiction.indexOf("3") >= 0) {
+                                a3 = "1";
+                            }
+                            if (Jurisdiction.indexOf("4") >= 0) {
+                                a4 = "1";
+                            }
+                        }
+                    }
+                }
+            });
+        } 
+        function jsAction(url, t) {
+            if (t != 0) {
+                if (t == 1 && a1 == "0") {
+                    layer.msg('暂无权限,请联系客服！', function () { })
+                    return;
+                } if (t == 2 && a2 == "0") {
+                    layer.msg('暂无权限,请联系客服！', function () { })
+                    return;
+                } if (t == 3 && a3 == "0") {
+                    layer.msg('暂无权限,请联系客服！', function () { })
+                    return;
+                } if (t == 4 && a4 == "0") {
+                    layer.msg('暂无权限,请联系客服！', function () { })
+                    return;
+                }
+            }
+            window.location.href = url;
+        }
+        function CloseIndex() {
+            //parent.layerConfirm('确认要退出后台?', function (num) { $("form[name='myUserExit']").submit() });
+            //layer.msg('确认要退出后台！', function (num) { $("form[name='myUserExit']").submit() });
+            layer.confirm('确认要退出竞赛平台？', {
+                title: '退出',
+                btn: ['确定', '取消'],
+                shadeClose: true, //开启遮罩关闭
+                skin: 'layui-layer-lan'
+                //按钮
+            },
+       function () {
+           $("form[name='myUserExit']").submit();
+       });
+       
+        }
+    </script>
+</body>
+
+
+@using (Html.BeginForm("PostUserExit", "FH_ReportForm", FormMethod.Post, new { name = "myUserExit" }))
+{
+}
+</html>

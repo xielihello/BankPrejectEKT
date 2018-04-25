@@ -1,0 +1,66 @@
+ Log Entry : 
+04/18/2017 11:49:07
+Error in: http://localhost:37713/Admin/PersonalTotalScore/GetList?descby=Toscores desc&SchooId=1&TeamId=1&StudentInfo=&ScoreQJ=&sjly=&hbzs_selectId=0&sgdc_selectId=0&fhbb_selectId=0&djlr_selectId=0&PageSize=10&_=1492487333150. Error Message:无法绑定由多个部分组成的标识符 "c.Id"。
+列名 'UserClassId' 无效。
+无法绑定由多个部分组成的标识符 "c.Id"。
+列名 'UserClassId' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 11:49:11
+Error in: http://localhost:37713/Admin/PersonalTotalScore/GetList?descby=Toscores desc&SchooId=1&TeamId=1&StudentInfo=&ScoreQJ=&sjly=&hbzs_selectId=0&sgdc_selectId=0&fhbb_selectId=0&djlr_selectId=0&page=2&PageSize=10&_=1492487333151. Error Message:无法绑定由多个部分组成的标识符 "c.Id"。
+列名 'UserClassId' 无效。
+无法绑定由多个部分组成的标识符 "c.Id"。
+列名 'UserClassId' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 11:49:16
+Error in: http://localhost:37713/Admin/PersonalTotalScore/GetList?descby=Toscores desc&SchooId=1&TeamId=1&StudentInfo=草泥马&ScoreQJ=&sjly=&hbzs_selectId=0&sgdc_selectId=0&fhbb_selectId=0&djlr_selectId=0&PageSize=10&_=1492487333152. Error Message:无法绑定由多个部分组成的标识符 "c.Id"。
+列名 'UserClassId' 无效。
+无法绑定由多个部分组成的标识符 "c.Id"。
+列名 'UserClassId' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 11:49:20
+Error in: http://localhost:37713/Admin/PersonalTotalScore/GetList?descby=Toscores desc&SchooId=1&TeamId=1&StudentInfo=草泥马&ScoreQJ=&sjly=&hbzs_selectId=0&sgdc_selectId=0&fhbb_selectId=0&djlr_selectId=0&PageSize=10&_=1492487333152. Error Message:无法绑定由多个部分组成的标识符 "c.Id"。
+列名 'UserClassId' 无效。
+无法绑定由多个部分组成的标识符 "c.Id"。
+列名 'UserClassId' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 17:43:22
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=10008&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492508602627. Error Message:列名 'QB_AddTime' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 17:43:29
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492508609668. Error Message:列名 'QB_AddTime' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 17:43:39
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492508618898. Error Message:列名 'QB_AddTime' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 17:43:53
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492508633211. Error Message:列名 'QB_AddTime' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 17:43:58
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492508633211. Error Message:列名 'QB_AddTime' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 17:45:01
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492508701892. Error Message:关键字 'select' 附近有语法错误。
+')' 附近有语法错误。
+关键字 'as' 附近有语法错误。
+关键字 'select' 附近有语法错误。
+')' 附近有语法错误。
+关键字 'as' 附近有语法错误。,详细错误信息：
+__________________________
+ Log Entry : 
+04/18/2017 17:45:05
+Error in: http://localhost:37713/Admin/HB_Paper/GetQuestionBankList?MPId=&PaperQB_Type=0&PaperQB_Description=&PaperStateK=0&PaperIsUse=0&PageSize=10&_=1492508701892. Error Message:关键字 'select' 附近有语法错误。
+')' 附近有语法错误。
+关键字 'as' 附近有语法错误。
+关键字 'select' 附近有语法错误。
+')' 附近有语法错误。
+关键字 'as' 附近有语法错误。,详细错误信息：
+__________________________

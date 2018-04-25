@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["nvc"] = "复核试卷管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>复核试卷管理</h3>
+    <div class="ibox-content">
+        <div class="row form-horizontal">
+            @{
+                //管理员查询条件
+                if (ViewData["UserType"].ToString() == "1")
+                {
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="请输入试卷名称" id="TestPaperName" class=" form-control">
+                    </div>
+
+                    <div class="col-sm-3 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="Kind">
+                            <option value="0">请选择试卷属性</option>
+                            <option value="1">系统试卷</option>
+                            <option value="2">教师试卷</option>
+                            <option value="3">所有试卷</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="text" placeholder="请输入试卷来源" id="AddOperator" class=" form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn  btn-primary" onclick="searchinfo()">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                }
+                else
+                {
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <div class="input-group">
+                            <input type="text" placeholder="请输入试卷名称" id="TestPaperName" class=" form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn  btn-primary" onclick="searchinfo()">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                }
+            }
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="EditStudent(1,null)" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">手工组卷</span></button>
+                <button onclick="EditStudent(2,null)" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">智能组卷</span></button>
+                <button onclick="del_all()" type="button" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i><span class="bold">删除</span></button>
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">
+                            <input type="Checkbox" class="i-checks checkbox-all"></th>
+                        <th class="text-center">试卷名称</th>
+                        <th class="text-center">试卷分值</th>
+                        @{
+                            //管理员查询条件
+                            if (ViewData["UserType"].ToString() == "1")
+                            {
+                            <th class="text-center">试卷属性</th>
+                            <th class="text-center">试卷来源</th>
+                            }
+                        
+                        }
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+       
+
+                </tbody>
+            </table>
+        </div>
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+    </div>
+</div>
+
+<input type="hidden" value="@ViewData["UserType"]" id="UserType" />
+<input type="hidden" value="@ViewData["UserId"]" id="UserId" />
+<script src="~/Areas/Admin/Scripts/FH_ReportForm/TestPaper.js"></script>

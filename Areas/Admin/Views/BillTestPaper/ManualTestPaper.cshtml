@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["nvc"] = "单据试卷管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model System.Data.DataTable
+<style>
+    .input_text {
+        background-color: #ffffff;
+        border-color: #000000;
+        border-style: solid;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 1px;
+        border-left-width: 0px;
+        text-align: center;
+        width: 100px;
+    }
+</style>
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>手工组卷</h3>
+    <div class="ibox-content">
+        @using (Html.BeginForm("ManualTestPaper", "BillTestPaper", FormMethod.Post, new { @class = "form-horizontal", name = "myManualTestPaper" }))
+        {
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试卷名称：</label>
+                <div class="col-sm-6">
+                    <input type="text" id="PaperName" name="PaperName" placeholder="请输入试卷名称" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>是否打乱试题顺序：</label>
+                <div class="col-sm-6">
+                    <div class="radio i-checks">
+                        <label>
+                            <input type="radio" checked="" value="1" name="rad">
+                            <i></i>是</label>
+                        <label>
+                            <input type="radio" checked="" value="0" name="rad">
+                            <i></i>否</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">试卷总分(分)：</label>
+                <div class="col-sm-2">
+                    <label class="m-t-sm" id="Sum_Score">0</label>
+                </div>
+                <label for="inputEmail3" class="col-sm-2 control-label">试卷题量(道)：</label>
+                <div class="col-sm-2">
+                    <label class="m-t-sm" id="Quantity">0</label>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">试题选择：</label>
+                    <div class="col-sm-10">
+                        <div class="col-sm-3">
+                            <select class="  form-control input-s-sm inline" id="BillType" name="BillType">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.BillType))</select>
+                        </div>
+                        <div class="col-sm-3">
+                            <select class=" form-control input-s-sm inline" id="BillName" name="BillName">
+                                <option value='0'>请选择单据名称</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <select class=" form-control input-s-sm inline" id="CoilState" name="CoilState">
+                                <option value='0'>请选择加卷状态</option>
+                                <option value='1'>已加入当前试卷</option>
+                                <option value='2'>未加入当前试卷</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label class="col-sm-2 "></label>
+                    <div class="col-sm-10 m-t-sm">
+                        <div class="col-sm-3">
+                            <select class=" form-control input-s-sm inline" id="UsingState" name="UsingState">
+                                <option value='0'>请选择使用状态</option>
+                                <option value='1'>已使用</option>
+                                <option value='2'>未使用</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="text" placeholder="请输入题目标题" class="form-control" id="Title" name="Title">
+                                <span class="input-group-btn">
+                                    <button type="button" id="query" class="btn btn-primary">搜索</button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="AddTestPaper()"><i class="fa fa-plus-square-o m-r-xs"></i><span class="bold">加入试卷</span></button>
+                            <button type="button" class="btn btn-warning btn-sm" onclick="DelTestPaper()"><i class="fa fa-minus-square-o m-r-xs"></i><span class="bold">移出试卷</span></button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <table class="table table-bordered " >
+                            <thead>
+                                <tr>
+                                    <th class="text-center">序号</th>
+                                    <th  class="text-center">
+                                        <input type="Checkbox" class="i-checks checkbox-all"></th>
+                                    <th class="text-center">题目标题</th>
+                                    <th class="text-center">单据类型</th>
+                                    <th class="text-center">单据名称</th>
+                                    <th class="text-center">加卷状态</th>
+                                    <th class="text-center">是否被使用</th>
+                                    <th class="text-center">操作</th>
+                                    <th class="text-center">分值设置（分）</th>
+                                </tr>
+                            </thead>
+                            <tbody class="new_table text-center" id="table">
+                            </tbody>
+                        </table>
+                        <!--分页开始-->
+                        <div class="row text-center" id="PaginatorLibrary">
+                        </div>
+                        <!--分页结束-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-footer text-center">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-w-m btn-success m-r-lg" name="action" value="Save" onclick="return check()">保存</button>
+                        <a href="@Url.Action("TestPaperList", "BillTestPaper")" class="btn btn-w-m btn-white ">返回</a>
+                    </div>
+                </div>
+            </div>
+            
+            <input type="hidden" id="PaperId" name="PaperId" />
+            <input type="hidden" id="page" name="page" value="@ViewBag.PageIndex" />
+            <input type="hidden" id="PageTotal" name="PageTotal" value="@ViewBag.PageTotal" />
+            <input type="hidden" id="GLId" name="GLId" />
+        }
+    </div>
+</div>
+@{
+    if (Convert.ToInt32(ViewData["Count"]) > 0)
+    {
+    <script type="text/javascript">
+        window.location.href = "/Admin/BillTestPaper/TestPaperList";
+    </script>
+    }
+}
+<script src="~/Areas/Admin/Scripts/BillTestPaper/ManualTestPaper.js"></script>
+

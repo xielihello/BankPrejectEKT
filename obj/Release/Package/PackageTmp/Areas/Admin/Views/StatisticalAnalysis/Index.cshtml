@@ -1,0 +1,313 @@
+﻿@{
+    ViewData["nvc"] = "成绩统计分析";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/Scripts/echarts/echarts.min.js"></script>
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>统计概览</h3>
+    <div class="ibox-content">
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label text-right m-t-sm">统计指标：</label>
+                <div class="col-sm-6">
+                    <button class="btn btn-primary  m-r-lg" onclick="JsLoad(1,this)">平均分</button>
+
+                    <button class="btn btn-primary btn-outline" onclick="JsLoad(2,this)">通过率</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-t-sm form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label ">赛项:</label>
+                <div class="col-sm-6 ">
+                    <input type="checkbox" name="use" class="i-checks" id="" value="1" /><label class="control-label m-l-sm m-r-lg">货币知识</label>
+                    <input type="checkbox" name="use" class="i-checks" id="" value="2" /><label class="control-label m-l-sm m-r-lg">手工点钞</label>
+                    <input type="checkbox" name="use" class="i-checks" id="" value="3" /><label class="control-label m-l-sm m-r-lg">复核报表</label>
+                    <input type="checkbox" name="use" class="i-checks" id="" value="4" /><label class="control-label m-l-sm m-r-lg">单据录入</label>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-t-sm form-horizontal">
+
+            <div class=" form-group">
+                <label class="col-sm-2 control-label" id="label">平均分区间：</label>
+                <div class="col-sm-1 m-b-xs">
+                    <input type="text" placeholder="" maxlength="3" id="MinTxt" class="form-control">
+                </div>
+                <div class="col-sm-1 m-b-xs" style="width: 0px; padding-left: 0px;">
+                    <label>—</label>
+                </div>
+                <div class="col-sm-1 m-b-xs">
+                    <input type="text" placeholder="" maxlength="3" id="MaxTxt" class="form-control">
+                </div>
+
+                <div class="col-sm-1 m-b-xs">
+                    <span class="input-group-btn">
+                        <button type="button" id="btnClok" class="btn  btn-primary">查询</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="hr-line-dashed "></div>
+        <div class="row">
+            <div id="chart-personPK" style="width: 100%; height: 480px;"></div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var model = null;
+    var Types = 1;
+    //radio选中样式
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        JsLoad(Types, model)
+        $("#btnClok").click(function () {
+            JsLoad(Types, model)
+        })
+    });
+
+    function JsLoad(Type, obj) {
+        if (obj != null) {
+            model = obj;
+            $("button.btn").addClass("btn-outline");
+            $(obj).removeClass("btn-outline");
+            
+        }
+        $("#label").html("平均分区间：")
+        if (Type == 2) {
+            $("#label").html("通过率区间：")
+        }
+        Types = Type;
+        var chks = document.getElementsByName('use');//name
+        var chkstr = "";
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked == true) {
+                chkstr += chks[i].value + ",";
+            }
+        }
+        if (chkstr.length > 0) {
+            chkstr = chkstr.substr(0, chkstr.length - 1);
+        }
+
+        var MinTxt = $("#MinTxt").val();
+        var MaxTxt = $("#MaxTxt").val();
+
+        if (!IsNullOrEmpty(MinTxt)) {
+            if (!isMoney(MinTxt, 0)) {
+                layer.msg('请输入正确的区间值！', function () { });
+                $("#MinTxt").focus();
+                return;
+            }
+        }
+        if (!IsNullOrEmpty(MaxTxt)) {
+            if (!isMoney(MaxTxt, 0)) {
+                layer.msg('请输入正确的区间值！', function () { });
+                $("#MaxTxt").focus();
+                return;
+            }
+        }
+
+        //AjaxEcharts();
+        //return;
+        $.ajax({
+            Type: "post",
+            url: '/Admin/StatisticalAnalysis/GetList',
+            dataType: "json", cache: false,
+            contentType: "application/json; charset=utf-8",
+            data: { "Type": Type, "chkstr": chkstr, "MinTxt": MinTxt, "MaxTxt": MaxTxt},
+            success: function (data) {
+                if (data.length > 0) {
+                    AjaxEcharts(data);
+                } else {
+                    $("#chart-personPK").html("暂无数据");
+
+                }
+
+            }
+        });
+
+    }
+
+    
+    function MoneyVerification(money) {
+        var velue = 0;
+        if (!IsNullOrEmpty(money)) {
+            if (isMoney(money, 0)) {
+                velue = money;
+            }
+        }
+        return velue;
+    }
+    function AjaxEcharts(data) {
+        var obama_budget_2012 = {};
+        var name = "";
+        var fs = ""; 
+        obama_budget_2012.names = [];
+        obama_budget_2012.budget2012List = [];
+        legendName = "平均分";
+        yAxisName = "";
+        if (Types != 1) {
+            legendName = "通过率";
+            yAxisName = "%";
+        }
+        var maxResult = 0;
+        var Zoom = 7;
+        for (var i = 0; i < data.length; i++) {
+            var Result = data[i].Result.toFixed(2);
+            //if (Types != 1) {
+            //    Result = (parseFloat(data[i].Result) * 100).toFixed(2);
+            //}
+            if (maxResult < Result) {
+                maxResult = Result;
+                Zoom = i;
+            }
+            obama_budget_2012.budget2012List[i] = ({
+                value: Result, Title: "平均时长：" + MoneyVerification(data[i].LongTime).toFixed(2) + "min", name: "所属班级：" + data[i].TeamName
+            });
+
+            var UserName = "";
+            if (!IsNullOrEmpty(data[i].UserName)) {
+                UserName = data[i].UserName;
+            }
+            obama_budget_2012.names[i] = "学生:" + UserName;
+            //obama_budget_2012.budget2012List[i] = (i + 1) * (i + 10);
+        }
+        //alert(maxResult)
+        var minZoom = 0;
+        var maxZoom = data.length;
+       
+
+        if ((parseInt(data.length) - 1) < (3 + parseInt(Zoom))) {
+            maxZoom = parseInt(data.length) - 1;
+        } else {
+            maxZoom = 3 + parseInt(Zoom);
+        }
+        maxZoom = ((maxZoom / data.length) * 100).toFixed(0);
+        if ((parseInt(maxZoom) - 3) < 0) {
+            minZoom = 0;
+        } else {
+            minZoom = (parseInt(Zoom) - 3);
+        }
+        //debugger;
+        var myChart = echarts.init(document.getElementById('chart-personPK'));
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow',
+                    label: {
+                        show: true
+                    }
+                },
+                formatter: function (params) {
+                    var res = params[0].name + '<br />' + params[0].data.name + "<br/>" + params[0].data.Title + "<br/>" + params[0].seriesName + "：" + params[0].value + yAxisName;//拼接悬浮提示
+
+                    if (Types != 1) {
+                         res = params[0].name + '<br />' + params[0].data.name + "<br/>" + params[0].seriesName + "：" + params[0].value + yAxisName;//拼接悬浮提示
+                    }
+                    return res;
+                },
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    //mark: {
+                    //    show: true
+                    //},
+                    //dataView: {
+                    //    show: true,
+                    //    readOnly: false
+                    //},
+                    magicType: {
+                        show: true,
+                        type: ['line', 'bar']
+                    },
+                    restore: {
+                        show: true
+                    },
+                    saveAsImage: {
+                        show: true
+                    }
+                }
+            },
+            calculable: true,
+            legend: {
+                data: [legendName],
+                itemGap: 5
+
+            },
+            grid: {
+                top: '12%',
+                left: '1%',
+                right: '10%',
+                containLabel: true
+            },
+            xAxis: [{
+                type: 'category',
+                data: obama_budget_2012.names,
+            }],
+            yAxis: [{
+                type: 'value',
+                name: '单位',
+                axisLabel: {
+                    formatter: function (a) {
+                        return a + yAxisName //= +a;
+                        //return isFinite(a) ?
+                        //    echarts.format.addCommas(+a / 1000) + '%' :
+                        //    '';
+                    }
+                }
+            }],
+            dataZoom: [{
+                show: true,
+                start: minZoom,
+                end: maxZoom
+            }, {
+                type: 'inside',
+                start: minZoom,
+                end: maxZoom
+            }
+            //, //去除y轴滑动
+            //{
+            //    show: true,
+            //    yAxisIndex: 0,
+            //    filterMode: 'empty',
+            //    width: 30,
+            //    height: '80%',
+            //    showDataShadow: false,
+            //    left: '93%'
+            //}
+            ],
+            series: [
+
+                {
+                    name: legendName,
+                    type: 'line',
+                    data: obama_budget_2012.budget2012List,
+                    itemStyle: {
+                        normal: {
+                            color: 'green',
+                            lineStyle: {
+                                color: '#23acdf',
+                                width: '6'
+                            }
+                        }
+                    },
+
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    }
+
+</script>

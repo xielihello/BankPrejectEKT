@@ -1,0 +1,261 @@
+﻿@{
+    ViewData["nvc"] = "学生管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>学生管理</h3>
+    <div class="ibox-content">
+        <div class="row form-horizontal">
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    <select class="form-control input-s-sm inline" id="SchooId" onchange="SelctSchool()">
+                        <option value="0">请选择院校名称</option>
+
+                    </select>
+                </div>
+                <div class="col-sm-3 m-b-xs">
+                    <select class="form-control input-s-sm inline" id="TeamId">
+                        <option value="0">请选择班级名称</option>
+
+                    </select>
+                </div>
+                <div class="col-sm-3 m-b-xs">
+                    <input type="text" placeholder="请输入教师名称" id="TeacherName" class="form-control">
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <input type="text" placeholder="请输入学生信息" id="StudentInfo" class="form-control">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" onclick="searchinfo()">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="AddInfo()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus  m-r-xs"></i><span class="bold">新增</span></button>
+                <button onclick="BatchAddInfo()" class="btn btn-success btn-sm" type="button"><i class="fa fa-plus  m-r-xs"></i><span class="bold">批量新增</span></button>
+                <button onclick="del_all()" type="button" class="btn btn-warning btn-sm"><i class="fa fa-trash  m-r-xs"></i><span class="bold">删除</span></button>
+                <button onclick="ExportStudent()" class="btn btn-info btn-sm" type="button"><i class="fa fa-level-up  m-r-xs"></i><span class="bold">导出</span></button>
+                <button onclick="Initialization_all_pwd()" class="btn btn-danger btn-sm" type="button"><i class=" fa fa-spinner m-r-xs"></i><span class="bold">密码初始化</span></button>
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">
+                            <input type="Checkbox" class="i-checks checkbox-all"></th>
+                        <th class="text-center">院校</th>
+                        <th class="text-center">班级名称</th>
+                        <th class="text-center">学生编号</th>
+                        <th class="text-center">学生姓名</th>
+                        <th class="text-center">学生账号</th>
+                        <th class="text-center">登录密码</th>
+                        <th class="text-center">所属教师</th>
+                        <th class="text-center">账户状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                </tbody>
+            </table>
+        </div>
+
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+
+    </div>
+</div>
+<!--新增弹框-->
+<div id="Add" style="display: none;" class="form-inline">
+    <form name="Addform" id="Addform">
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>所属院校：</label>
+                <div class="col-sm-8">
+                    <select class=" form-control input-s-sm inline" id="AddSchoolId" name="AddSchoolId" onchange="AddTeamSelect()">
+                        <option value="0">请选择院校名称</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>所属班级：</label>
+                <div class="col-sm-8">
+                    <select class=" form-control input-s-sm inline" id="AddTeamId" name="AddTeamId">
+                        <option value="0">请选择班级名称</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>学生编号：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" onkeyup="checkeNum('AddStudentNo')" id="AddStudentNo" name="AddStudentNo" placeholder="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>学生姓名：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="AddStudentName" name="AddStudentName" placeholder="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-center">
+            <div class="form-horizontal m-t-md ">
+                <button type="button" class="btn btn-w-m btn-success" onclick="BtnSubim()">保存</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="FormRest()">关闭</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--批量新增-->
+<div id="BatchAdd" style="display: none;" class="form-inline">
+    <form name="BatchAddform" id="BatchAddform">
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>所属院校：</label>
+                <div class="col-sm-8">
+                    <select class=" form-control input-s-sm inline" id="BatchAddSchoolId" name="BatchAddSchoolId" onchange="BatchAddTeamSelect()">
+                        <option value="0">请选择院校名称</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>所属班级：</label>
+                <div class="col-sm-8">
+                    <select class=" form-control input-s-sm inline" id="BatchAddTeamId" name="BatchAddTeamId">
+                        <option value="0">请选择班级名称</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>学生编号：</label>
+                <div class="col-sm-8">
+                    <input type="text" size="6" class="form-control"  onkeyup="TcheckeNum('BatchS')" id="BatchS" name="BatchS" placeholder="开始编号">
+                    ——
+                     <input type="text" size="6" class="form-control"  onkeyup="TcheckeNum('BatchE')" id="BatchE" name="BatchE" placeholder="结束编号">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label">学生数量：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" disabled="disabled" id="BatchAddStudentNum" name="BatchAddStudentNum" placeholder="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-center">
+            <div class="form-horizontal m-t-md ">
+                <button type="button" class="btn btn-w-m btn-success" onclick="BatchBtnSubim()">保存</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="BatchFormRest()">关闭</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--编辑-->
+<div id="Edit" style="display: none;" class="form-inline">
+    <form name="Editform" id="Editform">
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>所属院校：</label>
+                <div class="col-sm-8">
+                    <select class="form-control input-s-sm inline" id="EditSchoolId" name="EditSchoolId" onchange="EditTeamSelect()">
+                        <option value="0">请选择院校名称</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>所属班级：</label>
+                <div class="col-sm-8">
+                    <select class=" form-control input-s-sm inline" id="EditTeamId" name="EditTeamId">
+                        <option value="0">请选择班级名称</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>学生姓名：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="EditStudentName" name="EditStudentName" placeholder="">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>学生编号：</label>
+
+                <label class="col-sm-8 control-label" style="text-align: left; padding-left: 15px; font-weight: 100; font-family: 微软雅黑;" id="EditStudentNo">201700001</label>
+
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>学生账号：</label>
+
+                <label class="col-sm-8 control-label" style="text-align: left; padding-left: 15px; font-weight: 100; font-family: 微软雅黑;" id="EditUserNo">s00001</label>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm-12">
+            <div class="form-horizontal  m-t-sm">
+                <label for="firstname" class="col-sm-4 control-label"><span style="color: red;">*</span>登录密码：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="EditStudenPwd" name="EditStudenPwd" placeholder="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-center">
+            <div class="form-horizontal m-t-md ">
+                <button type="button" class="btn btn-w-m btn-success" onclick="EditBtnSubim()">保存</button>&nbsp;
+            <button type="button" class="btn btn-w-m btn-white" onclick="EditFormRest()">关闭</button>
+            </div>
+        </div>
+    </form>
+</div>
+<a id='downFile' href="" style="display: none"><span id='tf'></span></a>
+<script src="~/Areas/Admin/Scripts/StudentManagement/index.js"></script>

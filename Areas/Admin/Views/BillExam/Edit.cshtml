@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["nvc"] = "单据考试管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    @model System.Data.DataTable
+}
+<link href="~/CSS/chosen/chosen.css" rel="stylesheet" />
+<script src="~/Scripts/My97DatePicker/WdatePicker.js"></script>
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>编辑考试</h3>
+    <div class="ibox-content">
+        <!--内容开始-->
+        <div class="row">
+
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试卷选择：</label>
+                        <div class="col-sm-4 m-b-xs">
+                            <select class="chosen-select" name="TeakName" onchange="gradeChange()" id="selectId" style="width: 350px;" tabindex="2">
+                                <option value="0">请选择试卷</option>
+                                @foreach (System.Data.DataRow item in Model.Rows)
+                                {
+                                    <option value="@item["ID"]">@item["PaperName"]</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>考试名称：</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" placeholder="请输入考试名称" maxlength="15" id="EamxName" class="input-sm form-control" name="EamxName">
+                        </div>
+                    </div>
+                    @{
+                        //教师端角色才有班级
+                        if (ViewData["UserType"].ToString() == "2")
+                        {
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>分配班级：</label>
+                                <div class="col-sm-4">
+                                    <select id="selectId2" name="ClassName" data-placeholder="选择班级" class="chosen-select" multiple style="width: 350px;" tabindex="4">
+                                        <option value="">请选择班级</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" value="" id="AddTeamId" />
+                        }
+                    }
+
+                    <div class="form-group">
+
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>考试时间设置：</label>
+                        <div class="col-sm-5">
+                            <div class="input-group date">
+                                <input name="StartTime" type="text" id="EditE_StartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss',isShowClear:false,readOnly:false})" class="input-sm form-control" value="">
+                                <span class="input-group-addon">到</span>
+                                <input name="EndTime" type="text" id="EditE_EndTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss',isShowClear:false,readOnly:false})" class="input-sm form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>竞赛模式：</label>
+                        <div class="col-sm-10">
+                            <div style="text-align: left;" class=" control-label">
+                                <span class="m-r-xs">
+                                    <input type="radio" class="i-checks" name="Pattern" id="E_TypeA" checked="checked" value="2">
+                                </span>考试模式
+                                <span class="m-l-md">
+                                    <span class="m-r-xs">
+                                        <input type="radio" class="i-checks" name="Pattern" id="E_TypeB" value="1">
+                                    </span>练习模式
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>考试时长(min)：</label>
+                        <div class="col-sm-4">
+                            <input type="text" onchange="if(/\D/.test(this.value)){layer.msg('只能输入数字');this.value='';}" class="form-control" onkeyup="TYchekceday('AddE_Whenlong')" id="EditE_Whenlong" name="minId" placeholder="请输入考试时长">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>是否时间加分：</label>
+                        <div class="col-sm-10">
+                            <div style="text-align: left;" class=" control-label">
+                                <span class="m-r-xs">
+                                    <input type="radio" class="i-checks" name="Plus" id="E_IsTimeBonusA" checked="checked" value="1">
+                                </span>是
+                                <span class="m-l-md">
+                                    <span class="m-r-xs">
+                                        <input type="radio" class="i-checks" name="Plus" id="E_IsTimeBonusB" value="2">
+                                    </span>否
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--系统统一分隔符-->
+                <div class="hr-line-dashed"></div>
+                <div class="form-group m-t-md">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <button class="btn btn-w-m btn-success m-r-lg" type="button" onclick="EditBtnSubim()"><i class="fa fa-plus"></i><span class="bold">保存</span></button>
+                        <button onclick="Return()" class="btn btn-w-m btn-default" type="button"><span class="bold">返回</span></button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <!--内容結束-->
+        <input type="hidden" id="usertypehidd" value="@ViewBag.UserType" />
+    </div>
+</div>
+
+<script src="~/Scripts/chosen/chosen.jquery.js"></script>
+<script src="~/Areas/Admin/Scripts/BillExam/Edit.js"></script>

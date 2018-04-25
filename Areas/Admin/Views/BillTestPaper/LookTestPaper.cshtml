@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["nvc"] = "单据试卷管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="~/CSS/bills.css" rel="stylesheet" />
+@using VocationalProject_DBUtility.Common;
+@{
+    var tabl = ViewData["RelationTopicTable"] as System.Data.DataTable;
+    decimal TestsFraction = 0;
+    int dycTopicId = 0;
+    string dycTitle = "";
+    decimal dycFraction = 0;
+    string FormId = "";
+    string BillStyle = "";
+
+
+    int zhTopicId = 0;
+    string zhTitle = "";
+    decimal zhFraction = 0;
+}
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>试卷预览 <a href="@Url.Action("TestPaperList", "BillTestPaper")" class="btn btn-w-m  btn-white m-t-n-md  pull-right">返回</a></h3>
+    @using (Html.BeginForm("LookTestPaper", "BillTestPaper", FormMethod.Post, new { @class = "form-horizontal", name = "myLookTestPaper" }))
+    {
+        <div class="ibox-content">
+            <div class="row">
+                <div class="text-center">
+                    <strong style="font-size: large">@ViewBag.PaperName（满分<span>@ViewBag.Score</span>）</strong>
+                </div>
+                <div class="hr-line-dashed "></div>
+                <div class="row text-center" id="timbt">
+                    @for (int i = 0; i < tabl.Rows.Count; i++)
+                    {
+                        var time = tabl.Rows[i];
+                        string t = "第" + (i + 1) + "题";
+                        int Id = Convert.ToInt32(time["Id"].ToString());
+                        string Title = time["TopicTitle"].ToString();
+                        var Fraction = !string.IsNullOrEmpty(time["Score"].ToString()) ? Convert.ToDecimal(time["Score"]) : 0;
+                        FormId = time["BillFormId"].ToString();
+                        TestsFraction += Fraction;
+                        BillStyle = Dictionary.GetDictStyle(FormId);
+                        string TopicId = time["TopicID"].ToString();
+                        if (i == 0)
+                        {
+                            dycTopicId = Id;
+                            dycTitle = Title;
+                            dycFraction = Fraction;
+                        }
+                        if ((i + 1) == tabl.Rows.Count)
+                        {
+                            zhTopicId = Id;
+                            zhTitle = Title;
+                            zhFraction = Fraction;
+                        }
+                        <div class="col-sm-1 m-t-sm">
+                            <button class="btn btn-primary btnss_outline btn-outline " type="button" BillStyle="@BillStyle" EvenId="@Id" TopicId="@TopicId" Title="@Title" Fraction="@Fraction" FormId="@FormId"  onclick="AjaxGetModel(@(i + 1))">@t</button>
+                        </div>
+                    }
+                </div>
+                <div class="hr-line-dashed "></div>
+                <div class="row">
+                    <h3 class="col-sm-12 m-b-md " id="tim">中职（每道题111分）</h3>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div style="border: 1px solid #e7eaec; border-radius: 5px; min-height: 320px;" id="TaskExplan">
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div style="border: 1px solid #e7eaec; border-radius: 5px; min-height: 320px;">
+                            <div id="fombody"></div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center m-t-lg " id="fy">
+                    <a class="btn btn-primary m-r-lg" onclick="Pagediv(1)">首题</a>
+                    <a class="btn btn-w-m btn-success m-r-lg" onclick="Pagediv(2)">上一题</a>
+                    <a class="btn btn-w-m btn-success m-r-lg" onclick="Pagediv(3)">下一题</a>
+                    <a class="btn btn-primary m-r-lg" onclick="Pagediv(4)">尾题</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script src="~/Areas/Admin/Scripts/BillTestPaper/LookTestPaper.js"></script>

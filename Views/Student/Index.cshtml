@@ -1,0 +1,654 @@
+﻿@{
+    ViewBag.Title = "易考通";
+    ViewData["nvc"] = "个人资料";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+<link href="~/CSS/bootstrap.min.css" rel="stylesheet">
+<link href="~/CSS/student.css" rel="stylesheet">
+<script src="~/Scripts/My97DatePicker/WdatePicker.js"></script>
+
+<style type="text/css">
+    .inputsty input {
+        border: 1px solid #703b07;
+        color: #703b07;
+    }
+
+    .inputsty select {
+        appearance: none;
+        /* 去掉默认样式*/
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border: 1px solid #703b07;
+        color: #703b07;
+        width: 150px;
+        font-weight: 600;
+        outline: none;
+        background: url(../img/student/inputright.png) right no-repeat;
+    }
+
+    .action {
+        width: 400px;
+        height: 30px;
+        margin: 10px 0;
+    }
+
+    .imageBox {
+        position: relative;
+        height: 400px;
+        width: 400px;
+        border: 1px solid #aaa;
+        background: #fff;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        cursor: move;
+        box-shadow: 4px 4px 12px #B0B0B0;
+    }
+
+        .imageBox .thumbBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            margin-top: -100px;
+            margin-left: -100px;
+            box-sizing: border-box;
+            border: 1px solid rgb(102, 102, 102);
+            box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+            background: none repeat scroll 0% 0% transparent;
+        }
+
+        .imageBox .spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            text-align: center;
+            line-height: 400px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+    .Btnsty_peyton {
+        float: right;
+        width: 66px;
+        display: inline-block;
+        margin-bottom: 10px;
+        height: 57px;
+        line-height: 57px;
+        font-size: 20px;
+        color: #FFFFFF;
+        margin: 0px 2px;
+        background-color: #f38e81;
+        border-radius: 3px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: 0px 0px 5px #B0B0B0;
+        border: 0px #fff solid;
+    }
+    /*选择文件上传*/
+
+    .new-contentarea {
+        width: 165px;
+        overflow: hidden;
+        margin: 0 auto;
+        position: relative;
+        float: left;
+    }
+
+        .new-contentarea label {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .new-contentarea input[type=file] {
+            width: 188px;
+            height: 60px;
+            background: #333;
+            margin: 0 auto;
+            position: absolute;
+            right: 50%;
+            margin-right: -94px;
+            top: 0;
+            right /*\**/
+            : 0px\9;
+            margin-right /*\**/
+            : 0px\9;
+            width /*\**/
+            : 10px\9;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            z-index: 2;
+        }
+
+    a.upload-img {
+        width: 165px;
+        display: inline-block;
+        margin-bottom: 10px;
+        height: 57px;
+        line-height: 57px;
+        font-size: 20px;
+        color: #FFFFFF;
+        background-color: #f38e81;
+        border-radius: 3px;
+        text-decoration: none;
+        cursor: pointer;
+        border: 0px #fff solid;
+        box-shadow: 0px 0px 5px #B0B0B0;
+    }
+
+        a.upload-img:hover {
+            background-color: #ec7e70;
+        }
+
+    .tc {
+        text-align: center;
+    }
+
+
+
+
+    /*个人信息样式开始*/
+
+    .data_map {
+        width: 760px;
+        /*margin-left: 25%;*/
+        margin: auto;
+        clear: both;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    .tit_biao {
+        margin-top: 20px;
+        height: 50px;
+        border-bottom: 1px solid #d8d8d8;
+    }
+
+        .tit_biao label {
+            border-bottom: 2px solid #2092f9;
+            margin-bottom: 0px;
+            font-size: 18px;
+            line-height: 48px;
+        }
+
+    .data_line {
+        margin-top: 20px;
+        color: #454545;
+        font-size: 18px;
+        margin-left: 25px;
+    }
+
+        .data_line label {
+            font-weight: 400;
+            width: 150px;
+            text-align: right;
+            margin-right: 70px;
+        }
+
+    .text_input {
+        border: 1px solid #d3d2d2;
+        width: 250px;
+        height: 40px;
+        text-indent: 3px;
+    }
+
+        .text_input:focus {
+            outline: none;
+            border: 1px solid #019c41;
+        }
+
+        .text_input:disabled {
+            background-color: #f3f3f4;
+        }
+
+    .text_red {
+        color: #f05561;
+        font-size: 24px;
+    }
+
+
+    .zt_select {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        padding: 0px 5px;
+        height: 40px;
+        width: 135px;
+        border: 1px solid #d3d2d2;
+        color: #34495e;
+        margin: 0;
+        background: white url(img/student/icodown.png) no-repeat right center;
+    }
+
+        .zt_select:focus {
+            outline: none;
+            border: 1px solid #019c41;
+        }
+
+
+
+
+    /*头像遮罩*/
+    .touxiang_map {
+        height: 180px;
+        /*background: url(img/student/persondatebj.png)no-repeat center;*/
+        border-bottom: 1px solid #2092f9;
+    }
+
+    .tou_con {
+        margin-left: 25%;
+    }
+
+    .tou_con_img {
+        width: 120px;
+        float: left;
+        margin-top: 30px;
+        margin-right: 40px;
+    }
+
+        .tou_con_img img {
+            cursor: pointer;
+            border-radius: 50%;
+            width: 120px;
+            border: 8px solid #2092f9;
+        }
+
+    .tou_text {
+        float: left;
+        color: #2092f9;
+        font-size: 20px;
+        margin-top: 50px;
+    }
+
+        .tou_text p {
+            margin-bottom: 30px;
+        }
+
+    .mima_btn {
+        background-color: #45b6f7;
+        border: none;
+        margin-left: 20px;
+        font-size: 14px;
+        color: #ffe13e;
+    }
+
+        .mima_btn:hover {
+            background-color: #1589cc;
+            color: #ffe13e;
+        }
+
+    .zhezhao {
+        cursor: pointer;
+        width: 120px;
+        border-radius: 50%;
+        height: 120px;
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.4);
+        color: #f6ecec;
+        text-align: center;
+        line-height: 120px;
+    }
+</style>
+@{
+    var m = Session["UserInfo"] as VocationalProject_Models.tb_UserInfo;
+        
+}
+<form  id="signupForm">
+    <div class="stu_map">
+        <!--头部导航开始-->
+
+        <!--头部导航结束-->
+        <div class="stu_con" style="margin-top: 5vmin;">
+
+            <!--切换标签开始-->
+            <div class="person_map">
+                <div class="person_con">
+                    <div class="dc_title">
+                        个人资料
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-12 " style="margin-bottom: 30px;">
+
+                                <div class="touxiang_map">
+                                    <div class="tou_con">
+                                        <div class="tou_con_img">
+                                            <div onclick="change_use();" class="zhezhao" style="display: none;">
+                                                修改资料
+                                            </div>
+                                            <img id="use_img" src="@(!string.IsNullOrEmpty(m.UserPic) ? m.UserPic : "/img/profile_s.jpg")" style="width: 120px;height:120px; margin-top: 4px; border-radius: 180px; box-shadow: 0px 0px 12px #7E7E7E;" class="img-circle" alt="User Image">
+                                            <input type="hidden" id="imgbase" name="imgbase" value="1" />
+                                        </div>
+                                        <input type="file" name="File_Send" value="" style="display: none" id="File_Send" />
+                                        <input type="hidden" id="ImgUrl" name="ImaUrl" value="" />
+                                        <div class="tou_text">
+                                            <p>账号：@ViewData["AccountNo"].ToString()</p>
+                                            <p>
+                                                登录密码：<span id="yincang">@ViewData["AccountPwd"].ToString()</span>
+                                                <input type="text" style="width:90px;display:none;" disabled="disabled" id="AccountPwd" value="@ViewData["AccountPwd"].ToString()" />
+                                                <button type="button" onclick="updatePwd()" id="PwdUp" class="btn  btn-sm mima_btn">修改密码</button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-5" style="border-right: 2px dashed #cae6ef;">
+                                </div>
+                            </div>
+                            <div class="data_map">
+                                <div class="tit_biao">
+                                    <label>基础信息</label>
+                                </div>
+                                <div class="data_line">
+                                    <label><span class="text_red">*</span>姓名：</label>
+                                    <input type="" class="text_input" name="" id="Name" value="@ViewData["Name"]"  maxlength="30" />
+                                </div>
+
+                                <div class="data_line">
+                                    <label>性别：</label>
+                                    <span style="margin-right: 110px;">
+                                        <input type="radio" name="xingbie" id="Sex"  @(ViewData["Sex"].ToString() == "男" ? "checked" : "") value="男" />
+                                        男</span>
+
+                                    <input type="radio" name="xingbie" id="SexNv"  @(ViewData["Sex"].ToString() == "女" ? "checked" : "")  value="女" />
+                                    女
+                                </div>
+                                @{
+                                    var BirthDate = !string.IsNullOrEmpty(ViewData["BirthDate"].ToString()) ? Convert.ToDateTime(ViewData["BirthDate"]).ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
+                                }
+                                <div class="data_line">
+                                    <label>生日：</label>
+                                    <input type="text" id="BirthDate" onkeyup="getBirthDate(this);"  onchange="getBirthDate(this);"  onmousedown="getBirthDate(this);" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd', isShowClear: false, readOnly: false })" class="text_input" value="@BirthDate">
+                                </div>
+
+                                <div class="tit_biao">
+                                    <label>岗位信息</label>
+                                </div>
+
+
+                                <div class="data_line">
+                                    <label>入行时间：</label>
+                                    <input type="" class="text_input" name="" id="JoinBankDate" disabled="true" value="@ViewData["JoinBankDate"]" />
+                                </div>
+
+                                <div class="data_line">
+                                    <label>分行：</label>
+                                    <input type="" class="text_input" name="" id="PositionId" disabled="true" value="@ViewData["SubBankId"]" / >
+                                </div>
+
+                                <div class="data_line">
+                                    <label>支行：</label>
+                                    <input type="" class="text_input" name="" id="SubBankId" disabled="true" value="@ViewData["PositionId"]" / >
+                                </div>
+                                <div class="data_line">
+                                    <label>工号：</label>
+                                    <input type="" class="text_input" name="" id="UCode" disabled="true" value="@ViewData["UCode"]" / >
+                                </div>
+
+                                <div class="tit_biao">
+                                    <label>个人信息</label>
+                                </div>
+
+                                <div class="data_line">
+                                    <label>学历：</label>
+                                    <select class="zt_select" id="Education" style="width: 250px;">
+                                        <option value="0" selected="selected">请选择</option>
+                                        <option value="1">高中</option>
+                                        <option value="2">专科</option>
+                                        <option value="3">本科</option>
+                                        <option value="4">研究生</option>
+                                        <option value="5">博士</option>
+                                        <option value="6">其它</option>
+                                    </select>
+                                </div>
+
+                                <div class="data_line">
+                                    <label><span class="text_red">*</span>手机号码：</label>
+                                    <input type="" class="text_input" name="" id="Phone" value="@ViewData["Phone"]" maxlength="11" />
+                                </div>
+
+                                <div class="data_line">
+                                    <label>办公电话：</label>
+                                    <input type="" class="text_input" name="" id="TelPhone" value="@ViewData["TelPhone"]"  maxlength="15"  />
+                                </div>
+
+                                <div class="data_line">
+                                    <label>电子邮件：</label>
+                                    <input type="" class="text_input" name="" id="Email" value="@ViewData["Email"]" maxlength="50" />
+                                </div>
+                            </div>
+                    </div>
+                    <div class=" text-center" style="border-top: 2px dashed #cae6ef; clear: both; padding-top: 15px;">
+                        <button type="button" onclick="update();" class="btn btn-success btn-lg">保存修改</button>
+                    </div>
+                </div>
+                <!--切换标签结束-->
+            </div>
+
+        </div>
+    </div>
+    <div id="change_use" style="display: none;">
+    <div class="box-body ">
+        <div class="col-sm-12" style="margin-top: 10px;">
+            <div style="margin: auto; width: 400px;">
+
+                <div class="imageBox">
+                    <div class="thumbBox"></div>
+                    <div class="spinner" style="display: none">Loading...</div>
+                </div>
+                <div class="action">
+                    <!-- <input type="file" id="file" style=" width: 200px">-->
+                    <div class="new-contentarea tc">
+                        <a href="javascript:void(0)" class="upload-img">
+                            <label for="upload-file">选择图像</label>
+                        </a>
+                        <input type="file" class="" name="upload-file" id="upload-file" onchange="javascript:setImagePreview('');"  />
+                    </div>
+                    <input type="button" id="btnCrop" class="Btnsty_peyton" value="保存">
+                    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+">
+                    <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</form>
+
+<!--上传头像区域结束-->
+
+<!--弹窗js-->
+@*	<script src="~/Scripts/plugins/layer/layer.js"></script>*@
+<!--头像上传插件-->
+<script src="~/Scripts/cropbox.js"></script>
+
+<script type="text/javascript">
+    function getBirthDate(obj) {
+        var BirthDate = $(obj).val()
+        if (IsNullOrEmpty(BirthDate)) {
+            return;
+        }
+
+        var t = diy_time(Date(), $(obj).val())
+        var n = parseInt(t) / 365;
+        $("#Age").val(parseInt(n));
+    }
+    function diy_time(time1, time2) {
+        time1 = Date.parse(new Date(time1));
+        time2 = Date.parse(new Date(time2));
+        return time3 = Math.abs(parseInt((time2 - time1) / 1000 / 3600 / 24));
+    }
+    var updat = 0;
+    function updatePwd() {
+        if (updat == 0) {
+            $("#PwdUp").html("确认修改");
+            $("#AccountPwd").removeAttr("disabled");
+            $("#AccountPwd").show();
+            $("#yincang").hide();
+            updat = 1;
+            return;
+        }
+        else {
+            $("#PwdUp").html("修改密码");
+            $("#AccountPwd").attr("disabled", "disabled");
+            $("#AccountPwd").hide();
+            $("#yincang").html($("#AccountPwd").val());
+            $("#yincang").show();
+            updat = 0;
+            return;
+        }
+    }
+    //radio选中样式
+    var Upwd;  //用户密码
+    var Uno = "";
+    var diyImgS = 0;
+    //本地图片
+    function setImagePreview() {
+        debugger;
+        var docObj = document.getElementById("upload-file");
+        if (docObj.files && docObj.files[0]) {
+            diyImgS = 1;
+        }
+        return true;
+    }
+
+    var diyImg = 0;
+    //学生修改信息
+    function update() {
+        var img = document.getElementById("use_img").src;   //头像
+        var pwd = $("#yincang").text();
+        var name = $("#Name").val();
+        var sex;
+        var val = $('input:radio[name="xingbie"]:checked').val();
+        if (val == null) {
+            sex = "";
+        }
+        else {
+            sex = val;
+        }
+        var BirthDate = $("#BirthDate").val();
+        var Education = $("#Education").val();
+        var Phone = $("#Phone").val();
+        var TelPhone = $("#TelPhone").val();
+        var Email = $("#Email").val();
+        var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
+        var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;;
+        var error = "请正确填写电话号码，例如:13511111111或010-11111111";
+        if (!isMobile.exec(Phone) && Phone.length != 11) {
+            alert(error)
+            return false;
+        }
+        if (TelPhone.length > 0) {
+            if (!isPhone.test(TelPhone)) {
+                alert(error)
+                return false;
+            }
+        }
+        if ($("#Name").val().length < 1) {3232329999
+            alert("姓名为必输项！");
+            return false;
+        }
+        $('#signupForm').ajaxSubmit({
+            type: 'post',
+            url: '/Student/SaveUpdate?diyImg=' + diyImg + '&pwd=' + pwd + '&diyImgS=' + diyImgS + '&name=' + name + '&sex=' + sex + '&BirthDate=' + BirthDate + '&Education=' + Education + '&Phone=' + Phone + '&TelPhone=' + TelPhone + '&Email=' + Email,//教师ID  Email
+            data: $("#signupForm").serialize(),
+            async: false,
+            success: function (data) {
+                if (data == 1) {
+                    if (diyImg == 1 && diyImgS==1)
+                    {
+                        $("#image").attr('src', img);
+                        //$("#image").src(img);
+                    }
+                    diyImg = 0;
+                    diyImgS = 0;
+                    layer.msg('修改成功', {});
+                }
+            }
+        });
+    }
+    function clickaddimg() {
+        $('#File_Send').click();
+    }
+    //上传头像弹窗区域
+    function change_use() {
+        layer.open({
+            title: '上传头像',
+            area: ['500px', '550px'],
+            //	offset: ['5vmin'],//定义弹窗位置 距离顶部5vmin
+            type: 1,
+            skin: 'layui-layer-lan', //样式类名
+            closeBtn: 1, //显示关闭按钮
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            content: $("#change_use")
+        });
+    }
+    $(function () {
+
+        var s = document.getElementById("use_img").src;
+        var options = {
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: s
+        }
+        var cropper = $('.imageBox').cropbox(options);
+        $('#upload-file').on('change', function () {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                options.imgSrc = e.target.result;
+                cropper = $('.imageBox').cropbox(options);
+            }
+            reader.readAsDataURL(this.files[0]);
+            //this.files = [];
+        })
+        $('#btnCrop').on('click', function () {
+            debugger;
+            var img = cropper.getDataURL();
+            if (img != 0) { //判断是否选择图片
+                $("#use_img").attr("src", img);
+                diyImg = 1;
+                layer.closeAll();
+                $("#imgbase").val(img);
+
+            } else {
+                alert("没有选择图片");
+            }
+        })
+        $('#btnZoomIn').on('click', function () {
+            cropper.zoomIn();
+        })
+        $('#btnZoomOut').on('click', function () {
+            cropper.zoomOut();
+        })
+        $.ajax({
+            url: '/Student/loadinfo',
+            type: 'POST',
+            dataType: 'text',
+            async: false,
+            success: function (data) {
+                var data = eval('(' + data + ')');
+                if (data.length != 0) {
+                    var Education = data[0]["Custom2"];
+                    if (Education != null || Education != undefined)
+                    {
+                        $("#Education").val(Education);
+                    }
+                    
+                }
+            }
+        });
+    })
+
+
+
+    //头像遮罩
+    $(".tou_con_img").hover(function () {
+        $(".zhezhao").css("display", "block");
+    });
+    //鼠标离开
+    $(".tou_con_img").mouseleave(function () {
+        $(".zhezhao").css("display", "none");
+    });
+</script>

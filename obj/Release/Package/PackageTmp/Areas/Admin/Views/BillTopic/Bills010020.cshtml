@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>领料单—存根</title>
+    <link href="~/CSS/bills.css" rel="stylesheet" />
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("BillsForm", "BillTopic", FormMethod.Post, new { }))
+        {
+            //表单ID
+            <input type="hidden" id="FormId" name="FormId" value="010020" />
+            //表单类型
+            <input type="hidden" id="Type" name="Type" value="1" />
+            <div class="from_lldcg" id="fombody" title="领料单—存根"></div>
+            <div class="box-footer text-center">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-w-m btn-success m-r-lg">保存</button>
+                        <button type="button" class="btn btn-w-m btn-default " onclick="parent.layer.closeAll();">返回</button>
+                    </div>
+                </div>
+            </div>
+            
+            <input type="hidden" id="Title" name="Title" />
+            <input type="hidden" id="Summernote" name="Summernote" />
+            <input type="hidden" id="TopicId" name="TopicId" value="@ViewData["TopicId"]" />
+        }@{
+            if (Convert.ToInt32(ViewData["Count"]) > 0)
+            {
+            <script type="text/javascript">
+                //layer.msg('操作成功！', { icon: 1 });
+                //var index = parent.layer.getFrameIndex(window.name);
+                //parent.layer.close(index);
+                $('#TopicId', parent.document).val(@ViewData["TopicId"]);
+                $("#FormId", parent.document).val($("#FormId").val());
+                var page = $("#page", parent.document).html()
+                parent.DataBind(page);
+                parent.layer.closeAll();
+            </script>
+            }
+        }
+    </div>
+</body>
+<script src="~/Areas/Admin/Scripts/BillTopic/Bills.js"></script>
+</html>

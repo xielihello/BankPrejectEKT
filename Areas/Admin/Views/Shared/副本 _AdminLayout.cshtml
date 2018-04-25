@@ -1,0 +1,340 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/CSS/plugins/iCheck/custom.css" rel="stylesheet" />
+    <!--富文本编辑器样式-->
+    <link href="~/CSS/plugins/summernote/summernote.css" rel="stylesheet" />
+    <link href="~/CSS/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+    <!--框架自带自定义样式-->
+    <link href="~/CSS/style.css" rel="stylesheet" />
+    <!--弹窗插件样式-->
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <!--js文件-->
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Scripts/slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- Custom and plugin javascript   自定义和插件js -->
+    <script src="~/Scripts/hplus.js"></script>
+    <script src="~/Scripts/pace/pace.min.js"></script>
+    <script src="~/Scripts/iCheck/icheck.min.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
+    <!--富文本编辑器js-->
+    <script src="~/Scripts/summernote/summernote.min.js"></script>
+    <script src="~/Scripts/summernote/summernote-zh-CN.js"></script>
+    <script src="~/Scripts/verifyform.js"></script>
+
+    <script src="~/Areas/Admin/Scripts/Page.js"></script>
+    <style>
+        /* 添加的分页样式*/
+        .boder_right {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .paginate_button input {
+            border: none;
+            width: 90px;
+            height: 26px;
+            text-align: center;
+        }
+
+            .paginate_button input:focus {
+                outline: none;
+            }
+
+        .pagesize {
+            display: inherit;
+            margin-left: 5px !important;
+            border: none !important;
+        }
+
+            .pagesize:hover {
+                background: none !important;
+            }
+    </style>
+</head>
+<body>
+    @{
+        var type = Session["UserType"].ToString();
+        var m = Session["UserInfo"] as VocationalProject_Models.tb_UserInfo;
+        
+    }
+    <div id="wrapper">
+        <!--左侧菜单栏开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="m-b-sm">
+                        <div class=" profile-element text-center  text-success">
+                            <h2 class="font-bold ">典阅智慧财经</h2>
+                            <h4>综合技能平台</h4>
+                        </div>
+                        <div class="logo-element">
+                            智慧<br />
+                            财经
+                        </div>
+                    </li>
+                    <li class="active">
+                        <a href="index.html#"><i class="fa  fa-user"></i><span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            @if (type == "1")
+                            {
+                                <li class="active initial">
+                                    <a href="javascript:;" onclick="coikeURL('/Admin/CollegeManagement/College',0)">院校用户</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" onclick="coikeURL('/Admin/TeacherManagement/Index',0)">教师用户</a>
+                                </li> 
+                                <li>
+                                    <a href="javascript:;" onclick="coikeURL('/Admin/ClassManagement/ClassManagement',0)">班级管理</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" onclick="coikeURL('/Admin/StudentManagement/Index',0)">学生管理</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" onclick="coikeURL('/Admin/RefereeManagement/Index',0)">裁判员管理</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="javascript:;" onclick="coikeURL('/Admin/T_StudentManage/Index',0)">学员管理</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+
+                    <!--货币知识-->
+                    <li>
+                        <a href="index.html#"><i class="fa fa-money"></i><span class="nav-label">货币知识</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="javascript:;"  onclick="coikeURL('/Admin/HB_QuestionBank/Index',1)">货币题目管理</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;"  onclick="coikeURL('/Admin/HB_Paper/Index',1)">货币试卷管理</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/HB_Examination/Index',1)">货币考试管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--手工点钞-->
+                    <li>
+                        <a href="index.html#"><i class="fa fa fa-hand-o-up"></i><span class="nav-label">手工点钞</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/MbcTaskManagement/MbcTaskManagement',2)">手工任务管理</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" " onclick="coikeURL('/Admin/ExaminationManagement/Examination',2)">手工考试管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--复核报表-->
+                    <li>
+                        <a href="index.html#"><i class="fa fa-bar-chart-o"></i><span class="nav-label">复核报表</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/FH_ReportForm/Topic',3)">复核题目管理</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/FH_ReportForm/TestPaper',3)">复核试卷管理</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/FH_Examination/FHExamination',3)">复核考试管理</a>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <!--复核报表-->
+                    <li>
+                        <a href="index.html#"><i class="fa fa-desktop"></i><span class="nav-label">单据录入</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/BillTopic/TopicList',4)">单据题目管理</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/BillTestPaper/TestPaperList',4)">单据试卷管理</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/BillExam/ExamList',4)">单据考试管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--成绩管理-->
+                    <li>
+                        <a href="index.html#"><i class="fa  fa-calendar"></i><span class="nav-label">成绩管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="javascript:;"  onclick="coikeURL('/Admin/HB_ExamResult/Index',1)">货币知识成绩</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/SG_achievement/Index',2)">手工点钞成绩</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/FH_ExamResult/Index',3)">复核报表成绩</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/BillExamResult/Index',4)">单据录入成绩</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="coikeURL('/Admin/PersonalTotalScore/Index',0)">个人总成绩</a>
+                            </li>
+                            @if (type != "1")
+                            {
+                                <li>
+                                    <a href="javascript:;"  onclick="coikeURL('/Admin/StatisticalAnalysis/Index',0)">成绩统计分析</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--左侧菜单栏结束-->
+        <!--右侧内容区域开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+
+            <div class="row  border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <!--菜单收缩按钮-->
+                    <div class="navbar-header m-t-xs">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-exchange"></i></a>
+                    </div>
+                    <!--菜单收缩按钮结束-->
+                    <ul class="nav navbar-top-links navbar-right">
+                        <!--用户头像区域-->
+                        <li>
+                            <span>
+                                <img alt="image" style="width: 48px;" id="image" class="img-circle" src="@(!string.IsNullOrEmpty(m.UserPic) ? m.UserPic : "/img/profile_s.jpg")" /></span>
+                        </li>
+
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle count-info" href="index.html#">
+                                <span class="block m-t-xs"></span><span id="Uno" class="text-muted text-xs block">@(!string.IsNullOrEmpty(m.UserName) ? m.UserName : m.UserNo) <b class="caret"></b></span>
+                            </a>
+                            <ul class="m-t-xs dropdown-menu animated fadeInRight ">
+                                <li>
+                                    <a href="@Url.Action("Index", "Personalsetting")">个人资料</a>
+                                </li>
+                                @*   <li class="divider"></li>
+                              <li>
+                                    <a href="">联系我们</a>
+                                </li>*@
+                            </ul>
+                        </li>
+                        <!--用户头像区域结束-->
+                        <li>
+                            <a href="javascript:void(0);" onclick="CloseIndex()">
+                                <i class="fa fa-sign-out"></i>退出
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div id="body">
+                <!--内容区域模版开始-->
+                @RenderSection("featured", required: false)
+                <section class="gray-bg">
+                    @RenderBody()
+                </section>
+                <!--内容区域模版结束-->
+            </div>
+            @RenderSection("scripts", required: false)
+            <div class="footer">
+                <div class="text-center">
+                    <strong>Copyright</strong> 版权所有&copy;<strong>深圳典阅科技有限公司</strong> 2017
+				
+                </div>
+            </div>
+
+        </div>
+        <!--右侧内容区域结束-->
+    </div>
+
+    @{
+        var ul = ViewData["nvc"];
+    }
+    <script type="text/javascript">
+        $(function () {
+            var nvc = "@(ul)";
+            //alert(nvc)
+            $("#side-menu").find("a").each(function () {
+                $(this).parent().removeClass("active");
+                $(this).parent().parent().removeClass("in");
+                $(this).parent().parent().attr("aria-expanded", "false");
+            });
+
+            if (nvc != null && nvc != "") {
+                //$("#side-menu").children("ul.nav-second-level").removeClass("in");
+                //$("#side-menu").children("ul.nav-second-level").attr("aria-expanded", "false");
+                $("#side-menu").find("a").each(function () {
+                    var txt = $(this).html();
+                    if (txt == nvc) {
+                        $(this).parent().addClass("active");
+                        $(this).parent().parent().parent().addClass("active");
+                        $(this).parent().parent().addClass("in");
+                        $(this).parent().parent().attr("aria-expanded", "false");
+                        return false;
+                    }
+                })
+            } else {
+                $(".initial").addClass("active");
+                $(".initial").parent().parent().addClass("active");
+                $(".initial").parent().addClass("in");
+                $(".initial").parent().attr("aria-expanded", "true");
+            }
+        });
+        function imgUrl(url, name) {
+            if (url != "1") {
+                $("#image").attr("src", url);
+            }
+            if (name.length > 0) {
+                $("#Uno").text(name);
+            }
+            //   $("#Uno").val(name);
+        }
+        function coikeURL(url, type) {
+            if (type == 0) {
+                window.location.href = url;
+            } else {
+                var userType = "@Session["UserType"].ToString()";
+                if (userType != 1) {
+                    var j = "@Session["Jurisdiction"].ToString()";
+                    if (j.indexOf(type) >= 0) {
+                        window.location.href = url;
+                    }
+                } else {
+                    window.location.href = url;
+                }
+            }
+        }
+        function CloseIndex() {
+            //parent.layerConfirm('确认要退出后台?', function (num) { $("form[name='myUserExit']").submit() });
+            //layer.msg('确认要退出后台！', function (num) { $("form[name='myUserExit']").submit() });
+            layer.confirm('确认要退出后台？', {
+                title: '退出',
+                btn: ['确定', '取消'],
+                shadeClose: true, //开启遮罩关闭
+                skin: 'layui-layer-lan'
+                //按钮
+            },
+       function () {
+           $("form[name='myUserExit']").submit();
+       });
+
+        }
+    </script>
+</body>
+
+@using (Html.BeginForm("PostUserExit", "FH_ReportForm", FormMethod.Post, new { name = "myUserExit" }))
+{
+}
+</html>

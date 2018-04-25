@@ -1,0 +1,12 @@
+ Log Entry : 
+04/11/2017 09:32:47
+Error in: http://localhost:37713/Admin/T_StudentManage/GetList?TeamId=0&StudentInfo=&PageSize=10&_=1491874367144. Error Message:列名 'Name' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/11/2017 09:32:48
+Error in: http://localhost:37713/Admin/T_StudentManage/GetList?TeamId=0&StudentInfo=&PageSize=10&_=1491874368013. Error Message:列名 'Name' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/11/2017 09:32:50
+Error in: http://localhost:37713/Admin/T_StudentManage/GetList?TeamId=0&StudentInfo=&PageSize=10&_=1491874368013. Error Message:列名 'Name' 无效。,详细错误信息：
+__________________________

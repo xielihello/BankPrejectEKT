@@ -1,0 +1,238 @@
+﻿@{
+    ViewData["nvc"] = "题目管理";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style type="text/css">
+    .note-editor .note-editable { height: 150px; }
+    .note-editor { min-height: 100px; }
+</style>
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>新增题目</h3>
+    <div class="ibox-content">
+        <form class="form-horizontal" name="Addform" id="Addform">
+
+            <!--所属课程字段结束-->
+            <!--试题类型字段开始-->
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试题类型：</label>
+                <div class="col-sm-6">
+                    <select id="Type" class="form-control select2 " onchange="TypeSelct(this.value)">
+                        <option value="0" selected="selected">选择试题类型</option>
+                        <option value="1">单选题</option>
+                        <option value="2">多选题</option>
+                        <option value="3">判断题</option>
+                        <option value="4">填空题</option>
+                        <option value="5">简答题</option>
+                        <option value="6">名词解释题</option>
+                        <option value="7">案例分析题</option>
+                        <option value="8">论述题</option>
+
+                    </select>
+                </div>
+            </div>
+            <!--试题类型字段结束-->
+            <!--试题描述字段开始-->
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>试题描述：</label>
+                <div class="col-sm-10">
+                    <!--编辑器开始-->
+                    <div class="ibox-content no-padding">
+                        <div class="summernote">
+                        </div>
+                    </div>
+
+                    <!--编辑器结束-->
+                </div>
+            </div>
+            <!--课程大纲字段结束-->
+            <div class="box-body">
+                <!-- 默认新增题目时内容开始-->
+                <div id="MR">
+                    <!--标准答案字段开始-->
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>标准答案：</label>
+
+                        <div class="col-sm-8">
+                            <textarea class="form-control width_10" rows="5" id="MRTxt" name="MRTxt" placeholder="在此处填写标准答案…………"></textarea>
+                        </div>
+                    </div>
+                    <!--标准答案字段结束-->
+                </div>
+                <!-- 默认新增题目时内容结束-->
+                <!-- 单选题目时内容开始-->
+                <div id="DanX" class="" style="display: none;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="radio" class="i-checks" name="danxuan" id="danxuanA"  checked="checked" value="A"></span>选项A：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="danxAtxt" id="danxAtxt" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="radio" class="i-checks" name="danxuan" id="danxuanB"  value="B"></span>选项B：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="danxBtxt" id="danxBtxt" placeholder=""><span id="msg_2"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="radio" class="i-checks" name="danxuan" id="danxuanC"  value="C"></span>选项C：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="danxCtxt" id="danxCtxt" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="radio" class="i-checks" name="danxuan" id="danxuanD"  value="D"></span>选项D：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="danxDtxt" id="danxDtxt" placeholder="">
+                        </div>
+                    </div>
+                    <!--标准答案字段开始-->
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
+                            <span>温馨提示：请通过选项的勾选进行标准答案的设置！</span>
+
+                        </div>
+                    </div>
+                    <!--标准答案字段结束-->
+                </div>
+                <!-- 单选题时内容结束-->
+
+                <!-- 多选题目时内容开始-->
+                <div id="DuoX" class="" style="display: none;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="checkbox" class="i-checks" name="duoxuan" value="A" id="duoxtcbxA"></span>选项A：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="duoxtcbxAtxt" id="duoxtcbxAtxt" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="checkbox" class="i-checks" name="duoxuan" value="B" id="duoxtcbxB"></span>选项B：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="duoxtcbxBtxt" id="duoxtcbxBtxt" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="checkbox" class="i-checks" name="duoxuan" value="C" id="duoxtcbxC"></span>答案C：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="duoxtcbxCtxt" id="duoxtcbxCtxt" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="checkbox" class="i-checks" name="duoxuan" value="D" id="duoxtcbxD"></span>选项D：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="duoxtcbxDtxt" id="duoxtcbxDtxt" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">
+                            <span class="m-r-xxs">
+                                <input type="checkbox" class="i-checks" name="duoxuan" value="E" id="duoxtcbxE"></span>选项E：</label>
+                        <div class="col-sm-10">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="duoxtcbxEtxt" id="duoxtcbxEtxt" placeholder="">
+                        </div>
+                    </div>
+                    <!--标准答案字段开始-->
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
+                            <span>温馨提示：请通过选项的勾选进行标准答案的设置！</span>
+
+                        </div>
+                    </div>
+                    <!--标准答案字段结束-->
+                </div>
+                <!-- 多选题时内容结束-->
+
+                <!-- 判断题题目时内容开始-->
+                <div id="PD" class="" style="display: none;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span> 选项：</label>
+
+                        <div class="col-sm-4">
+                            <div style="text-align: left;" class=" control-label">
+                                <span class="m-r-xs">
+                                    <input type="radio" class="i-checks" name="panduan" id="danxuantiA" checked="checked" value="对"></span>A：对
+											
+                                <span class="m-l-md"><span class="m-r-xs">
+                                    <input type="radio" class="i-checks" name="panduan" id="danxuantiB" value="错"></span>B：错</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--标准答案字段开始-->
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
+                            <span>温馨提示：请通过选项的勾选进行标准答案的设置！</span>
+
+                        </div>
+                    </div>
+                    <!--标准答案字段结束-->
+                </div>
+                <!-- 判断题题目时内容结束-->
+                <!-- 填空题目内容开始-->
+                <div id="TK" class="" style="display: none;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>标准答案：</label>
+
+                        <div class="col-sm-4">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="tiankongtiAnswer" id="tiankongtiAnswer" placeholder="在此处填写标准答案…………">
+                        </div>
+                    </div>
+                </div>
+                <!-- 填空题目时内容结束-->
+                <!-- 简答题，名词解释题，案例分析题，论述题 题目时内容开始-->
+                <div id="QT" class="" style="display: none;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label"><span class="text-danger">*</span>标准答案：</label>
+
+                        <div class="col-sm-8">
+                            <textarea class="form-control width_10" rows="4" name="QTAnswer" id="QTAnswer" placeholder="在此处填写标准答案…………"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">得分关键点：</label>
+
+                        <div class="col-sm-4">
+                            <input style="width: 100%;" type="text" class="form-control mr30" name="QTKeyword" id="QTKeyword" placeholder="如关键词：关键词1；关键词2">
+                        </div>
+                    </div>
+                </div>
+                <!-- 简答题题目时内容结束-->
+
+            </div>
+            <div class="box-footer">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <a class="btn btn-w-m btn-success m-r-lg" href="javascript:void(0);" onclick="BtnSubim()">保存</a>
+                        <a class="btn btn-w-m btn-white " href="/Admin/HB_QuestionBank/Index">取消</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<script src="~/Areas/Admin/Scripts/HB_QuestionBank/AddIndex.js"></script>
+

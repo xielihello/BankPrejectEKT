@@ -1,0 +1,523 @@
+﻿@{
+    ViewData["nvc"] = "手工考试管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@model System.Data.DataTable
+
+<div class="row  border-bottom white-bg dashboard-header">
+
+    <h3>手工考试管理</h3>
+    <div class="ibox-content">
+        @using (Html.BeginForm("Select", "ExaminationManagement", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="row form-horizontal">
+                <div class="row">
+                    <div class="col-sm-3 m-b-xs">
+                        <input type="text" placeholder="请输入考试名称" id="TeacherName" class=" form-control" name="EamxName">
+                    </div>
+                    <div class="col-sm-3 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="PatternId" name="PatternName">
+                            <option value="0">请选择竞赛模式</option>
+                            <option value="1">练习模式</option>
+                            <option value="2">考试模式</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <select class=" form-control input-s-sm inline" id="StateId" name="StateName">
+                                <option value="0">请选择激活状态</option>
+                                <option value="1">已激活</option>
+                                <option value="2">未激活</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button type="button" onclick="bindIngfo()" class="btn btn-primary">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="hr-line-dashed"></div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="Added()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus m-r-xs"></i><span class="bold">新增考试设置</span></button>
+                <button onclick="Dele()" class="btn btn-warning btn-sm" type="button"><i class="fa fa-trash m-r-xs"></i><span class="bold">删除考试设置</span></button>
+                <button onclick="Activation()" class="btn btn-info btn-sm" type="button"><i class="fa fa-check-square-o m-r-xs"></i><span class="bold">激活</span></button>
+                <button onclick="Close()" class="btn btn-danger btn-sm" type="button"><i class="fa fa-power-off m-r-xs"></i><span class="bold">关闭激活</span></button>
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                    <tr>
+                        <th class="text-center">序号</th>
+
+                        <th class="text-center">
+                            <input type="Checkbox" class="i-checks checkbox-all">
+                        </th>
+
+                        <th class="text-center">考试名称</th>
+                        <th class="text-center">竞赛模式</th>
+                        <th class="text-center">考试有效时间</th>
+                        <th class="text-center">激活状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                    @*@foreach (System.Data.DataRow item in Model.Rows)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" value="@item["ID"]" class="i-checks" name="input[]">
+                            </td>
+                            <td>
+                                <span class="pie">@item["ID"]</span>
+                            </td>
+                            <td>
+                                <span class="pie">@item["ExaminationName"]</span>
+                            </td>
+                            <td>
+                                <span class="pie">
+                                    @{
+                        string Pattern = "";
+                        if (@item["Pattern"].ToString() == "1")
+                        {
+                            Pattern = "练习模式";
+                        }
+                        else if (@item["Pattern"].ToString() == "2")
+                        {
+                            Pattern = "考试模式";
+                        }
+                                    }
+                                    @Pattern
+                                </span>
+                            </td>
+                            <td>
+                                <span class="pie">@item["StartTime"]至</span>
+                                <span class="pie">@item["EndTime"]</span>
+                            </td>
+                            <td>
+                                <span class="pie">
+                                    @{
+                        string State = "";
+                        if (@item["ExaminationState"].ToString() == "1")
+                        {
+                            State = "已激活";
+                        }
+                        else if (@item["ExaminationState"].ToString() == "2")
+                        {
+                            State = "未激活";
+                        }
+                                    }
+                                    @State
+                                </span>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" onclick="Show(@item["ID"],@ViewData["usertype"])" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>查看</a>
+                                <a href="javascript:void(0)" onclick="Edit(@item["ID"])" class=" btn-primary btn-sm m-l-sm  "><i class="fa fa-pencil m-r-xxs"></i>编辑</a>
+                            </td>
+                        </tr>
+                    }*@
+
+                </tbody>
+            </table>
+        </div>
+
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+    </div>
+</div>
+<div class="modal fade" id="searchDIV">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">考试设置查看</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="table-layout: fixed; word-break: break-all;">考试名称：<span id="Span1"></span></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="table-layout: fixed; word-break: break-all;">考试有效时间：<span id="Span2"></span></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="table-layout: fixed; word-break: break-all;">竞赛模式：<span id="Span3"></span></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="table-layout: fixed; word-break: break-all;">考试时长(min)：<span id="Span4"></span></label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="table-layout: fixed; word-break: break-all;">是否时间加分：<span id="Span5"></span></label>
+                    </div>
+                </div>
+
+                <div class="row" id="serachTadm" style="display: none;">
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label" style="table-layout: fixed; word-break: break-all;">分配班级：<span id="Span6"></span></label>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12  text-center">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        bindIngfo();
+    });
+    //全选checkbox
+    var $checkboxAll = $(".checkbox-all"),
+        $checkbox = $(".new_table").find("[type='checkbox']").not("[disabled]"),
+        length = $checkbox.length,
+        i = 0;
+
+    $checkboxAll.on("ifClicked", function (event) {
+        if (event.target.checked) {
+            $checkbox.iCheck('uncheck');
+            i = 0;
+        } else {
+            $checkbox.iCheck('check');
+            i = length;
+        }
+    });
+    //编辑
+    function Edit(EId, ExaminationState) {
+        if (ExaminationState == "1") {//
+            layer.msg('请先关闭激活！', function () { });
+            return;
+
+        }
+        window.location.href = '/Admin/ExaminationManagement/Edit?EId=' + EId;
+    }
+    //查看 E_Kind=1 管理员端 直接弹出框查看， E_Kind=2 教师端跳转页面查看分配班级等信息
+    function Show(EId, E_Kind) {
+
+        jQuery('#searchDIV').modal('show', { backdrop: 'static' });
+        $.ajax({
+            url: '/Admin/ExaminationManagement/GetListById?EId=' + EId,
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            skin: 'layui-layer-lan',
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#Span1").html(data[0]["ExaminationName"]);
+
+                    //考试有效时间
+                    var E_StartTime = data[0]["StartTime"] + "";
+                    var E_EndTime = data[0]["EndTime"] + "";
+
+                    $("#Span2").html(E_StartTime.substr(0, 19).replace('T', ' ') + ' -- ' + E_EndTime.substr(0, 19).replace('T', ' '));
+                    var txtE_Type = '考试模式';
+                    if (parseInt(data[0]["Pattern"]) == 1) {
+                        txtE_Type = '练习模式';
+                    }
+
+                    $("#Span3").html(txtE_Type);//考试模式
+                    $("#Span4").html(data[0]["LongTime"]);//考试时长
+
+                    var txtE_IsTimeBonus = "是";
+                    if (parseInt(data[0]["TimeBonus"]) == 2) {
+                        txtE_IsTimeBonus = '否';
+                    }
+                    $("#Span5").html(txtE_IsTimeBonus);//是否时间加分
+
+                    if (E_Kind == "2") {
+                        var E_TeamId = data[0]["Class"] + "";
+                        var teamlist = E_TeamId.substring(1, E_TeamId.length - 1);//去掉前后 ，
+                        alert(teamlist);
+                        $.ajax({
+                            url: '/Admin/ExaminationManagement/GetListTeamByInId?Id=' + teamlist,
+                            type: 'POST',
+                            dataType: 'json',
+                            async: false,
+                            success: function (d) {
+                                var teamhtml = "";
+
+                                for (var i = 0; i < d.length; i++) {
+                                    teamhtml += d[i]["TeamName"] + ",";
+                                }
+                                if (teamhtml.length > 0) {
+                                    teamhtml = teamhtml.substr(0, teamhtml.length - 1);
+                                }
+                                $("#Span6").html(teamhtml);
+                            }
+                        });
+                        $("#serachTadm").css("display", "block");
+                    }
+                }
+            }
+        });
+    }
+
+    function Added() {
+        window.location.href = "/Admin/ExaminationManagement/Add";
+    }
+    function Dele() {
+        var chks = document.getElementsByName('input[]');//name
+        var chkstr = "";
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked == true) {
+                chkstr += chks[i].value + ",";
+            }
+        }
+
+        if (chkstr.length == 0) {
+            layer.msg('请选择要删除的数据！', function () { });
+            return;
+        }
+
+
+
+        chkstr = chkstr.substr(0, chkstr.length - 1);
+        var deletitle = "";
+        if (chkstr.split(',').length > 1) {//单选还是多选
+            deletitle = "您确定要删除所选考试吗(不含已激活状态下考试)？";
+        }
+        else {
+            //去查询下校验下
+            //只勾选了一行
+            var IsStateId = $("#IsStateId" + chkstr).val();
+            if (IsStateId == "1") {//激活
+                layer.msg('请先关闭激活后删除！', function () { });
+                return;
+            } else {
+                deletitle = "您确定要删除所选考试吗？";
+            }
+        }
+
+        layer.confirm(deletitle, {
+            title: '删除',
+            btn: ['确定', '取消'],
+            shadeClose: true, //开启遮罩关闭
+            skin: 'layui-layer-lan'
+            //按钮
+        },
+            function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    url: '/Admin/ExaminationManagement/Delete',
+                    data: { Id: chkstr },
+                    success: function (data) {
+                        if (data > 0) {
+                            layer.closeAll();//关闭所有弹出框
+                            bindIngfo();
+                            layer.msg('操作成功！', { icon: 1 });
+                        } else {
+                            layer.msg('操作失败！', { icon: 2 });
+                        }
+
+                    }
+                });
+            });
+    }
+
+    function Activation() {
+        var chks = document.getElementsByName('input[]');//name
+        var chkstr = "";
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked == true) {
+                chkstr += chks[i].value + ",";
+            }
+        }
+        chkstr += "0";
+        if (chkstr == "" || chkstr == "0") {
+            layer.msg('请先选中一项', function () { });
+            return false;
+        }
+        layer.confirm('您确定要激活所选考试吗？', {
+            title: '系统提示',
+            btn: ['确定', '取消'],
+            shadeClose: true, //开启遮罩关闭
+            skin: 'layui-layer-lan'
+            //按钮
+        },
+            function () {
+                $.ajax({
+                    type: "POST",
+                    // dataType: "text",
+                    async: false,
+                    url: '/Admin/ExaminationManagement/Activation',
+                    data: { Id: chkstr },
+                    success: function (data) {
+                        if (data > 0) {
+                            layer.closeAll();//关闭所有弹出框
+                            bindIngfo();
+                            layer.msg('操作成功！', { icon: 1 });
+                        } else {
+                            layer.msg('操作失败！', { icon: 2 });
+                        }
+
+                    }
+                });
+            });
+    }
+    function Close() {
+        var chks = document.getElementsByName('input[]');//name
+        var chkstr = "";
+        for (var i = 0; i < chks.length; i++) {
+            if (chks[i].checked == true) {
+                chkstr += chks[i].value + ",";
+            }
+        }
+        chkstr += "0";
+        if (chkstr == "" || chkstr == "0") {
+            layer.msg('请先选中一项', function () { });
+            return false;
+        }
+        layer.confirm('您确定要关闭所选考试吗？', {
+            title: '系统提示',
+            btn: ['确定', '取消'],
+            shadeClose: true, //开启遮罩关闭
+            skin: 'layui-layer-lan'
+            //按钮
+        },
+            function () {
+                $.ajax({
+                    type: "POST",
+                    // dataType: "text",
+                    async: false,
+                    url: '/Admin/ExaminationManagement/Close',
+                    data: { Id: chkstr },
+                    success: function (data) {
+                        if (data > 0) {
+                            layer.closeAll();//关闭所有弹出框
+                            bindIngfo();
+                            layer.msg('操作成功！', { icon: 1 });
+                        } else {
+                            layer.msg('操作失败！', { icon: 2 });
+                        }
+
+                    }
+                });
+            });
+    }
+
+    //列表数据加载
+    function bindIngfo(page) {
+
+        var E_Name = $("#TeacherName").val();//考试名称
+        var E_Type = $("#PatternId").val();//竞赛模式
+        var E_IsState = $("#StateId").val();//激活状态
+        var PageSize = 10;
+
+        $.ajax({
+            url: '/Admin/ExaminationManagement/GetList',
+            Type: "post",
+            dataType: "json", cache: false,
+            contentType: "application/json; charset=utf-8",
+            data: { "E_Name": E_Name, "E_Type": E_Type, "E_IsState": E_IsState, "page": page, "PageSize": PageSize },
+            success: function (tb) {
+
+                var html = '';
+                var data = tb.Tb;//转换table
+                for (var i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    //当前页面
+                    var idx = 0;
+                    if (page != "undefined" && page != null) {
+                        idx = page;
+                        idx = idx - 1;
+                    }
+                    html += '<td><span class="pie">' + ((idx * PageSize) + i + 1) + '</span></td>';
+
+                    html += '<td><input type="checkbox" class="i-checks" name="input[]" value="' + data[i]["ID"] + '"></td>';
+
+                    html += '<td><span class="pie" >' + data[i]["ExaminationName"] + '</span></td>';
+                    var txtE_Type = '';
+
+                    var txtE_Type = '考试模式';
+                    if (parseInt(data[i]["Pattern"]) == 1) {
+                        txtE_Type = '练习模式';
+                    }
+                    html += '<td><span class="pie">' + txtE_Type + '</span></td>';
+
+                    var E_StartTime = data[i]["StartTime"] + "";
+                    var E_EndTime = data[i]["EndTime"] + "";
+
+                    html += '<td><span class="pie">' + E_StartTime.substr(0, 19).replace('T', ' ') + ' -- ' + E_EndTime.substr(0, 19).replace('T', ' ') + '</span></td>';
+                    var txtE_IsState = '';
+                    if (parseInt(data[i]["ExaminationState"]) == 1) {
+                        txtE_IsState = '已激活';
+                    }
+
+                    if (parseInt(data[i]["ExaminationState"]) == 2) {
+                        txtE_IsState = '未激活';
+                    }
+                    html += '<td><span class="pie">' + txtE_IsState + '</span><input type="hidden"  id="IsStateId' + data[i]["ID"] + '" value="' + data[i]["ExaminationState"] + '"/></td>';
+
+
+                    html += '<td>';
+                    //查看 中看种类区分E_Kind
+                    html += '<a href="javascript:void(0);" onclick="Show(' + data[i]["ID"] + ')" class=" btn-info btn-sm"><i class="fa fa-lightbulb-o m-r-xxs"></i>查看 </a>';
+                    html += '<a style="margin-left: 5px;"  href="javascript:void(0);" onclick="Edit(' + data[i]["ID"] + ',' + data[i]["ExaminationState"] + ')" class=" btn-primary btn-sm"><i class="fa fa-pencil m-r-xxs"></i>编辑 </a> ';
+                    html += '</td>';
+
+                    html += '</tr>';
+                }
+
+                $("#tablelist").html(html);
+
+                bootstrapPaginator("#PaginatorLibrary", tb, bindIngfo);//分页
+                //样式重新加载
+                redload();
+            }
+        });
+    }
+
+
+    function redload() {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        //全选checkbox
+        var $checkboxAll = $(".checkbox-all"),
+                           $checkbox = $(".new_table").find("[type='checkbox']").not("[disabled]"),
+                           length = $checkbox.length,
+                           i = 0;
+        $checkboxAll.on("ifClicked", function (event) {
+            if (event.target.checked) {
+                $checkbox.iCheck('uncheck');
+                i = 0;
+            } else {
+                $checkbox.iCheck('check');
+                i = length;
+            }
+        });
+    }
+</script>

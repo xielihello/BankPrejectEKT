@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["nvc"] = "货币试卷管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style type="text/css">
+    .addborder { border: 1px dashed #56b3f6; border-radius: 5px; }
+    #PaperpreviewDiv a:hover { color: red; }
+    #PaperpreviewDiv a { color: #0094ff; }
+</style>
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>试卷预览 <a onclick="javascript:window.location.href = '/Admin/HB_Paper/Index'; " class=" btn btn-w-m btn-white m-t-n-md pull-right"><i class="fa fa-mail-reply"></i>返回</a></h3>
+    <div class="ibox-content" id="PaperpreviewDiv">
+        <!--顶部-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group" style="text-align: center;">
+                    <div style="font-size: 28px; font-weight: bold;" id="span_PName"></div>
+                    <div id="span_AllScore"></div>
+                    <div style="float: right;">
+                        <button onclick="AddT()" id="Addtid" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i><span class="bold">加点题</span></button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both">&nbsp;</div>
+        <!--主体 单选题-->
+        <div id="danxuantiDIVSHOW" style="display: none;">
+            <span style="font-size: 14px;"><span id="zxc1"></span>、单选题（<span style="color: red;" id="TJ_danxuantinum"></span>）</span>
+            <div style="float: right;" id="SetFid1"><a href="javascript:void(0)" onclick="SetBatchScores(1)">【设定分值】</a></div>
+            <div style="clear: both">&nbsp;</div>
+            <!--具体题目-->
+            <div id="danxuantiMian">
+            </div>
+        </div>
+
+        <!--主体 多选题-->
+        <div id="duoxuantiDIVSHOW" style="display: none;">
+            <span style="font-size: 14px;"><span id="zxc2"></span>、多选题（<span style="color: red;" id="TJ_duoxuantinum"></span>）</span>
+            <div style="float: right;" id="SetFid2"><a href="javascript:void(0)" onclick="SetBatchScores(2)">【设定分值】</a></div>
+            <div style="clear: both">&nbsp;</div>
+            <!--具体题目-->
+            <div id="duoxuantiMian">
+            </div>
+        </div>
+
+        <!--主体 判断题-->
+        <div id="panduantiDIVSHOW" style="display: none;">
+            <span style="font-size: 14px;"><span id="zxc3"></span>、判断题（<span style="color: red;" id="TJ_panduantinum"></span>）</span>
+            <div style="float: right;" id="SetFid3"><a href="javascript:void(0)" onclick="SetBatchScores(3)">【设定分值】</a></div>
+            <div style="clear: both">&nbsp;</div>
+            <!--具体题目-->
+            <div id="panduantiMian">
+            </div>
+        </div>
+
+        <!--主体 填空题-->
+        <div id="tiankongtDIVSHOW" style="display: none;">
+            <span style="font-size: 14px;"><span id="zxc4"></span>、填空题（<span style="color: red;" id="TJ_tiankongtinum"></span>）</span>
+            <div style="float: right;" id="SetFid4"><a href="javascript:void(0)" onclick="SetBatchScores(4)">【设定分值】</a></div>
+            <div style="clear: both">&nbsp;</div>
+            <!--具体题目-->
+            <div id="tiankongtiMian">
+            </div>
+        </div>
+
+        <!--主体 简答题-->
+        <div id="jiandatDIVSHOW" style="display: none;">
+            <span style="font-size: 14px;"><span id="zxc5"></span>、简答题（<span style="color: red;" id="TJ_jiandatinum"></span>）</span>
+            <div style="float: right;" id="SetFid5"><a href="javascript:void(0)" onclick="SetBatchScores(5)">【设定分值】</a></div>
+            <div style="clear: both">&nbsp;</div>
+            <!--具体题目-->
+            <div id="jiandatiMian">
+            </div>
+        </div>
+
+        <!--主体 名词解释-->
+        <div id="mingcitDIVSHOW" style="display: none;">
+            <span style="font-size: 14px;"><span id="zxc6"></span>、名词解释题（<span style="color: red;" id="TJ_mingcitinum"></span>）</span>
+            <div style="float: right;" id="SetFid6"><a href="javascript:void(0)" onclick="SetBatchScores(6)">【设定分值】</a></div>
+            <div style="clear: both">&nbsp;</div>
+            <!--具体题目-->
+            <div id="mingcitiMian">
+            </div>
+        </div>
+
+        <!--主体 案例分析题-->
+        <div id="anlitDIVSHOW" style="display: none;">
+            <span style="font-size: 14px;"><span id="zxc7"></span>、案例分析题（<span style="color: red;" id="TJ_anlitinum"></span>）</span>
+            <div style="float: right;" id="SetFid7"><a href="javascript:void(0)" onclick="SetBatchScores(7)">【设定分值】</a></div>
+            <div style="clear: both">&nbsp;</div>
+            <!--具体题目-->
+            <div id="anlitiMian">
+            </div>
+        </div>
+
+        <!--主体 论述题-->
+        <div id="lunshutDIVSHOW" style="display: none;">
+            <span style="font-size: 14px;"><span id="zxc8"></span>、论述题（<span style="color: red;" id="TJ_lunshutinum"></span>）</span>
+            <div style="float: right;" id="SetFid8"><a href="javascript:void(0)" onclick="SetBatchScores(8)">【设定分值】</a></div>
+            <div style="clear: both">&nbsp;</div>
+            <!--具体题目-->
+            <div id="lunshutiMian">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="BatchSetopenScore">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">分值设定</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">题型名称：<span id="yx_type">无</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">每小题分值：</label>
+                            <input type="text" id="txtscores" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center; padding-top: 20px;">
+
+                        <input type="button" value="保存" class="btn btn-info" onclick="BatchBtnOk()" />
+
+                        <input type="button" class="btn btn-white" value="取消" onclick="javascript: jQuery('#BatchSetopenScore').modal('hide');">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="SetopenScore">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">分值设定</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">题型名称：<span id="Span1">无</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">该小题分值：</label>
+                            <input type="text" id="Dtxtscore" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center; padding-top: 20px;">
+
+                        <input type="button" value="保存" class="btn btn-info" onclick="BtnOk()" />
+
+                        <input type="button" class="btn btn-white" value="取消" onclick="javascript: jQuery('#SetopenScore').modal('hide');">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Areas/Admin/Scripts/HB_Paperpreview/Index.js"></script>

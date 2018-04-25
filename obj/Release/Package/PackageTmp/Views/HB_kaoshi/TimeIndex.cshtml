@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+    //获取实体
+    var jm = Model as VocationalProject.Models.HBKaoShiModel;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>典阅智慧财经综合技能竞赛平台</title>
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/student.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <style type="text/css">
+        .time_con { position: relative; margin: auto; width: 1115px; height: 460px; background: url(../img/student/timebj.png); }
+        .time_title { margin-top: 10vmin; text-align: center; color: #003060; font-weight: 600; letter-spacing: 5px; font-size: 28px; margin-bottom: 10px; }
+        .time_num { position: absolute; height: 240px; bottom: 100px; text-align: center; width: 100%; color: #003060; font-weight: 600; font-size: 18px; }
+            .time_num span { color: #94df76; line-height: 240px; font-size: 10em; margin-right: 15px; }
+    </style>
+    <script type="text/javascript">
+        var timeExam;
+        var currentTime;
+        var AddStartDateTime;
+        $(function () {
+
+            currentTime = stringToDate($("#CurrentTime").val());//当前时间
+            AddStartDateTime = stringToDate($("#AddStartDateTime").val());
+
+            timeExam = setInterval("Time()", 1000);
+        })
+
+
+
+        function Time() {
+            var leaveSecond = (AddStartDateTime - currentTime) / 1000;//秒
+            if (leaveSecond <= 0) {
+                //var Pid = getQueryString('Pid');
+                //var Eid = getQueryString('Eid');
+                //var url1 = 'ZQ_kaoshi.aspx?Pid=' + Pid + '&Eid=' + Eid;
+
+                clearInterval(timeExam);
+                // window.location.href = url1;
+
+
+            }
+            else {
+                var ss = (leaveSecond % 60);
+                if (ss < 10) {
+                    ss = "0" + ss;
+                }
+                var mm = parseInt(leaveSecond / 60);
+                if (mm < 10) {
+                    mm = "0" + mm;
+                }
+                document.getElementById("divTime").innerText = "00:" + mm + ":" + ss;
+            }
+            currentTime.setSeconds(currentTime.getSeconds() + 1);
+
+            var leaveYu = leaveSecond % 10;
+            if (leaveYu == 0) {
+                // ----------------异步获取时间-------------------------
+                $.ajax({
+                    url: '/ashx/TimeHandler.ashx',
+
+                    success: function (data) {
+
+                        if (data.length > 16) {
+                            $("#CurrentTime").val(data);
+                            currentTime = stringToDate(data);
+
+                        }
+                    }
+                });
+                // ----------------异步获取时间--------------------------
+
+            }
+        }
+
+        //字符串转时间
+        function stringToDate(str) {
+            var arr = str.split(/\s|-|:/);
+            var year = parseInt(arr[0]);
+            var month = parseInt(arr[1].charAt(0)) * 10 + parseInt(arr[1].charAt(1));
+            var date = parseInt(arr[2].charAt(0)) * 10 + parseInt(arr[2].charAt(1));
+
+            var hour = parseInt(arr[3].charAt(0)) * 10 + parseInt(arr[3].charAt(1));
+            var minute = parseInt(arr[4].charAt(0)) * 10 + parseInt(arr[4].charAt(1));
+            var second = parseInt(arr[5].charAt(0)) * 10 + parseInt(arr[5].charAt(1));
+
+            return new Date(year, month - 1, date, hour, minute, second);
+        }
+
+    </script>
+</head>
+<body class="topic_bg">
+    <div class="stu_map">
+        <div class="time_title">
+            该任务还没开始，距离考试时间还有
+		
+        </div>
+        <div class="time_con">
+            <div class="time_num">
+                <span id="divTime">00:00:00</span>
+
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" id="CurrentTime"  value="@jm.CurrentTime"/>
+    <input type="hidden" id="AddStartDateTime" value="@jm.AddStartDateTime"/>
+</body>
+</html>

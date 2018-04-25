@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["nvc"] = "员工信息";
+    ViewBag.Title = "易考通";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>员工信息</h3>
+    <div class="ibox-content">
+        <div class="row form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    <select class=" form-control input-s-sm inline" id="TeamId">
+                        <option value="0">请选择支行名称</option>
+
+                    </select>
+                </div>
+
+
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <input type="text" placeholder="请输入员工信息" id="StudentInfo" class="form-control">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" onclick="searchinfo()">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="hr-line-dashed"></div>
+
+        <div class="row">
+            <div class="pull-right">
+                <button onclick="ExportStudent()" class="btn btn-info btn-sm" type="button"><i class="fa fa-level-up  m-r-xs"></i><span class="bold">导出</span></button>
+                <button onclick="Initialization_all_pwd()" class="btn btn-danger btn-sm" type="button"><i class="fa fa-spinner  m-r-xs"></i><span class="bold">密码初始化</span></button>
+            </div>
+        </div>
+
+        <div class="row m-t-sm table-responsive">
+            <table class="table text-center table-bordered ">
+                <thead>
+                     <tr>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">
+                            <input type="Checkbox" class="i-checks checkbox-all"></th>
+                        <th class="text-center">员工编号</th>
+                        <th class="text-center">员工姓名</th>
+                        <th class="text-center">性别</th>
+                        <th class="text-center">所属支行</th>
+                        <th class="text-center">员工账号</th>
+                        <th class="text-center">登录密码</th>
+                    </tr>
+                </thead>
+                <tbody class="new_table text-center" id="tablelist">
+                </tbody>
+            </table>
+        </div>
+
+        <!--分页开始-->
+        <div class="row text-center" id="PaginatorLibrary">
+        </div>
+        <!--分页结束-->
+    </div>
+</div>
+<a id='downFile' href="" style="display: none"><span id='tf'></span></a>
+<script src="~/Areas/Admin/Scripts/T_StudentManage/index.js"></script>

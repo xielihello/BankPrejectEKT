@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="~/img/student/logName.png" type="image/x-icon">
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/student.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/echarts/echarts.min.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
+    <script src="~/Scripts/verifyform.js"></script>
+    <script src="~/Scripts/Page.js"></script>
+    <style>
+
+    </style>
+</head>
+@{
+    var type = Session["UserType"].ToString();
+    var m = Session["UserInfo"] as VocationalProject_Models.tb_UserInfo;
+        
+}
+<body>
+    <!--网站头部-->
+    <div class="herd_top">
+        <div class="herd_top_con">
+            <div class="herd_top_text">
+                <img src="/img/student/kaologo.png" />
+            </div>
+            <div class="out" onclick="CloseIndex()">
+                <img src="~/img/student/icoout.png" />
+                <div class="out_name">退出登录</div>
+            </div>
+            <div class="line"></div>
+            <div class="userimg">
+                <a href="@Url.Action("Index", "Student")">
+                    <img id="image" style="width:45px;height:45px" title="个人资料" src="@(!string.IsNullOrEmpty(m.UserPic) ? m.UserPic : "/img/profile_s.jpg")" />
+                </a>
+                <input type="hidden" id="Uid" value="@(m.UserNo)" />
+                <div class="user_name"><span id="name"></span></div>
+            </div>
+        </div>
+    </div>
+    <!--头部导航开始-->
+
+    <div class="stu_nav">
+        <div class="nav_con">
+            <ul id="ullist">
+                <li class="nav_item " onclick="jsAction('/Shouye',3)" data-title="首页">首页</li>
+                <li class="nav_item " onclick="jsAction('/XueXi',2)" data-title="学习中心">学习中心</li>
+                <li class="nav_item " data-title="理论知识" onclick="jsAction('/HB_Competition',1)">考试中心 </li>
+                <li class="nav_item " onclick="jsAction('/HighScores',0)" data-title="分数排行榜">分数排行榜</li>
+            </ul>
+        </div>
+    </div>
+    <!--头部导航结束-->
+    <div id="body">
+        <!--内容区域模版开始-->
+        @RenderSection("featured", required: false)
+        <section class="gray-bg">
+            @RenderBody()
+        </section>
+        <!--内容区域模版结束-->
+    </div>
+    <div class="banquan" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        Copyright 版权所有深圳典阅科技有限公司 2017
+    </div>
+
+    @RenderSection("scripts", required: false)
+    @{
+        var ul = ViewData["nvc"];
+
+        var Jur = Session["Jurisdiction"].ToString();
+
+            //var a1 = true;//货币
+            //var a2 = true;//手工
+            //var a3 = true;//复核
+            //var a4 = true;//单据
+            //if (type != "1")
+            //{
+            //    if (!Jur.Contains("1"))
+            //    {
+            //        a1 = false;
+            //    }
+            //    if (!Jur.Contains("2"))
+            //    {
+            //        a2 = false;
+            //    }
+            //    if (!Jur.Contains("3"))
+            //    {
+            //        a3 = false;
+            //    }
+            //    if (!Jur.Contains("4"))
+            //    {
+            //        a4 = false;
+            //    }
+
+            //}
+    }
+    <script>
+        var nvc = "@(ul)";
+
+        var a1 = "0";//货币
+        var a2 = "0";//手工
+        var a3 = "0";//复核
+        var a4 = "0";//单据
+        $(function () {
+            $("li:first").removeClass("active");//遍历所有li标签
+            //$(".sgdc").addClass("active");
+            jsnvc();
+            aa();
+        });
+        function imgUrlStu(url, name) {
+            if (url != "1") {
+                $("#image").attr("src", url);
+            }
+            if (name != "") {
+                $("#name").text(name);
+            }
+
+            //   $("#Uno").val(name);
+        };
+        function jsnvc() {
+            if (nvc != null && nvc != "") {
+                $("#ullist").find("li").each(function () {
+                    var txt = $(this).attr("data-Title");
+                    if (txt == nvc) {
+                        $(this).addClass("active");
+                        return false;
+                    }
+                });
+            } else {
+                $(".hbzs").addClass("active");
+            }
+        };
+        function aa() {
+            //  alert("aa");
+            var id = $("#Uid").val()
+            $.ajax({
+                Type: "post",
+                url: '/ashx/Studentinfo.ashx?action=loadinfo&UID=' + id,
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    $("#name").text(data[0]["UserNo"]);
+                }
+            });
+        }
+        function jsAction(url, t) {
+            //if (t != 0) {
+            //    if (t == 1 && a1 == "0") {
+            //        layer.msg('暂无权限,请联系客服！', function () { })
+            //        return;
+            //    } if (t == 2 && a2 == "0") {
+            //        layer.msg('暂无权限,请联系客服！', function () { })
+            //        return;
+            //    } if (t == 3 && a3 == "0") {
+            //        layer.msg('暂无权限,请联系客服！', function () { })
+            //        return;
+            //    } if (t == 4 && a4 == "0") {
+            //        layer.msg('暂无权限,请联系客服！', function () { })
+            //        return;
+            //    }
+            //}
+            window.location.href = url;
+        }
+        function CloseIndex() {
+            //parent.layerConfirm('确认要退出后台?', function (num) { $("form[name='myUserExit']").submit() });
+            //layer.msg('确认要退出后台！', function (num) { $("form[name='myUserExit']").submit() });
+            layer.confirm('确认要退出竞赛平台？', {
+                title: '退出',
+                btn: ['确定', '取消'],
+                shadeClose: true, //开启遮罩关闭
+                skin: 'layui-layer-lan'
+                //按钮
+            },
+       function () {
+           $("form[name='myUserExit']").submit();
+       });
+
+        }
+    </script>
+</body>
+
+
+@using (Html.BeginForm("PostUserExit", "FH_ReportForm", FormMethod.Post, new { name = "myUserExit" }))
+{
+}
+</html>

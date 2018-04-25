@@ -1,0 +1,10 @@
+ Log Entry : 
+10/12/2017 18:16:35
+Error in: http://localhost:37713/Admin/CourseManagement/Upload. Error Message:不能将值 NULL 插入列 'CourseName'，表 'EKT0823.dbo.ykt_CourseManagement'；列不允许有 Null 值。INSERT 失败。
+语句已终止。,详细错误信息：
+__________________________
+ Log Entry : 
+10/12/2017 19:44:27
+Error in: http://localhost:37713/Admin/CourseManagement/Upload. Error Message:不能将值 NULL 插入列 'CourseName'，表 'EKT0823.dbo.ykt_CourseManagement'；列不允许有 Null 值。INSERT 失败。
+语句已终止。,详细错误信息：
+__________________________

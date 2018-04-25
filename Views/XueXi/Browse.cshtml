@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "易考通";
+    ViewData["nvc"] = "学习中心";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+<style>
+    .xue_con {
+        margin-top: 30px;
+        background: #fefefe;
+        min-height: 65vmin;
+        padding: 20px;
+    }
+
+    #div_img {
+        text-align: center;
+    }
+
+        #div_img img {
+            width: 870px;
+        }
+
+
+
+    .name {
+        width: 1200px;
+        margin: auto;
+        height: 30px;
+        line-height: 30px;
+        margin-bottom: 10px;
+        font-size: 20px;
+        text-indent: 10px;
+        border-left: 5px solid #32acf2;
+    }
+</style>
+<div class="stu_map">
+    <div class="xue_con">
+
+        <div class="name">
+
+            <div class="pull-left" style="overflow: hidden;text-overflow:ellipsis;white-space:nowrap;width:21em;">
+                课程名称:<span id="CourseName"></span>
+            </div>
+         
+            <div class="pull-right">
+                <button class="btn btn-sm btn-success pull-right" style="margin-right: 30px;" onclick="syy()">下一页</button>
+                <button class="btn btn-sm btn-info pull-right" style="margin-right: 15px;" onclick="xyy()">上一页</button>
+
+
+
+                <div class="stu_paging pull-right " style="padding: 0; margin: 0; border: none; font-size: 14px; margin-right: 15px;">
+                    <span>跳转到</span><span><input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="number" name="page" id="page" value=""></span>
+                    <a class="clik_GO" onclick="go()">GO</a>
+                </div>
+
+                <span class="pull-right m-r-sm" style="color: #b5b3b3;" id="yema">页码：1/1</span>
+
+            </div>
+
+           
+
+        </div>
+
+        <div id="div_img">
+            @*<img src="/img/Map/001.png" />
+            <img src="/img/Map/002.png" />
+            <img src="/img/Map/003.png" />
+            <img src="/img/Map/004.png" />*@
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        CourseName();//课程名称初始化
+        DataBind();
+        $("#yema").html('页码：' + pageindex + '/' + imgcount);//页面初始化
+    });
+    //下一页
+    function syy() {
+
+        if (pageindex < imgcount) {
+            pageindex++;
+            $("#yema").html('页码：' + pageindex + '/' + imgcount);
+            var newurl = imgurl + "";
+            var newurllist = newurl.split('.');
+            var newurl2 = newurllist[0] + "";
+            var newurl3 = newurl2.substr(0, newurl2.lastIndexOf('_') + 1);
+            var idx = "";
+            if (pageindex < 10) {
+                idx = "00" + pageindex;
+            }
+            if (pageindex > 9 && pageindex < 100) {
+                idx = "0" + pageindex;
+            }
+            if (pageindex > 99) {
+                idx = pageindex;
+            }
+            $("#div_img").html('<img src="' + newurl3 + idx + '.' + newurllist[1] + '" />');
+        }
+
+    }
+
+    //上一页
+    function xyy() {
+
+        if (pageindex > 1) {
+            pageindex--;
+            $("#yema").html('页码：' + pageindex + '/' + imgcount);
+            var newurl = imgurl + "";
+            var newurllist = newurl.split('.');
+            var newurl2 = newurllist[0] + "";
+            var newurl3 = newurl2.substr(0, newurl2.lastIndexOf('_') + 1);
+            var idx = "";
+            if (pageindex < 10) {
+                idx = "00" + pageindex;
+            }
+            if (pageindex > 9 && pageindex < 100) {
+                idx = "0" + pageindex;
+            }
+            if (pageindex > 99) {
+                idx = pageindex;
+            }
+
+            $("#div_img").html('<img src="' + newurl3 + idx + '.' + newurllist[1] + '" />');
+        }
+    }
+
+    //go
+    function go() {
+       
+        var page = $("#page").val();
+        if (page.length==0 || parseInt(page) == 0 || parseInt(page) > imgcount) {
+            layer.msg('页码输出错误', function () { });
+            return; 
+        }
+        pageindex =parseInt(page);
+        $("#yema").html('页码：' + pageindex + '/' + imgcount);
+        var newurl = imgurl + "";
+        var newurllist = newurl.split('.');
+        var newurl2 = newurllist[0] + "";
+        var newurl3 = newurl2.substr(0, newurl2.lastIndexOf('_') + 1);
+        var idx = "";
+        if (pageindex < 10) {
+            idx = "00" + pageindex;
+        }
+        if (pageindex > 9 && pageindex < 100) {
+            idx = "0" + pageindex;
+        }
+        if (pageindex > 99) {
+            idx = pageindex;
+        }
+
+        $("#div_img").html('<img src="' + newurl3 + idx + '.' + newurllist[1] + '" />');
+    }
+
+    var pageindex = 1;
+    var imgurl = '';//单图片路径
+    var imgcount = 0;//图片总个数
+
+    function DataBind() {
+        var kcId = getQueryString('kcId');
+        $.ajax({
+            url: "/XueXi/DataBind?kcId=" + kcId,
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.length > 0) {
+
+                    var PictureUrl = data[0]["PictureUrl"] + "";
+                   
+                    //分开多图
+                    if (PictureUrl.length > 0) {
+                        var strsplit = PictureUrl.split('|');
+                        imgcount = strsplit.length;
+                        imgurl = strsplit[0];
+
+                        $("#div_img").html('<img src="' + imgurl + '" />');
+                    }
+
+
+                }
+            }
+        });
+    }
+    function CourseName() {
+        var kcId = getQueryString('kcId');
+        $.ajax({
+            url: "/XueXi/CourseName?kcId=" + kcId,
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $("#CourseName").html(data);
+            }
+        });
+    }
+    // JS 获取URL参数方法
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+</script>

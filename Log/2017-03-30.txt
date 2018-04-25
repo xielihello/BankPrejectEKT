@@ -1,0 +1,16 @@
+ Log Entry : 
+03/30/2017 12:58:13
+Error in: http://localhost:37713/Admin/StudentManagement/InitializationStudentPwd. Error Message:在将 nvarchar 值 '6,7' 转换成数据类型 int 时失败。,详细错误信息：
+__________________________
+ Log Entry : 
+03/30/2017 12:58:49
+Error in: http://localhost:37713/Admin/StudentManagement/InitializationStudentPwd. Error Message:在将 nvarchar 值 '6,7' 转换成数据类型 int 时失败。,详细错误信息：
+__________________________
+ Log Entry : 
+03/30/2017 12:59:49
+Error in: http://localhost:37713/Admin/StudentManagement/InitializationStudentPwd. Error Message:在将 nvarchar 值 '6,7' 转换成数据类型 int 时失败。,详细错误信息：
+__________________________
+ Log Entry : 
+03/30/2017 13:01:42
+Error in: http://localhost:37713/Admin/RefereeManagement/DelReferee. Error Message:在将 nvarchar 值 '18,19,20' 转换成数据类型 int 时失败。,详细错误信息：
+__________________________

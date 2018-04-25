@@ -1,0 +1,12 @@
+ Log Entry : 
+03/29/2017 15:20:48
+Error in: http://localhost:37713/Admin/StudentManagement/InitializationStudentPwd. Error Message:在将 varchar 值 '3,4,6' 转换成数据类型 int 时失败。,详细错误信息：
+__________________________
+ Log Entry : 
+03/29/2017 15:20:54
+Error in: http://localhost:37713/Admin/StudentManagement/InitializationStudentPwd. Error Message:在将 varchar 值 '3,4,6' 转换成数据类型 int 时失败。,详细错误信息：
+__________________________
+ Log Entry : 
+03/29/2017 15:21:31
+Error in: http://localhost:37713/Admin/StudentManagement/InitializationStudentPwd. Error Message:在将 varchar 值 '3,4,6' 转换成数据类型 int 时失败。,详细错误信息：
+__________________________

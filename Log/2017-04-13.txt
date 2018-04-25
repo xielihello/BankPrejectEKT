@@ -1,0 +1,4 @@
+ Log Entry : 
+04/13/2017 11:10:47
+Error in: http://localhost:37713/HB_kaoshi/AddExaminationDetails. Error Message:必须声明标量变量 "@ED_EId"。,详细错误信息：
+__________________________

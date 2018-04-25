@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "易考通";
+    ViewData["nvc"] = "学习中心";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+@model VocationalProject.Models.CourseManagementModel
+<style>
+    /*视频播放区域样式*/
+    .play_falsh {
+        margin-bottom: 10px;
+        position: relative;
+        text-align: center;
+        height: 65vmin;
+        background-color: #131212;
+        width: 1200px;
+        margin: auto;
+    }
+
+    .play_flash_top {
+        position: absolute;
+        top: 0px;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+        color: white;
+
+        font-size: 16px;
+        text-indent: 25px;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .play_flash_bottom {
+        position: absolute;
+        bottom: 0px;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+        color: white;
+        font-size: 16px;
+        text-indent: 25px;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+        .play_flash_bottom img {
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+    .play_flash_ico {
+        position: absolute;
+        top: 35%;
+        left: 40%;
+        cursor: pointer;
+    }
+
+    .xue_con {
+        margin-top: 30px;
+        background: #fefefe;
+        min-height: 65vmin;
+        padding: 20px;
+    }
+
+    .name {
+        width: 1200px;
+        margin: auto;
+        height: 30px;
+        line-height: 30px;
+        margin-bottom: 10px;
+        font-size: 20px;
+        text-indent: 10px;
+        border-left: 5px solid #32acf2;
+    }
+
+    video::-internal-media-controls-download-button {
+        display: none;
+    }
+
+    video::-webkit-media-controls-enclosure {
+        overflow: hidden;
+    }
+
+    video::-webkit-media-controls-panel {
+        width: calc(100% + 30px);
+    }
+
+</style>
+<div class="content_map">
+    <div class="xue_con">
+        <div class="name">
+            <div class="pull-left" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 21em;">
+                课程名称:<span>@Model.CourseName</span>
+            </div>
+
+        </div>
+        <div class="play_falsh" id="play_falsh">
+            @{
+                if (Model.Format == "mp3")
+                {
+                <img style="position: absolute; height: 60vmin; width: 1200px;" src="~/img/student/imgmp3.png" />
+                <video id="mp3id" class="video" autoplay="autoplay" poster="" width="1200" height="100%" style="text-align: -webkit-center; margin: 0 auto;" controls="" preload="">
+                    <source src="@Model.CourseUrl" type="video/mp4">
+                </video>
+                }
+                else if (Model.Format == "wmv")
+                {
+                <object id="MediaPlayer" classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95" width="800" height="600" standby="Loading Windows Media Player components…" type="application/x-oleobject" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112">
+                    <param name="FileName" value="@Model.CourseUrl">
+                    <param name="AutoStart" value="true">
+                    <param name="ShowControls" value="true">
+                    <param name="BufferingTime" value="2">
+                    <param name="ShowStatusBar" value="true">
+                    <param name="AutoSize" value="true">
+                    <param name="InvokeURLs" value="false">
+                    <param name="AnimationatStart" value="1">
+                    <param name="TransparentatStart" value="1">
+                    <param name="Loop" value="1">
+                    <embed type="application/x-mplayer2" src="@Model.CourseUrl" name="MediaPlayer" autostart="1" showstatusbar="1" showdisplay="1" showcontrols="1" loop="0" videoborder3d="0" pluginspage="http://www.microsoft.com/Windows/MediaPlayer/" width="800" height="600"></embed>
+                </object>
+                }
+                else
+                {
+                <video id="videoPlay" class="video" autoplay="autoplay" poster="" width="1200" height="100%" style="text-align: -webkit-center; margin: 0 auto;" controls="" preload="">
+                    <source src="@Model.CourseUrl" type="video/mp4">
+                </video>
+                }
+            }
+        </div>
+    </div>
+</div>
+<input type="hidden" id="CourseId" value="@Model.Id">
+<script src="~/Scripts/XueXi/Pay.js"></script>
+<script>
+    //播放页面禁用右键
+    $('#videoPlay').bind('contextmenu', function () { return false; });
+    $('#mp3id').bind('contextmenu', function () { return false; });
+</script>

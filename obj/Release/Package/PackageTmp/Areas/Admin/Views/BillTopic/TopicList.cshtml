@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["nvc"] = "单据题目管理";
+    ViewBag.Title = "典阅智慧财经综合技能竞赛平台";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model System.Data.DataTable
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <h3>单据题目管理</h3>
+    @using (Html.BeginForm("TopicList", "BillTopic", FormMethod.Post, new { name = "myTopicList" }))
+    {
+        <div class="ibox-content">
+            <div class="row form-horizontal">
+                <div class="row">
+                    <div class="col-sm-2 m-b-xs">
+                        <select class="  form-control input-s-sm inline" id="BillType" name="BillType">@Html.Raw(HttpUtility.HtmlDecode(ViewBag.BillType))</select>
+                    </div>
+                    <div class="col-sm-2 m-b-xs">
+                        <select class=" form-control input-s-sm inline" id="BillName" name="BillName">
+                            <option value='0'>请选择单据名称</option>
+                        </select>
+                    </div>
+
+                    @if (ViewData["UserType"].ToString() == "1")
+                    {
+                        <div class="col-sm-2 m-b-xs">
+                            <select class="form-control input-s-sm inline" id="TeamId" name="TeamId">
+                                <option value="0">请选择题目属性</option>
+                                <option value="1">系统题目</option>
+                                <option value="2">教师题目</option>
+                                <option value="3">所有题目</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3 m-b-xs">
+                            <input type="text" placeholder="请输入创建人" class="form-control" id="Creater" name="Creater">
+                        </div>
+                    }
+
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="text" placeholder="请输入题目标题" id="BillTitle" name="BillTitle" class=" form-control">
+                            <span class="input-group-btn">
+                                <button type="button" id="query" class="btn btn-primary">搜索</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="row">
+                <div class="pull-right">
+                    <button type="button" onclick="javascript:window.location='/Admin/BillTopic/AddTopic'" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i><span class="bold">新增</span></button>
+                    <button onclick="Dele();" type="button" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i><span class="bold">删除</span></button>
+                </div>
+            </div>
+            <div class="row m-t-sm table-responsive">
+                <table class="table text-center table-bordered ">
+                    <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">
+                                <input type="Checkbox" class="i-checks checkbox-all"></th>
+                            <th class="text-center">题目标题</th>
+                            <th class="text-center">单据类型</th>
+                            <th class="text-center">单据名称</th>
+                            <th class="text-center">题目属性</th>
+
+                            <th class="text-center">创建人</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="new_table text-center" id="table">
+                    </tbody>
+                </table>
+            </div>
+
+            <!--分页开始-->
+            <div class="row text-center" id="PaginatorLibrary">
+            </div>
+            <!--分页结束-->
+        </div>
+    }
+</div>
+<script src="~/Areas/Admin/Scripts/BillTopic/TopicList.js"></script>
+

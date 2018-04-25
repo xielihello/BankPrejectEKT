@@ -1,0 +1,8 @@
+ Log Entry : 
+03/31/2017 11:01:20
+Error in: http://localhost:37713/Admin/HB_QuestionBank/DelQuestionBank. Error Message:列名 'State' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+03/31/2017 11:01:24
+Error in: http://localhost:37713/Admin/HB_QuestionBank/DelQuestionBank. Error Message:列名 'State' 无效。,详细错误信息：
+__________________________

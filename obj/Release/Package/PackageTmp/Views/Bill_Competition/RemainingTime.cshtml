@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>典阅智慧财经综合技能竞赛平台</title>
+    <link href="~/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/student.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.0.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <style type="text/css">
+        .time_con {
+            position: relative;
+            margin: auto;
+            width: 1115px;
+            height: 460px;
+            background: url(../img/student/timebj.png);
+        }
+
+        .time_title {
+            margin-top: 10vmin;
+            text-align: center;
+            color: #003060;
+            font-weight: 600;
+            letter-spacing: 5px;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .time_num {
+            position: absolute;
+            height: 240px;
+            bottom: 100px;
+            text-align: center;
+            width: 100%;
+            color: #003060;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+            .time_num span {
+                color: #94df76;
+                line-height: 240px;
+                font-size: 10em;
+                margin-right: 15px;
+            }
+    </style>
+</head>
+<body class="topic_bg">
+    <div class="stu_map">
+        <div class="time_title">
+            该任务还没开始，距离考试时间还有
+       
+        </div>
+        <div class="time_con">
+            <div class="time_num">
+                <span id="time_num">00:00:00</span>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="Time" name="Time" value="@ViewBag.Second" />
+    <input type="hidden" id="ExamId" name="ExamId" value="@ViewBag.ExamId" />
+    <input type="hidden" id="PaperId" name="PaperId" value="@ViewBag.PaperId" />
+    <script src="~/Scripts/Bill_Competition/RemainingTime.js"></script>
+</body>
+</html>

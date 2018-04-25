@@ -1,0 +1,16 @@
+ Log Entry : 
+04/26/2017 15:31:25
+Error in: http://localhost:37713/Admin/BillExam/Delete. Error Message:')' 附近有语法错误。,详细错误信息：
+__________________________
+ Log Entry : 
+04/26/2017 15:31:26
+Error in: http://localhost:37713/Admin/BillExam/Delete. Error Message:')' 附近有语法错误。,详细错误信息：
+__________________________
+ Log Entry : 
+04/26/2017 17:37:50
+Error in: http://localhost:37713/Admin/FH_Examination/Delete. Error Message:列名 'EId' 无效。,详细错误信息：
+__________________________
+ Log Entry : 
+04/26/2017 18:25:53
+Error in: http://localhost:37713/Admin/SG_achievement/GetList?descby=Score desc&E_Name=&E_Type=0&SchooId=0&TeamId=0&P_Kind=0&P_Custom2=&StudentInfo=&ScoreQJ=&PageSize=10&_=1493202353268. Error Message:子查询返回的值不止一个。当子查询跟随在 =、!=、<、<=、>、>= 之后，或子查询用作表达式时，这种情况是不允许的。,详细错误信息：
+__________________________
